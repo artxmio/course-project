@@ -127,15 +127,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="AddMenu.cpp" />
-    <ClCompile Include="MainMenu.cpp" />
-    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Restaurant.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="КП.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AddMenu.h" />
-    <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Restaurant.h" />
+    <ClInclude Include="UI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
