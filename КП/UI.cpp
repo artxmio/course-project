@@ -5,6 +5,7 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include "User.h"
 using namespace std;
 
 void pause();
@@ -35,32 +36,38 @@ struct autorization
 {
 	string _login;
 	string _password;
+	string _name;
 };
 
-bool UI::Autorization()
+User UI::Autorization()
 {
 	autorization aut;
 	start_aut:
 	cout << "------------------ [ АВТОРИЗАЦИЯ ]------------------" << endl;
+	
+	cout << "\n\t\tВведите имя: ";
+	cin >> aut._name;
+
 	cout << "\n\t\tВведите логин: ";
 	cin >> aut._login;
 
-	cout << "\t\tВведите пароль: ";
+	cout << "\n\t\tВведите пароль: ";
 	cin >> aut._password;
-
+	
+	cout << "____________________________________________________\n";
 	if (aut._login == "admin" && aut._password == "12345")
 	{
-		cout << "Доступ на правах администратора разрешён." << endl;
-		return true;
+		cout << "\nДоступ на правах администратора разрешён." << endl;
+		return User(aut._name, true);
 	}
 	else if (aut._login == "user" && aut._password == "54321")
 	{
-		cout << "Доступ на правах пользователя разрешён." << endl;
-		return false;
+		cout << "\nДоступ на правах пользователя разрешён." << endl;
+		return User(aut._name, false);
 	}
 	else
 	{
-		cout << "Такого логина или пароля не существует. Попробуйте снова." << endl;
+		cout << "\nТакого логина или пароля не существует. Попробуйте снова." << endl;
 		pause();
 		system("cls");
 		goto start_aut;

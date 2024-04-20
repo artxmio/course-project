@@ -1,62 +1,62 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <conio.h>
+#include <Windows.h>
 #include "Restaurant.h"
 #include "UI.h"
+#include "User.h"
 using namespace std;
 
 void pause()
 {
-    _getch();
+	_getch();
 }
 
 int main()
-{ 
-    setlocale(LC_ALL, "ru");
+{
+	setlocale(LC_ALL, "ru");
 
-    UI userInterface;
-    Restaurant restaurant;
+	UI userInterface;
+	Restaurant restaurant;
+	User user;
 
-    userInterface.Autorization();
+	user = userInterface.Autorization();
+	
+	pause();
+	system("cls");
 
-    pause();
-    system("cls");
-    while (true)
-    {
-        cout << "Добро пожаловать в “TrendyБульба”!!!" << endl;
-        cout << "\nДля продолжения нажмите любую клавишу...";
-        pause();
-        while (true)
-        {
-            userInterface.MainMenu();
+	cout << "Добро пожаловать в “TrendyБульба”!!!" << endl;
+	Sleep(1000);
+	while (true)
+	{
+		userInterface.MainMenu();
 
-            const char change_main_menu = _getch();
+		const char change_main_menu = _getch();
 
-            switch (change_main_menu)
-            {
-            case '1': //работа с заказами
+		switch (change_main_menu)
+		{
+		case '1': //работа с заказами
 
-                userInterface.OrderMenu(); 
-                pause();
-                break;
+			userInterface.OrderMenu();
+			pause();
+			break;
 
-            case '2': //меню ресторана
-                restaurant.ShowMenu();
-                pause();
-                break; 
-            case '3': 
+		case '2': //меню ресторана
 
-                userInterface.RestaurantHistory(); 
-                pause();
-                break;
+			restaurant.ShowMenu();
+			pause();
+			break;
 
-            case '0': 
+		case '3': //история ресторана
 
-                break;
-            default: break;
-        }
+			userInterface.RestaurantHistory();
+			pause();
+			break;
 
-        }
-    }
+		case '0':
 
+			break;
+		default: break;
+		}
+	}
 }
