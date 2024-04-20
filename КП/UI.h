@@ -5,11 +5,8 @@ class UI
 public:
 	void MainMenu();
 	void OrderMenu();
-	void АuthenticationMenu();
+	bool Autorization();
 	void RestaurantHistory();
 private:
-	bool isadmin; //true - пользователь является админом.
-
 	void LoadMenuAnimation();
 };
-

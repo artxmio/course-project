@@ -4,49 +4,72 @@
 #include <Windows.h>
 #include <fstream>
 #include <string>
+#include <map>
 using namespace std;
 
 void pause();
 
 void UI::MainMenu()
 {
-	cout << "Добро пожаловать в “TrendyБульба”" << endl;
-	cout << "\nДля продолжения нажмите любую клавишу...";
-	pause();
-
-	system("cls");
 	LoadMenuAnimation();
-	system("cls");
 
-	cout << "ГЛАВНОЕ МЕНЮ" << endl;
-	cout << "1. Меню заказов" << endl;
-	cout << "2. История ресторана" << endl;
-	cout << "0. Выход" << endl;
+	cout << "------------------ [ ГЛАВНОЕ МЕНЮ ] ------------------" << endl <<endl;
+	cout << "\t\t1. Меню заказов" << endl;
+	cout << "\t\t2. Меню ресторана" << endl;
+	cout << "\t\t3. История ресторана" << endl;
+	cout << "\t\t0. Выход" << endl;
 }
 
 void UI::OrderMenu()
 {
-	system("cls");
 	LoadMenuAnimation();
-	system("cls");
 
-	cout << "МЕНЮ ЗАКАЗОВ" << endl;
-	cout << "1. Готовность заказов" << endl;
-	cout << "2. Добавить заказ (admin)" << endl;
-	cout << "3. Удалить заказ (admin)" << endl;
-	cout << "0. Выйти в главное меню" << endl;
+	cout << "--------------------- [ Заказы ] ---------------------" << endl;
+	cout << "\t\t1. Готовность заказов" << endl;
+	cout << "\t\t2. Добавить заказ (admin)" << endl;
+	cout << "\t\t3. Удалить заказ (admin)" << endl;
+	cout << "\t\t0. Выйти в главное меню" << endl;
 }
 
-void UI::АuthenticationMenu()
+struct autorization
 {
+	string _login;
+	string _password;
+};
+
+bool UI::Autorization()
+{
+	autorization aut;
+	start_aut:
+	cout << "------------------ [ АВТОРИЗАЦИЯ ]------------------" << endl;
+	cout << "\n\t\tВведите логин: ";
+	cin >> aut._login;
+
+	cout << "\t\tВведите пароль: ";
+	cin >> aut._password;
+
+	if (aut._login == "admin" && aut._password == "12345")
+	{
+		cout << "Доступ на правах администратора разрешён." << endl;
+		return true;
+	}
+	else if (aut._login == "user" && aut._password == "54321")
+	{
+		cout << "Доступ на правах пользователя разрешён." << endl;
+		return false;
+	}
+	else
+	{
+		cout << "Такого логина или пароля не существует. Попробуйте снова." << endl;
+		pause();
+		system("cls");
+		goto start_aut;
+	}
 }
 
 void UI::RestaurantHistory()
 {
-	pause();
-	system("cls");
 	LoadMenuAnimation();
-	system("cls");
 
 	string line;
 
@@ -65,6 +88,8 @@ void UI::LoadMenuAnimation()
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
+	system("cls");
+
 	const string load_simb = " - ";
 
 	cout << "Загрузка..." << endl;
@@ -72,9 +97,10 @@ void UI::LoadMenuAnimation()
 	for (int i = 0; i < 10; i++)
 	{
 		cout << load_simb;
-		Sleep(500);
+		Sleep(300);
 	}
 	cout << "]";
 	cout << "\n\nЗагрузка завершена. Нажмите любую клавишу для продолжения..." << endl;
 	pause();
+	system("cls");
 }

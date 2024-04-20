@@ -5,46 +5,58 @@
 #include "UI.h"
 using namespace std;
 
-void pause(); //_getch другим вызовом
+void pause()
+{
+    _getch();
+}
 
 int main()
 { 
     setlocale(LC_ALL, "ru");
-    
-    cout << "Курсовой проект. Артюшевский Артём. 73ТП. Ресторанный бизнес. Обработка заказов.\n";
-    pause();
-    
 
     UI userInterface;
+    Restaurant restaurant;
 
+    userInterface.Autorization();
+
+    pause();
+    system("cls");
     while (true)
     {
-        userInterface.MainMenu();
-
-        const char change_main_menu = _getch();
-
-        switch (change_main_menu)
+        cout << "Добро пожаловать в “TrendyБульба”!!!" << endl;
+        cout << "\nДля продолжения нажмите любую клавишу...";
+        pause();
+        while (true)
         {
-        case '1': 
+            userInterface.MainMenu();
 
-            userInterface.OrderMenu(); 
-            break;
+            const char change_main_menu = _getch();
 
-        case '2': 
+            switch (change_main_menu)
+            {
+            case '1': //работа с заказами
 
-            userInterface.RestaurantHistory(); 
-            break;
+                userInterface.OrderMenu(); 
+                pause();
+                break;
 
-        case '0': 
+            case '2': //меню ресторана
+                restaurant.ShowMenu();
+                pause();
+                break; 
+            case '3': 
 
-            break;
-        default: break;
+                userInterface.RestaurantHistory(); 
+                pause();
+                break;
+
+            case '0': 
+
+                break;
+            default: break;
+        }
+
         }
     }
 
-}
-
-void pause()
-{
-    _getch();
 }
