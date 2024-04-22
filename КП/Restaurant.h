@@ -15,9 +15,14 @@ private:
 	};
 
 	string menu; //меню ресторана
+
 	order list[100];
+
+
+	void LoadRestaurantMenu();
 public:
 	Restaurant();
+	
 	void ShowOrders(); //вывести список заказов
 	void ShowMenu(); //вывести меню
 	void AddOrder(); //добавить заказ

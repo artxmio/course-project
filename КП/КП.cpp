@@ -25,9 +25,10 @@ int main()
 	pause();
 	system("cls");
 
-	cout << "Добро пожаловать в “TrendyБульба”!!!" << endl;
-	Sleep(1000);
-	while (true)
+	userInterface.Hello();
+
+	bool _continue = true;
+	while (_continue)
 	{
 		userInterface.MainMenu();
 

@@ -4,11 +4,26 @@
 #include <Windows.h>
 #include <fstream>
 #include <string>
-#include <map>
 #include "User.h"
 using namespace std;
 
 void pause();
+
+void UI::Hello()
+{
+	cout << "____________________________________________________\n";
+
+	cout << "\n\tДОБРО ПОЖАЛОВАТЬ В “TRENDY-БУЛЬБА”!!!" << endl;
+
+	cout << "____________________________________________________\n";
+
+	Sleep(2000);
+}
+
+void UI::ByeBye()
+{
+
+}
 
 void UI::MainMenu()
 {
@@ -19,6 +34,7 @@ void UI::MainMenu()
 	cout << "\t\t2. Меню ресторана" << endl;
 	cout << "\t\t3. История ресторана" << endl;
 	cout << "\t\t0. Выход" << endl;
+	cout << "\n____________________________________________________\n";
 }
 
 void UI::OrderMenu()
@@ -26,10 +42,12 @@ void UI::OrderMenu()
 	LoadMenuAnimation();
 
 	cout << "--------------------- [ Заказы ] ---------------------" << endl;
-	cout << "\t\t1. Готовность заказов" << endl;
+	cout << "\n\t\t1. Готовность заказов" << endl;
 	cout << "\t\t2. Добавить заказ (admin)" << endl;
 	cout << "\t\t3. Удалить заказ (admin)" << endl;
 	cout << "\t\t0. Выйти в главное меню" << endl;
+	cout << "\n____________________________________________________\n";
+
 }
 
 struct autorization
@@ -92,22 +110,22 @@ void UI::RestaurantHistory()
 
 void UI::LoadMenuAnimation()
 {
-	SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
-
 	system("cls");
 
 	const string load_simb = " - ";
 
-	cout << "Загрузка..." << endl;
-	cout << "\n[";
+	cout << "____________________________________________________\n";
+	cout << "\n\t\t    Загрузка..." << endl;
+	cout << "____________________________________________________\n";
+	cout << "\n\t  [";
 	for (int i = 0; i < 10; i++)
 	{
 		cout << load_simb;
 		Sleep(300);
 	}
-	cout << "]";
-	cout << "\n\nЗагрузка завершена. Нажмите любую клавишу для продолжения..." << endl;
+	cout << "]\n";
+	cout << "____________________________________________________\n";
+	cout << "\nЗагрузка завершена. Нажмите любую клавишу для продолжения..." << endl;
 	pause();
 	system("cls");
 }

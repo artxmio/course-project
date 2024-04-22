@@ -4,6 +4,8 @@
 class UI
 {
 public:
+	void Hello();
+	void ByeBye();
 	void MainMenu();
 	void OrderMenu();
 	User Autorization();
