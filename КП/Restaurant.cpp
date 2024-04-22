@@ -11,6 +11,8 @@ Restaurant::Restaurant()
 	srand(static_cast<unsigned int>(time(0)));
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
+
+	system("mode con cols=52 lines=50");
 }
 
 void Restaurant::ShowMenu()
@@ -21,14 +23,15 @@ void Restaurant::ShowMenu()
 	if (!fs) return;
 
 	while (getline(fs, menu))
+	{
 		cout << menu << endl;
+		Sleep(100);
+	}
 
 	fs.close();
 }
 void Restaurant::ShowOrders()
-{	
-
-}
+{}
 void Restaurant::AddOrder()
 {
 }

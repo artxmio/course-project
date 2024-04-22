@@ -55,7 +55,8 @@ int main()
 			break;
 
 		case '0':
-
+			userInterface.ByeBye();
+			_continue = false;
 			break;
 		default: break;
 		}
