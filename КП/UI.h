@@ -11,5 +11,6 @@ public:
 	User Autorization();
 	void RestaurantHistory();
 private:
+	string tab = "\t\t";
 	void LoadMenuAnimation();
 };

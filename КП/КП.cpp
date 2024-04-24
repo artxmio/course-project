@@ -21,7 +21,7 @@ int main()
 	User user;
 
 	user = userInterface.Autorization();
-	
+
 	pause();
 	system("cls");
 
@@ -37,10 +37,40 @@ int main()
 		switch (change_main_menu)
 		{
 		case '1': //работа с заказами
+		{
+			fflush(stdin);
+			bool __continue = true;
+			while (__continue)
+			{
+				userInterface.OrderMenu();
 
-			userInterface.OrderMenu();
-			pause();
+
+				const char change_order_menu = _getch();
+
+				switch (change_order_menu)
+				{
+				case '1': //добавить заказ
+					restaurant.AddOrderInFile();
+					pause();
+					break;
+				case '2':
+
+					restaurant.AddOrderInFile();
+					break;
+
+				case '3':
+
+					restaurant.DelOrder();
+					break;
+
+				case '0': __continue = false; break;
+				default: break;
+				}
+			}
+
 			break;
+		}
+
 
 		case '2': //меню ресторана
 
