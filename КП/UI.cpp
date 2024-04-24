@@ -43,12 +43,12 @@ void UI::OrderMenu()
 {
 	LoadMenuAnimation();
 
-	cout << "____________________ [ Заказы ] ____________________" << endl;
-	cout << "\n\t\t1. Показать все заказы заказов" << endl;
-	cout << "\t\t2. Добавить заказ (admin)" << endl;
-	cout << "\t\t3. Удалить заказ (admin)" << endl;
-	cout << "\t\t0. Выйти в главное меню" << endl;
-	cout << "\n____________________________________________________\n";
+	cout << tab << "____________________ [ Заказы ] ____________________" << endl;
+	cout << endl << tab << "\t\t1. Показать все заказы заказов" << endl;
+	cout << tab << "\t\t2. Добавить заказ (admin)" << endl;
+	cout << tab << "\t\t3. Удалить заказ (admin)" << endl;
+	cout << tab << "\t\t0. Выйти в главное меню" << endl;
+	cout << endl << tab << "____________________________________________________\n";
 
 }
 
@@ -78,17 +78,19 @@ User UI::Autorization()
 	if (aut._login == "admin" && aut._password == "12345")
 	{
 		cout << endl << tab << "Доступ на правах администратора разрешён." << endl;
+		Sleep(2000);
 		return User(aut._name, true);
 	}
 	else if (aut._login == "user" && aut._password == "54321")
 	{
 		cout << endl << tab << "Доступ на правах пользователя разрешён." << endl;
+		Sleep(2000);
 		return User(aut._name, false);
 	}
 	else
 	{
 		cout << endl << tab << "Такого логина или пароля не существует. Попробуйте снова." << endl;
-		pause();
+		Sleep(2000);
 		system("cls");
 		goto start_aut;
 	}
@@ -123,7 +125,7 @@ void UI::LoadMenuAnimation()
 	for (int i = 0; i < 10; i++)
 	{
 		cout << load_simb;
-		Sleep(300);
+		Sleep(200);
 	}
 	cout << "]\n";
 	cout << tab << "____________________________________________________\n";

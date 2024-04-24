@@ -4,7 +4,10 @@
 #include <random>
 #include <ctime>
 #include <Windows.h>
+#include "UI.h"
 using namespace std;
+
+string tab = "\t\t";
 
 Restaurant::Restaurant(): order_index(0)
 {
@@ -37,18 +40,23 @@ void Restaurant::ShowOrders()
 void Restaurant::AddOrder()
 {
 	order buff;
+
+	cout << endl << tab << "__________________ [ НОВЫЙ ЗАКАЗ ] _________________" << endl;
+
 	buff.order_num = order_index; //установка номера заказа
 
 	buff.order_time.SetTime(); // установка времени добавления заказа
 
 	buff.done = false;
 
-	cout << "Введите имя официанта: ";
+	cout << endl << tab << "Введите имя официанта: ";
 	cin >> buff.name_waiter;
 
-	cout << "Введите содержание заказа\n" << "(для подтвреждения нажмите enter): ";
+	cout << endl << tab << "Введите содержание заказа: ";
 	cin >> buff.filling;	
 
+	cout << endl << tab << "Новый заказ добавлен."; 
+	Sleep(2000);
 	list.push_back(buff);
 }
 

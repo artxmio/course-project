@@ -21,8 +21,6 @@ int main()
 	User user;
 
 	user = userInterface.Autorization();
-
-	pause();
 	system("cls");
 
 	userInterface.Hello();
@@ -49,17 +47,20 @@ int main()
 
 				switch (change_order_menu)
 				{
-				case '1': //добавить заказ
-					restaurant.AddOrderInFile();
+				case '1': //показать все заказы
+
+					userInterface.LoadMenuAnimation();
+					restaurant.ShowOrders();
 					pause();
 					break;
-				case '2':
+				case '2': //добавить заказ
 
+					userInterface.LoadMenuAnimation();
 					restaurant.AddOrderInFile();
 					break;
 
-				case '3':
-
+				case '3': //удалить заказ
+					userInterface.LoadMenuAnimation();
 					restaurant.DelOrder();
 					break;
 
