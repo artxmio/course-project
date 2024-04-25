@@ -7,9 +7,14 @@
 #include "User.h"
 using namespace std;
 
-void pause()
+void pause() noexcept
 {
-	_getch();
+	const char c = _getch();
+}
+static void warning()
+{
+	cout << "\n\t\tОшибка. У вас нет прав администратора." << endl;
+	Sleep(1500);
 }
 
 int main()
@@ -19,6 +24,8 @@ int main()
 	UI userInterface;
 	Restaurant restaurant;
 	User user;
+
+	restaurant.LoadOrders();
 
 	user = userInterface.Autorization();
 	system("cls");
@@ -42,7 +49,6 @@ int main()
 			{
 				userInterface.OrderMenu();
 
-
 				const char change_order_menu = _getch();
 
 				switch (change_order_menu)
@@ -51,17 +57,25 @@ int main()
 
 					userInterface.LoadMenuAnimation();
 					restaurant.ShowOrders();
-					pause();
 					break;
+
 				case '2': //добавить заказ
 
-					userInterface.LoadMenuAnimation();
-					restaurant.AddOrderInFile();
+					if (user.is_admin)
+					{
+						userInterface.LoadMenuAnimation();
+						restaurant.AddOrder();
+					}
+					else warning();
 					break;
 
 				case '3': //удалить заказ
-					userInterface.LoadMenuAnimation();
-					restaurant.DelOrder();
+
+					if (user.is_admin)
+					{
+						userInterface.LoadMenuAnimation();
+					}
+					else warning();
 					break;
 
 				case '0': __continue = false; break;
@@ -92,4 +106,5 @@ int main()
 		default: break;
 		}
 	}
+	return 0;
 }

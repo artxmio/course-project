@@ -9,7 +9,7 @@ using namespace std;
 
 void pause();
 
-void UI::Hello()
+void UI::Hello() const
 {
 	cout << tab << "____________________________________________________\n" << endl;
 
@@ -20,14 +20,14 @@ void UI::Hello()
 	Sleep(2000);
 }
 
-void UI::ByeBye()
+void UI::ByeBye() const
 {
 	system("cls");
 	cout << "Спасибо за то, что выбрали наше приложение!:)";
 	pause();
 }
 
-void UI::MainMenu()
+void UI::MainMenu() const
 {
 	LoadMenuAnimation();
 
@@ -39,12 +39,12 @@ void UI::MainMenu()
 	cout << endl << tab << "____________________________________________________\n";
 }
 
-void UI::OrderMenu()
+void UI::OrderMenu() const
 {
 	LoadMenuAnimation();
 
 	cout << tab << "____________________ [ Заказы ] ____________________" << endl;
-	cout << endl << tab << "\t\t1. Показать все заказы заказов" << endl;
+	cout << endl << tab << "\t\t1. Показать все заказы" << endl;
 	cout << tab << "\t\t2. Добавить заказ (admin)" << endl;
 	cout << tab << "\t\t3. Удалить заказ (admin)" << endl;
 	cout << tab << "\t\t0. Выйти в главное меню" << endl;
@@ -59,14 +59,11 @@ struct autorization
 	string _name;
 };
 
-User UI::Autorization()
+User UI::Autorization() const
 {
 	autorization aut;
 	start_aut:
 	cout << endl <<tab << "__________________ [ АВТОРИЗАЦИЯ ] _________________" << endl;
-	
-	cout << endl << tab << "\t\tВведите имя: ";
-	cin >> aut._name;
 
 	cout << endl << tab << "\t\tВведите логин: ";
 	cin >> aut._login;
@@ -79,13 +76,13 @@ User UI::Autorization()
 	{
 		cout << endl << tab << "Доступ на правах администратора разрешён." << endl;
 		Sleep(2000);
-		return User(aut._name, true);
+		return User(true);
 	}
 	else if (aut._login == "user" && aut._password == "54321")
 	{
 		cout << endl << tab << "Доступ на правах пользователя разрешён." << endl;
 		Sleep(2000);
-		return User(aut._name, false);
+		return User(false);
 	}
 	else
 	{
@@ -96,7 +93,7 @@ User UI::Autorization()
 	}
 }
 
-void UI::RestaurantHistory()
+void UI::RestaurantHistory() const
 {
 	LoadMenuAnimation();
 
@@ -112,7 +109,7 @@ void UI::RestaurantHistory()
 	in.close();
 }
 
-void UI::LoadMenuAnimation()
+void UI::LoadMenuAnimation() const
 {
 	system("cls");
 

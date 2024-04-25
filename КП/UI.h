@@ -4,13 +4,13 @@
 class UI
 {
 public:
-	void Hello();
-	void ByeBye();
-	void MainMenu();
-	void OrderMenu();
-	User Autorization();
-	void RestaurantHistory();
-	void LoadMenuAnimation();
+	void Hello() const;
+	void ByeBye() const;
+	void MainMenu() const;
+	void OrderMenu() const;
+	User Autorization() const;
+	void RestaurantHistory() const;
+	void LoadMenuAnimation() const;
 private:
 	string tab = "\t\t";
 };

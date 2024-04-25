@@ -6,8 +6,8 @@ class User
 {
 public: 
 	User();
-	User(string name, bool is_admin);
-	string name;
+	User(bool is_admin);
+
 	bool is_admin;
 };
 
