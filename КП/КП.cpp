@@ -16,11 +16,23 @@ static void warning()
 	cout << "\n\t\tОшибка. У вас нет прав администратора." << endl;
 	Sleep(1500);
 }
+void setsettings() noexcept
+{
+	srand(static_cast<unsigned int>(time(0)));
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+
+	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO structCursorInfo;
+	GetConsoleCursorInfo(hStdOut, &structCursorInfo);
+	structCursorInfo.bVisible = false; // изменяем видимость курсора
+	SetConsoleCursorInfo(hStdOut, &structCursorInfo);
+	SetConsoleTitle(L"Trendy Бульбу by Tёmik");
+}
 
 int main()
 {
-	setlocale(LC_ALL, "ru");
-
+	setsettings();
 	UI userInterface;
 	Restaurant restaurant;
 	User user;
@@ -70,13 +82,17 @@ int main()
 					break;
 
 				case '3': //удалить заказ
+
 					if (user.is_admin)
 					{
 						userInterface.LoadMenuAnimation();
+						restaurant.DelOrder();
 					}
 					else warning();
 					break;
+
 				case '4': //тут что-то про отметку о готовности заказа
+
 					if (user.is_admin)
 					{
 						userInterface.LoadMenuAnimation();
@@ -84,7 +100,12 @@ int main()
 					}
 					else warning();
 					break;
-				case '0': __continue = false; break;
+
+				case '0': 
+
+					__continue = false; 
+					break;
+
 				default: break;
 				}
 			}

@@ -10,11 +10,7 @@ void pause();
 string tab = "\t\t\t\t";
 
 Restaurant::Restaurant() noexcept : _order_index(0)
-{
-	srand(static_cast<unsigned int>(time(0)));
-	SetConsoleCP(1251);
-	SetConsoleOutputCP(1251);
-}
+{}
 
 void Restaurant::ShowMenu()
 {
@@ -31,7 +27,6 @@ void Restaurant::ShowMenu()
 
 	fs.close();
 }
-
 
 void Restaurant::LoadOrders()
 {
@@ -58,6 +53,36 @@ void Restaurant::LoadOrders()
 
 void Restaurant::DelOrder()
 {
+	int _numorder;
+	cout << endl << tab << "__________________ [ УДАЛЕНИЕ ЗАКАЗА ] ___________________\n" << endl;
+	cout << tab << "Введите номер заказа: ";
+	cin >> _numorder;
+
+	if (_numorder < 0)
+	{
+		cout << tab << "Такого заказа не существует.\nПопробуйте в другой раз.";
+		pause();
+		system("cls");
+		return;
+	}
+
+	char change;
+	cout << tab << "Заказ №" << _numorder << " удалён." << endl;
+	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
+	cout << tab << "      1. Да" << endl;
+	cout << tab << "      0. Нет" << endl;
+	cout << endl << tab << "____________________________________________________\n";
+	change = _getch();
+
+	if (change == '0') return;
+
+	//удаление элемента
+
+	for (int i = 0; i < _order_index; i++)
+		if(_numorder == list.at(i).order_num)
+			list.erase(list.begin() + i - 1);
+	
+	_order_index--;
 	_changed = true;
 }
 
