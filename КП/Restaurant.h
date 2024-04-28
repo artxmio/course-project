@@ -22,13 +22,12 @@ private:
 		string order_time; //время получения заказа
 		bool done; //отметка о выполнении
 		string filling; //содержание заказа
+		int price; //стоимость 
 	};
 	ltime _time;
-	string menu; //меню ресторана
-    int order_index = 0;
+    int _order_index = 0;
 	vector<order> list; //список заказов
 
-	
 public:
 	Restaurant() noexcept;
 

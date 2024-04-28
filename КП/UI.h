@@ -12,5 +12,5 @@ public:
 	void RestaurantHistory() const;
 	void LoadMenuAnimation() const;
 private:
-	string tab = "\t\t";
+	string tab = "\t\t\t\t";
 };

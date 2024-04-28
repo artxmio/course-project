@@ -32,7 +32,7 @@ void UI::MainMenu() const
 	LoadMenuAnimation();
 
 	cout << tab << "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________" << endl <<endl;
-	cout << tab << "\t\t1. Меню заказов" << endl;
+	cout << tab << "\t\t1. Заказы" << endl;
 	cout << tab << "\t\t2. Меню ресторана" << endl;
 	cout << tab << "\t\t3. История ресторана" << endl;
 	cout << tab << "\t\t0. Выход" << endl;
@@ -47,6 +47,7 @@ void UI::OrderMenu() const
 	cout << endl << tab << "\t\t1. Показать все заказы" << endl;
 	cout << tab << "\t\t2. Добавить заказ (admin)" << endl;
 	cout << tab << "\t\t3. Удалить заказ (admin)" << endl;
+	cout << tab << "\t\t4. Изменить готовность заказа (admin)" << endl;
 	cout << tab << "\t\t0. Выйти в главное меню" << endl;
 	cout << endl << tab << "____________________________________________________\n";
 
@@ -116,7 +117,7 @@ void UI::LoadMenuAnimation() const
 	const string load_simb = " - ";
 
 	cout << tab << "____________________________________________________\n";
-	cout << endl << tab << tab << "    Загрузка..." << endl;
+	cout << endl << "\t\t\t\t\t\t    Загрузка..." << endl;
 	cout << tab << "____________________________________________________\n";
 	cout << endl << tab << "\t  [";
 	for (int i = 0; i < 10; i++)

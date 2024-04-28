@@ -1,31 +1,28 @@
 #include "Restaurant.h"
 #include <iostream>
 #include <fstream>
-#include <random>
-#include <ctime>
 #include <Windows.h>
+#include <conio.h>
 #include "UI.h"
 using namespace std;
 
-string tab = "\t\t";
 void pause();
+string tab = "\t\t\t\t";
 
-Restaurant::Restaurant() noexcept : order_index(0)
+Restaurant::Restaurant() noexcept : _order_index(0)
 {
 	srand(static_cast<unsigned int>(time(0)));
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-
-	system("mode con cols=82 lines=30");
 }
 
 void Restaurant::ShowMenu()
 {
 	system("cls");
 	ifstream fs("source\\menu.txt", ios::in | ios::binary);
+	string menu;
 
 	if (!fs) return;
-
 	while (getline(fs, menu))
 	{
 		cout << menu << endl;
@@ -53,15 +50,20 @@ void Restaurant::LoadOrders()
 		in >> buff.done;
 		in.get();
 		list.push_back(buff);
-		order_index++;
+		_order_index++;
 	}
 	in.close();
+}
+
+void Restaurant::DelOrder()
+{
+
 }
 
 void Restaurant::ShowOrders()
 {
 	cout << endl << tab << "_____________________ [ ЗАКАЗЫ ] ___________________\n" << endl;
-	for (int i = 0; i < order_index; i++)
+	for (int i = 0; i < _order_index; i++)
 	{
 		cout << tab << "\tЗаказ №" << list.at(i).order_num + 1 << endl;
 		cout << tab << "\tИмя официанта: " << list.at(i).name_waiter << endl;
@@ -81,7 +83,7 @@ void Restaurant::AddOrder()
 
 	cout << endl << tab << "__________________ [ НОВЫЙ ЗАКАЗ ] _________________" << endl;
 
-	buff.order_num = order_index; //установка номера заказа
+	buff.order_num = _order_index; //установка номера заказа
 
 	_time.SetTime();
 	buff.order_time = _time.ToString(); // установка времени добавления заказа
@@ -94,12 +96,16 @@ void Restaurant::AddOrder()
 	cout << endl << tab << "Введите содержание заказа: ";
 	cin.get();
 	getline(cin, buff.filling);
+	cout << endl << tab << "Введите стоимость заказа: ";
+	cin >> buff.price;
 
+	cout << endl << tab << "____________________________________________________\n";
 	cout << endl << tab << "Новый заказ добавлен.";
-	Sleep(2000);
+	cout << endl << tab << "Нажмите любую клавишу для продолжения..." << endl;
+	pause();
 	list.push_back(buff);
 
-	AddOrderInFile();
+	_order_index++;
 }
 
 void Restaurant::AddOrderInFile()
@@ -107,19 +113,30 @@ void Restaurant::AddOrderInFile()
 	ofstream out("source\\orders.txt", ios::app);
 
 	if (!out) return;
-
-	out << list.at(order_index).order_num << ' ';
-	out << list.at(order_index).name_waiter << ' ';
-	out << list.at(order_index).order_time << '\n';
-	out << list.at(order_index).filling << '\n';
-	out << list.at(order_index).done << '\n';
+	for (int i = 0; i < _order_index; i++)
+	{
+		out << list.at(i).order_num << ' ';
+		out << list.at(i).name_waiter << ' ';
+		out << list.at(i).order_time << '\n';
+		out << list.at(i).filling << '\n';
+		out << list.at(i).done << '\n';
+	}
 
 	out.close();
-	order_index++;
 }
 
 void Restaurant::CheckMark()
 {
+	int _numorder = 0;
+	cout << "Введите номер заказа: ";
+	cin >> _numorder;
+	bool change;
+	cout << "Готовость заказа изменена на true (готов)." << endl;
+	cout << "Сохранить изменения?" << endl;
+	cout << "1. Да" << endl;
+	cout << "0. Нет" << endl;
+	change = _getch();
+	change ? list.at(_numorder - 1).done = true : list.at(_numorder - 1).done = false;
 }
 
 void Restaurant::ltime::SetTime() noexcept

@@ -70,23 +70,26 @@ int main()
 					break;
 
 				case '3': //удалить заказ
-
 					if (user.is_admin)
 					{
 						userInterface.LoadMenuAnimation();
 					}
 					else warning();
 					break;
-
+				case '4': //тут что-то про отметку о готовности заказа
+					if (user.is_admin)
+					{
+						userInterface.LoadMenuAnimation();
+						restaurant.CheckMark();
+					}
+					else warning();
+					break;
 				case '0': __continue = false; break;
 				default: break;
 				}
 			}
-
 			break;
 		}
-
-
 		case '2': //меню ресторана
 
 			restaurant.ShowMenu();
@@ -101,6 +104,7 @@ int main()
 
 		case '0':
 			userInterface.ByeBye();
+			restaurant.AddOrderInFile();
 			_continue = false;
 			break;
 		default: break;
