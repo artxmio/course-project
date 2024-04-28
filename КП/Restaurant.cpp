@@ -96,7 +96,7 @@ void Restaurant::ShowOrders()
 		cout << tab << "\tВремя принятия заказа: " << list.at(i).order_time << endl;
 		cout << tab << "\tСодержание заказа: " << list.at(i).filling << endl;
 		cout << tab << "\tСтоимость: " << list.at(i).price << endl;
-		cout << tab << "\tГотовность: " << list.at(i).done << endl;
+		cout << tab << "\tГотовность: " << (list.at(i).done? "готов": "не готов") << endl;
 		cout << tab << "____________________________________________________\n\n";
 	}
 	cout << tab << "Нажмите любую клавишу для продолжения..." << endl;

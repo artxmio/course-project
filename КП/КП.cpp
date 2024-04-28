@@ -37,12 +37,28 @@ int main()
 	Restaurant restaurant;
 	User user;
 
+	//загрузка информации
 	restaurant.LoadOrders();
-
-	user = userInterface.Autorization();
-	system("cls");
+	userInterface.LoadLogins();
 
 	userInterface.Hello();
+
+
+	start:
+	userInterface.StartMenu();
+	const char change_start_menu = _getch();
+	switch (change_start_menu)
+	{
+	case '1':
+		user = userInterface.Autorization();
+		break;
+	case '2':
+		user = userInterface.Registration();
+		break;
+	default: goto start; break;
+	}
+
+	system("cls");
 
 	bool _continue = true;
 	while (_continue)
@@ -73,7 +89,7 @@ int main()
 
 				case '2': //добавить заказ
 
-					if (user.is_admin)
+					if (user.is_admin())
 					{
 						userInterface.LoadMenuAnimation();
 						restaurant.AddOrder();
@@ -83,7 +99,7 @@ int main()
 
 				case '3': //удалить заказ
 
-					if (user.is_admin)
+					if (user.is_admin())
 					{
 						userInterface.LoadMenuAnimation();
 						restaurant.DelOrder();
@@ -93,7 +109,7 @@ int main()
 
 				case '4': //тут что-то про отметку о готовности заказа
 
-					if (user.is_admin)
+					if (user.is_admin())
 					{
 						userInterface.LoadMenuAnimation();
 						restaurant.CheckMark();
@@ -101,9 +117,9 @@ int main()
 					else warning();
 					break;
 
-				case '0': 
+				case '0':
 
-					__continue = false; 
+					__continue = false;
 					break;
 
 				default: break;

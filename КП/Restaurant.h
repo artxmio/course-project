@@ -36,7 +36,7 @@ public:
 	void LoadOrders(); //загрузить информацию о заказах из файла
 	void ShowOrders(); //вывести список заказов
 	void ShowMenu(); //вывести меню
-	void AddOrder();
+	void AddOrder(); //добавить заказ
 	void SaveOrders(); //добавить заказ
 	void DelOrder(); //удалить заказ
 	void CheckMark(); //отметка о выполнении

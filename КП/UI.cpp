@@ -4,6 +4,8 @@
 #include <Windows.h>
 #include <fstream>
 #include <string>
+#include <map>;
+#include <utility>
 #include "User.h"
 using namespace std;
 
@@ -27,6 +29,17 @@ void UI::ByeBye() const
 	cout << tab << "Спасибо за то, что выбрали наше приложение!:)" << endl;
 	cout << tab << "Данные сохранены в файле orders.txt:)";
 	pause();
+}
+
+void UI::StartMenu() const
+{
+	LoadMenuAnimation();
+
+	cout << tab << "_______________ [ ДОБРО ПОЖАЛОВАТЬ ] _______________" << endl << endl;
+	cout << tab << "\t\t1. Войти" << endl;
+	cout << tab << "\t\t2. Зарегистрироваться" << endl;
+	cout << tab << "\t\t0. Выход" << endl;
+	cout << endl << tab << "____________________________________________________\n";
 }
 
 void UI::MainMenu() const
@@ -55,45 +68,63 @@ void UI::OrderMenu() const
 
 }
 
-struct autorization
-{
-	string _login;
-	string _password;
-	string _name;
-};
-
 User UI::Autorization() const
 {
-	autorization aut;
+	system("cls");
+	string _login;
+	string _password;
 	start_aut:
 	cout << endl <<tab << "__________________ [ АВТОРИЗАЦИЯ ] _________________" << endl;
 
 	cout << endl << tab << "\t\tВведите логин: ";
-	cin >> aut._login;
+	cin >> _login;
 
 	cout << endl << tab << "\t\tВведите пароль: ";
-	cin >> aut._password;
+	cin >> _password;
 	
+	int _admin_code = 0;
+	cout << endl << tab << "\t\tВведите код администратора?\n"
+		<< tab << "(если его нет, оставьте строку пустой): ";
+	cin >> _admin_code;
+
 	cout << tab << "____________________________________________________\n";
-	if (aut._login == "admin" && aut._password == "12345")
+
+	if (_logins.count(_login) > 0 and _logins.at(_login) == _password and _admin_code == 1488)
 	{
-		cout << endl << tab << "Доступ на правах администратора разрешён." << endl;
-		Sleep(2000);
-		return User(true);
+		cout << tab << "Доступ на правах администратора разрешён";
+		return User(true, _login, _password);
 	}
-	else if (aut._login == "user" && aut._password == "54321")
+	else if (_logins.count(_login) and _logins.at(_login) == _password)
 	{
-		cout << endl << tab << "Доступ на правах пользователя разрешён." << endl;
-		Sleep(2000);
-		return User(false);
+		cout << tab << "Доступ на правах администратора разрешён";
+		return User(true, _login, _password);
 	}
 	else
 	{
-		cout << endl << tab << "Такого логина или пароля не существует. Попробуйте снова." << endl;
-		Sleep(2000);
+		cout << "Неверный логин или пароль.";
+		pause();
 		system("cls");
 		goto start_aut;
 	}
+}
+
+User UI::Registration()
+{
+	system("cls");
+	string _login;
+	cout << endl << tab << "__________________ [ РЕГИСТРАЦИЯ ] _________________" << endl;
+	cout << endl << tab << "\t\tВведите логин: ";
+	cin >> _login;
+
+	string _password;
+	cout << endl << tab << "\t\tВведите пароль: ";
+	cin >> _password;
+
+	cout << tab << "____________________________________________________\n";
+
+	_logins.insert({_login, _password});
+	SaveLogin(&_login, &_password);
+	return Autorization();
 }
 
 void UI::RestaurantHistory() const
@@ -129,7 +160,32 @@ void UI::LoadMenuAnimation() const
 	}
 	cout << "]\n";
 	cout << tab << "____________________________________________________\n";
-	cout << endl << tab << "Загрузка завершена. Нажмите любую клавишу для продолжения..." << endl;
-	pause();
+	cout << endl << tab << "Загрузка завершена." << endl;
+	Sleep(1000);
 	system("cls");
+}
+
+void UI::LoadLogins()
+{
+	ifstream in("source\\logins.txt");
+	string _login;
+	string _pass;
+	while (!in.eof() and in.peek() != EOF)
+	{
+		in >> _login;
+		in >> _pass;
+		
+		_logins.insert({_login, _pass});
+	}
+	in.close();
+}
+
+void UI::SaveLogin(const string* login, const string* pass)
+{
+	ofstream out("source\\logins.txt", ios::app);
+
+	out << *login << ' ';
+	out << *pass << '\n';
+
+	out.close();
 }
