@@ -44,6 +44,7 @@ void Restaurant::LoadOrders()
 	{
 		in >> buff.order_num;
 		in >> buff.name_waiter;
+		in >> buff.price;
 		in >> buff.order_time;
 		in.get();
 		getline(in, buff.filling);
@@ -57,28 +58,30 @@ void Restaurant::LoadOrders()
 
 void Restaurant::DelOrder()
 {
-
+	_changed = true;
 }
 
 void Restaurant::ShowOrders()
 {
-	cout << endl << tab << "_____________________ [ ЗАКАЗЫ ] ___________________\n" << endl;
+	cout << endl << tab << "_____________________ [ ЗАКАЗЫ ] ____________________\n" << endl;
 	for (int i = 0; i < _order_index; i++)
 	{
 		cout << tab << "\tЗаказ №" << list.at(i).order_num + 1 << endl;
 		cout << tab << "\tИмя официанта: " << list.at(i).name_waiter << endl;
 		cout << tab << "\tВремя принятия заказа: " << list.at(i).order_time << endl;
 		cout << tab << "\tСодержание заказа: " << list.at(i).filling << endl;
+		cout << tab << "\tСтоимость: " << list.at(i).price << endl;
 		cout << tab << "\tГотовность: " << list.at(i).done << endl;
 		cout << tab << "____________________________________________________\n\n";
 	}
+	cout << tab << "Нажмите любую клавишу для продолжения..." << endl;
 	pause();
 }
 
 void Restaurant::AddOrder()
 {
 	system("cls");
-
+	_changed = true;
 	order buff;
 
 	cout << endl << tab << "__________________ [ НОВЫЙ ЗАКАЗ ] _________________" << endl;
@@ -108,35 +111,55 @@ void Restaurant::AddOrder()
 	_order_index++;
 }
 
-void Restaurant::AddOrderInFile()
+void Restaurant::SaveOrders()
 {
-	ofstream out("source\\orders.txt", ios::app);
+	int mode = 0;
+	mode = _changed ? ios::out : ios::app;
+
+	ofstream out("source\\orders.txt", mode);
 
 	if (!out) return;
-	for (int i = 0; i < _order_index; i++)
-	{
-		out << list.at(i).order_num << ' ';
-		out << list.at(i).name_waiter << ' ';
-		out << list.at(i).order_time << '\n';
-		out << list.at(i).filling << '\n';
-		out << list.at(i).done << '\n';
-	}
+
+	if (_changed)
+		for (int i = 0; i < _order_index; i++)
+		{
+			out << list.at(i).order_num << ' ';
+			out << list.at(i).name_waiter << ' ';
+			out << list.at(i).price << ' ';
+			out << list.at(i).order_time << '\n';
+			out << list.at(i).filling << '\n';
+			out << list.at(i).done << '\n';
+		}
 
 	out.close();
 }
 
 void Restaurant::CheckMark()
 {
+	_changed = true;
 	int _numorder = 0;
-	cout << "Введите номер заказа: ";
+	cout << endl << tab << "__________________ [ РЕДАКТОР ЗАКАЗОВ ] ___________________\n" << endl;
+	cout << tab << "Введите номер заказа: ";
 	cin >> _numorder;
-	bool change;
-	cout << "Готовость заказа изменена на true (готов)." << endl;
-	cout << "Сохранить изменения?" << endl;
-	cout << "1. Да" << endl;
-	cout << "0. Нет" << endl;
+
+	if (_numorder > size(list) or _numorder < 0)
+	{
+		cout << "Такого заказа не существует.\nПопробуйте в другой раз.";
+		pause();
+		system("cls");
+		return;
+	}
+
+	char change;
+	cout << tab << "Готовость заказа №"<< _numorder << " изменена на 'готов'." << endl;
+	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
+	cout << tab << "      1. Да" << endl;
+	cout << tab << "      0. Нет" << endl;
+	cout << endl << tab << "____________________________________________________\n";
 	change = _getch();
-	change ? list.at(_numorder - 1).done = true : list.at(_numorder - 1).done = false;
+
+	if (change == '0') return;
+	list.at(_numorder - 1).done = true;
 }
 
 void Restaurant::ltime::SetTime() noexcept

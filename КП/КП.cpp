@@ -104,7 +104,7 @@ int main()
 
 		case '0':
 			userInterface.ByeBye();
-			restaurant.AddOrderInFile();
+			restaurant.SaveOrders();
 			_continue = false;
 			break;
 		default: break;

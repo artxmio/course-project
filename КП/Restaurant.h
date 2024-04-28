@@ -25,9 +25,11 @@ private:
 		int price; //стоимость 
 	};
 	ltime _time;
-    int _order_index = 0;
-	vector<order> list; //список заказов
+    int _order_index;
+	bool _changed;
 
+	vector<order> list; //список заказов
+	
 public:
 	Restaurant() noexcept;
 
@@ -35,7 +37,7 @@ public:
 	void ShowOrders(); //вывести список заказов
 	void ShowMenu(); //вывести меню
 	void AddOrder();
-	void AddOrderInFile(); //добавить заказ
+	void SaveOrders(); //добавить заказ
 	void DelOrder(); //удалить заказ
 	void CheckMark(); //отметка о выполнении
 };

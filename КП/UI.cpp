@@ -23,7 +23,9 @@ void UI::Hello() const
 void UI::ByeBye() const
 {
 	system("cls");
-	cout << "Спасибо за то, что выбрали наше приложение!:)";
+	cout << endl << tab << "__________________ [ Прощай ] ___________________\n" << endl;
+	cout << tab << "Спасибо за то, что выбрали наше приложение!:)" << endl;
+	cout << tab << "Данные сохранены в файле orders.txt:)";
 	pause();
 }
 
