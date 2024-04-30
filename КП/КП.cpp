@@ -39,6 +39,7 @@ int main()
 
 	//загрузка информации
 	restaurant.LoadOrders();
+	restaurant.LoadMenuData();
 	userInterface.LoadLogins();
 
 	userInterface.Hello();

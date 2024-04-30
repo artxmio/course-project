@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <unordered_map>
 using namespace std;
 
 class Restaurant
@@ -28,16 +29,22 @@ private:
     int _order_index;
 	bool _changed;
 
+	unordered_map<string, float> menu_list;
 	vector<order> list; //список заказов
 	
 public:
 	Restaurant() noexcept;
 
 	void LoadOrders(); //загрузить информацию о заказах из файла
+	void LoadMenuData(); //загрузить данные о меню ресторана
+
 	void ShowOrders(); //вывести список заказов
 	void ShowMenu(); //вывести меню
+
 	void AddOrder(); //добавить заказ
 	void SaveOrders(); //добавить заказ
+	void ChooseDishes(); //выбор блюд 
+	void PrintMenu(); //вывод блюд
 	void DelOrder(); //удалить заказ
 	void CheckMark(); //отметка о выполнении
 };

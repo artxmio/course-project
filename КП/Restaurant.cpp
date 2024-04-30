@@ -3,6 +3,8 @@
 #include <fstream>
 #include <Windows.h>
 #include <conio.h>
+#include <unordered_map>
+#include <iomanip>
 #include "UI.h"
 using namespace std;
 
@@ -51,6 +53,25 @@ void Restaurant::LoadOrders()
 	in.close();
 }
 
+void Restaurant::LoadMenuData()
+{
+	ifstream in("source\\menu_data.txt", ios::in);
+
+	if (!in) return;
+
+	while (!in.eof())
+	{
+		string _title;
+		float _price;
+		
+		in.get();
+		getline(in, _title);
+		in >> _price;
+
+		menu_list.insert({ _title, _price });
+	}
+}
+
 void Restaurant::DelOrder()
 {
 	int _numorder;
@@ -79,11 +100,23 @@ void Restaurant::DelOrder()
 	//удаление элемента
 
 	for (int i = 0; i < _order_index; i++)
-		if(_numorder == list.at(i).order_num)
+		if (_numorder == list.at(i).order_num)
 			list.erase(list.begin() + i - 1);
-	
+
 	_order_index--;
 	_changed = true;
+}
+
+void Restaurant::ChooseDishes()
+{
+	cout << endl << tab << "_________________ [ ВЫБОР БЛЮДА ] __________________\n" << endl;
+	PrintMenu();
+}
+
+void Restaurant::PrintMenu()
+{
+	for (const auto& dish : menu_list)
+		cout << setw(67) << dish.first << setw(10) << dish.second << "BYN" << endl;
 }
 
 void Restaurant::ShowOrders()
@@ -96,7 +129,7 @@ void Restaurant::ShowOrders()
 		cout << tab << "\tВремя принятия заказа: " << list.at(i).order_time << endl;
 		cout << tab << "\tСодержание заказа: " << list.at(i).filling << endl;
 		cout << tab << "\tСтоимость: " << list.at(i).price << endl;
-		cout << tab << "\tГотовность: " << (list.at(i).done? "готов": "не готов") << endl;
+		cout << tab << "\tГотовность: " << (list.at(i).done ? "готов" : "не готов") << endl;
 		cout << tab << "____________________________________________________\n\n";
 	}
 	cout << tab << "Нажмите любую клавишу для продолжения..." << endl;
@@ -121,8 +154,7 @@ void Restaurant::AddOrder()
 	cout << endl << tab << "Введите имя официанта: ";
 	cin >> buff.name_waiter;
 
-	cout << endl << tab << "Введите содержание заказа: ";
-	cin.get();
+	ChooseDishes();
 	getline(cin, buff.filling);
 	cout << endl << tab << "Введите стоимость заказа: ";
 	cin >> buff.price;
@@ -176,7 +208,7 @@ void Restaurant::CheckMark()
 	}
 
 	char change;
-	cout << tab << "Готовость заказа №"<< _numorder << " изменена на 'готов'." << endl;
+	cout << tab << "Готовость заказа №" << _numorder << " изменена на 'готов'." << endl;
 	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
 	cout << tab << "      1. Да" << endl;
 	cout << tab << "      0. Нет" << endl;

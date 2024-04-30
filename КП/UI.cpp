@@ -73,7 +73,9 @@ User UI::Autorization() const
 	system("cls");
 	string _login;
 	string _password;
-	start_aut:
+start_aut:
+	LoadMenuAnimation();
+	щ
 	cout << endl <<tab << "__________________ [ АВТОРИЗАЦИЯ ] _________________" << endl;
 
 	cout << endl << tab << "\t\tВведите логин: ";
@@ -83,8 +85,7 @@ User UI::Autorization() const
 	cin >> _password;
 	
 	int _admin_code = 0;
-	cout << endl << tab << "\t\tВведите код администратора?\n"
-		<< tab << "(если его нет, оставьте строку пустой): ";
+	cout << endl << tab << "\t\tКод администратора: ";
 	cin >> _admin_code;
 
 	cout << tab << "____________________________________________________\n";
@@ -111,6 +112,8 @@ User UI::Autorization() const
 User UI::Registration()
 {
 	system("cls");
+	LoadMenuAnimation();
+
 	string _login;
 	cout << endl << tab << "__________________ [ РЕГИСТРАЦИЯ ] _________________" << endl;
 	cout << endl << tab << "\t\tВведите логин: ";
@@ -156,7 +159,7 @@ void UI::LoadMenuAnimation() const
 	for (int i = 0; i < 10; i++)
 	{
 		cout << load_simb;
-		Sleep(200);
+		Sleep(100);
 	}
 	cout << "]\n";
 	cout << tab << "____________________________________________________\n";
