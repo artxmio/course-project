@@ -3,8 +3,10 @@
 #include <fstream>
 #include <Windows.h>
 #include <conio.h>
+#include <vector>
 #include <unordered_map>
 #include <iomanip>
+#include <iterator>
 #include "UI.h"
 using namespace std;
 
@@ -110,19 +112,88 @@ void Restaurant::DelOrder()
 
 }
 
-void Restaurant::ChooseDishes()
+vector<string> Restaurant::ChooseDishes()
 {
-	cout << endl << tab << "_________________ [ ВЫБОР БЛЮДА ] __________________\n" << endl;
-	PrintMenu();
+	vector<string> dishes{};
+	bool _continue = true;
+	do
+	{
+		system("cls");
+		cout << endl << tab << "_________________ [ ВЫБОР БЛЮДА ] __________________\n" << endl;
+		PrintMenu();
 
+		cout << endl << tab << "Введите код блюда:\n";
+		cout << tab;
+
+		int dish = -1;
+
+		cin >> dish;
+
+		if (dish < 0 or dish > 18)
+		{
+			cout << tab << "Нет такого блюда." << endl;
+			cout << tab << "Нажмите любую клавишу для продолжения" << endl;
+			pause();
+			continue;
+		}
+
+		//поиск блюда по номеру в списке
+		string keyDish;
+		int counter = 0;
+		for (auto& d : menu_list)
+			if (counter != dish - 1)
+			{
+				counter++;
+				continue;
+			}
+			else
+			{
+				keyDish = d.first;
+				break;
+			}
+
+
+		dishes.push_back(keyDish);
+
+		do
+		{
+			cout << tab << "Это всё? (y/n)" << endl;
+
+			const char __continue = _getch();
+			if (__continue == 'y')
+			{
+				_continue = false;
+				break;
+			}
+			else if (__continue == 'n') 
+				break;
+
+		} while (true);
+
+	} while (_continue);
+
+	return dishes;
+}
+
+float Restaurant::CalculatePrice(vector<string> keyDishes)
+{
+	float _price = 0;
+	for (int i = 0; i < keyDishes.size(); i++)
+	{
+		_price += menu_list[keyDishes[i]];
+	}
+	return _price;
 }
 
 void Restaurant::PrintMenu()
 {
+	int i = 0;
 	for (const auto& dish : menu_list)
-		cout << setw(67) << dish.first << setw(10) << dish.second << "BYN" << endl;
+	{
+		i++;
+		cout << setw(34) << i << ". " << setw(35) << dish.first << setw(10) << dish.second << "BYN" << endl;
+	}
 	cout << tab << "____________________________________________________\n\n";
-
 }
 
 void Restaurant::ShowOrders()
@@ -133,15 +204,17 @@ void Restaurant::ShowOrders()
 		cout << tab << "\tЗаказ №" << list.at(i).order_num + 1 << endl;
 		cout << tab << "\tИмя официанта: " << list.at(i).name_waiter << endl;
 		cout << tab << "\tВремя принятия заказа: " << list.at(i).order_time << endl;
-		cout << tab << "\tСодержание заказа: " << list.at(i).filling << endl;
-		cout << tab << "\tСтоимость: " << list.at(i).price << endl;
+
+
+		cout << tab << "\tСодержание заказа:\n" << tab << '\t' << list.at(i).filling << endl;
+
+		cout << tab << "\tСтоимость: " << list.at(i).price << "BYN" << endl;
 		cout << tab << "\tГотовность: " << (list.at(i).done ? "готов" : "не готов") << endl;
 		cout << tab << "____________________________________________________\n\n";
 	}
 	cout << tab << "Нажмите любую клавишу для продолжения..." << endl;
 	pause();
 }
-
 void Restaurant::AddOrder()
 {
 	system("cls");
@@ -160,10 +233,15 @@ void Restaurant::AddOrder()
 	cout << endl << tab << "Введите имя официанта: ";
 	cin >> buff.name_waiter;
 
-	ChooseDishes();
-	getline(cin, buff.filling);
-	cout << endl << tab << "Введите стоимость заказа: ";
-	cin >> buff.price;
+	//наполнение заказа
+	vector<string> _dishes = ChooseDishes();
+	for (const auto& dish : _dishes)
+		buff.filling += dish + ",";
+
+	//стоимость заказа
+	buff.price = CalculatePrice(_dishes);
+
+
 
 	cout << endl << tab << "____________________________________________________\n";
 	cout << endl << tab << "Новый заказ добавлен.";
@@ -205,7 +283,7 @@ void Restaurant::CheckMark()
 	cout << tab << "Введите номер заказа: ";
 	cin >> _numorder;
 
-	if (_numorder > size(list) or _numorder < 0)
+	if (_numorder >= list.size() - 1 or _numorder < 0)
 	{
 		cout << "Такого заказа не существует.\nПопробуйте в другой раз.";
 		pause();
