@@ -12,5 +12,5 @@ public:
 	User();
 	User(bool is_admin, string login, string pass);
 
-	bool is_admin() const;
+	bool is_admin() const noexcept;
 };

@@ -11,14 +11,9 @@ void pause() noexcept
 {
 	const char c = _getch();
 }
-static void warning()
-{
-	cout << "\n\t\tОшибка. У вас нет прав администратора." << endl;
-	Sleep(1500);
-}
+
 void setsettings() noexcept
 {
-	srand(static_cast<unsigned int>(time(0)));
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
@@ -54,7 +49,8 @@ int main()
 		user = userInterface.Autorization();
 		break;
 	case '2':
-		user = userInterface.Registration();
+		userInterface.Registration();
+		goto start;
 		break;
 	case '0': 
 		exit(0);
@@ -78,7 +74,7 @@ int main()
 			bool __continue = true;
 			while (__continue)
 			{
-				userInterface.OrderMenu();
+				userInterface.OrderMenu(&user);
 
 				const char change_order_menu = _getch();
 
@@ -97,7 +93,6 @@ int main()
 						userInterface.LoadMenuAnimation();
 						restaurant.AddOrder();
 					}
-					else warning();
 					break;
 
 				case '3': //удалить заказ
@@ -107,7 +102,6 @@ int main()
 						userInterface.LoadMenuAnimation();
 						restaurant.DelOrder();
 					}
-					else warning();
 					break;
 
 				case '4': //тут что-то про отметку о готовности заказа
@@ -117,10 +111,9 @@ int main()
 						userInterface.LoadMenuAnimation();
 						restaurant.CheckMark();
 					}
-					else warning();
 					break;
 
-				case '0':
+				case 27:
 
 					__continue = false;
 					break;
@@ -142,7 +135,7 @@ int main()
 			pause();
 			break;
 
-		case '0':
+		case 27:
 			userInterface.ByeBye();
 			restaurant.SaveOrders();
 			_continue = false;

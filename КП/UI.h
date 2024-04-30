@@ -11,10 +11,10 @@ public:
 
 	void StartMenu() const;
 	void MainMenu() const; 
-	void OrderMenu() const;
+	void OrderMenu(const User* u) const;
 
 	User Autorization() const;
-	User Registration(); 
+	void Registration();
 
 	void RestaurantHistory() const;
 

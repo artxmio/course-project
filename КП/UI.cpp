@@ -16,9 +16,7 @@ void UI::Hello() const
 	cout << n;
 
 	cout << tab << "____________________________________________________\n" << endl;
-
 	cout << tab << "\tДОБРО ПОЖАЛОВАТЬ В “TRENDY-БУЛЬБА”!!!" << endl;
-
 	cout << tab << "____________________________________________________\n";
 
 	Sleep(2000);
@@ -51,27 +49,30 @@ void UI::MainMenu() const
 	LoadMenuAnimation();
 	cout << n;
 
-	cout << tab << "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________" << endl <<endl;
+	cout << tab << "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________" << endl << endl;
 	cout << tab << "\t\t1. Заказы" << endl;
 	cout << tab << "\t\t2. Меню ресторана" << endl;
 	cout << tab << "\t\t3. История ресторана" << endl;
-	cout << tab << "\t\t0. Выход" << endl;
+	cout << tab << "\t\tesc. Выход" << endl;
 	cout << endl << tab << "____________________________________________________\n";
 }
 
-void UI::OrderMenu() const
+void UI::OrderMenu(const User* u) const
 {
 	LoadMenuAnimation();
 	cout << n;
 
 	cout << tab << "____________________ [ Заказы ] ____________________" << endl;
 	cout << endl << tab << "\t\t1. Показать все заказы" << endl;
-	cout << tab << "\t\t2. Добавить заказ (admin)" << endl;
-	cout << tab << "\t\t3. Удалить заказ (admin)" << endl;
-	cout << tab << "\t\t4. Изменить готовность заказа (admin)" << endl;
-	cout << tab << "\t\t0. Выйти в главное меню" << endl;
-	cout << endl << tab << "____________________________________________________\n";
+	if (u->is_admin())
+	{
+		cout << tab << "\t\t2. Добавить заказ" << endl;
+		cout << tab << "\t\t3. Удалить заказ" << endl;
+		cout << tab << "\t\t4. Изменить готовность заказа" << endl;
+	}
 
+	cout << tab << "\t\tesc. Выйти в главное меню" << endl;
+	cout << endl << tab << "____________________________________________________\n";
 }
 
 User UI::Autorization() const
@@ -81,59 +82,100 @@ User UI::Autorization() const
 	string _password;
 start_aut:
 	cout << n;
-	cout << endl <<tab << "__________________ [ АВТОРИЗАЦИЯ ] _________________" << endl;
+	cout << endl << tab << "__________________ [ АВТОРИЗАЦИЯ ] _________________" << endl;
 
 	cout << endl << tab << "\t\tВведите логин: ";
 	cin >> _login;
 
 	cout << endl << tab << "\t\tВведите пароль: ";
 	cin >> _password;
-	
-	int _admin_code = 0;
-	cout << endl << tab << "\t\tКод администратора: ";
-	cin >> _admin_code;
 
-	cout << tab << "____________________________________________________\n";
+	cout << endl << tab << "\t\tУ вас есть код администратора? (y/n)\n";
+	int _admin_code = 0;
+
+	bool _continue = true;
+	do
+	{
+		switch (_getch())
+		{
+		case 'y':
+			cout << endl << tab << "\t\tКод администратора: ";
+			cin >> _admin_code;
+			_continue = false;
+			break;
+		case 'n':
+			_continue = false;
+			break;
+		default: break;
+		}
+	} while (_continue);
+
+	cout << tab << "____________________________________________________\n\n";
 
 	if (_logins.count(_login) > 0 and _logins.at(_login) == _password and _admin_code == 1488)
 	{
 		cout << tab << "Доступ на правах администратора разрешён";
+		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
+		pause();
 		return User(true, _login, _password);
 	}
 	else if (_logins.count(_login) and _logins.at(_login) == _password)
 	{
-		cout << tab << "Доступ на правах администратора разрешён";
-		return User(true, _login, _password);
+		cout << tab << "Доступ на правах пользователя разрешён";
+		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
+		pause();
+		return User(false, _login, _password);
 	}
 	else
 	{
-		cout << "Неверный логин или пароль.";
+		cout << endl << tab << "Неверный логин или пароль.";
+		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
 		pause();
 		system("cls");
 		goto start_aut;
 	}
 }
 
-User UI::Registration()
+void UI::Registration()
 {
-	system("cls");
-	LoadMenuAnimation();
+	do
+	{
+		system("cls");
+		cout << n;
+		string _login;
+		cout << endl << tab << "__________________ [ РЕГИСТРАЦИЯ ] _________________" << endl;
+		cout << endl << tab << "\t\tВведите логин: ";
+		cin >> _login;
 
-	cout << n;
-	string _login;
-	cout << endl << tab << "__________________ [ РЕГИСТРАЦИЯ ] _________________" << endl;
-	cout << endl << tab << "\t\tВведите логин: ";
-	cin >> _login;
+		string _password;
+		cout << endl << tab << "\t\tВведите пароль: ";
+		cin >> _password;
 
-	string _password;
-	cout << endl << tab << "\t\tВведите пароль: ";
-	cin >> _password;
+		cout << tab << "____________________________________________________\n";
 
-	cout << tab << "____________________________________________________\n";
+		if(_logins.count(_login)) 
+		{
+			cout << endl << tab << "Такой логин уже существует.";
+			cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
+			pause();
+		}
+		else
+		{
+			cout << endl << tab << "Вы успешно зарегистрировались." << endl;
+			cout << endl << tab << "Ваш логин: " << _login << endl;
+			cout << endl << tab << "Ваш пароль: " << _password << endl;
 
-	_logins.insert({_login, _password});
-	SaveLogin(&_login, &_password);
-	return Autorization();
+			cout << tab << "____________________________________________________\n";
+
+			cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
+			pause();
+
+			_logins.insert({ _login, _password });
+			SaveLogin(&_login, &_password);
+			break;
+		}
+	} while (true);
+
 }
 
 void UI::RestaurantHistory() const
@@ -150,6 +192,7 @@ void UI::RestaurantHistory() const
 			Sleep(100);
 		}
 	in.close();
+	cout << endl << tab << "Нажмите любую клавишу для выхода" << endl;
 }
 
 void UI::LoadMenuAnimation() const
@@ -184,8 +227,8 @@ void UI::LoadLogins()
 	{
 		in >> _login;
 		in >> _pass;
-		
-		_logins.insert({_login, _pass});
+
+		_logins.insert({ _login, _pass });
 	}
 	in.close();
 }

@@ -114,12 +114,15 @@ void Restaurant::ChooseDishes()
 {
 	cout << endl << tab << "_________________ [ ÂÛÁÎÐ ÁËÞÄÀ ] __________________\n" << endl;
 	PrintMenu();
+
 }
 
 void Restaurant::PrintMenu()
 {
 	for (const auto& dish : menu_list)
 		cout << setw(67) << dish.first << setw(10) << dish.second << "BYN" << endl;
+	cout << tab << "____________________________________________________\n\n";
+
 }
 
 void Restaurant::ShowOrders()
