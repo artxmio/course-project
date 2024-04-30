@@ -23,7 +23,7 @@ private:
 		string order_time; //время получения заказа
 		bool done; //отметка о выполнении
 		string filling; //содержание заказа
-		int price; //стоимость 
+		float price; //стоимость 
 	};
 	ltime _time;
     int _order_index;

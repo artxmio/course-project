@@ -13,6 +13,8 @@ void pause();
 
 void UI::Hello() const
 {
+	cout << n;
+
 	cout << tab << "____________________________________________________\n" << endl;
 
 	cout << tab << "\tÄÎÁÐÎ ÏÎÆÀËÎÂÀÒÜ Â “TRENDY-ÁÓËÜÁÀ”!!!" << endl;
@@ -25,6 +27,7 @@ void UI::Hello() const
 void UI::ByeBye() const
 {
 	system("cls");
+	cout << n;
 	cout << endl << tab << "__________________ [ Ïðîùàé ] ___________________\n" << endl;
 	cout << tab << "Ñïàñèáî çà òî, ÷òî âûáðàëè íàøå ïðèëîæåíèå!:)" << endl;
 	cout << tab << "Äàííûå ñîõðàíåíû â ôàéëå orders.txt:)";
@@ -34,6 +37,7 @@ void UI::ByeBye() const
 void UI::StartMenu() const
 {
 	LoadMenuAnimation();
+	cout << n;
 
 	cout << tab << "_______________ [ ÄÎÁÐÎ ÏÎÆÀËÎÂÀÒÜ ] _______________" << endl << endl;
 	cout << tab << "\t\t1. Âîéòè" << endl;
@@ -45,6 +49,7 @@ void UI::StartMenu() const
 void UI::MainMenu() const
 {
 	LoadMenuAnimation();
+	cout << n;
 
 	cout << tab << "_________________ [ ÃËÀÂÍÎÅ ÌÅÍÞ ] _________________" << endl <<endl;
 	cout << tab << "\t\t1. Çàêàçû" << endl;
@@ -57,6 +62,7 @@ void UI::MainMenu() const
 void UI::OrderMenu() const
 {
 	LoadMenuAnimation();
+	cout << n;
 
 	cout << tab << "____________________ [ Çàêàçû ] ____________________" << endl;
 	cout << endl << tab << "\t\t1. Ïîêàçàòü âñå çàêàçû" << endl;
@@ -74,7 +80,7 @@ User UI::Autorization() const
 	string _login;
 	string _password;
 start_aut:
-	
+	cout << n;
 	cout << endl <<tab << "__________________ [ ÀÂÒÎÐÈÇÀÖÈß ] _________________" << endl;
 
 	cout << endl << tab << "\t\tÂâåäèòå ëîãèí: ";
@@ -113,6 +119,7 @@ User UI::Registration()
 	system("cls");
 	LoadMenuAnimation();
 
+	cout << n;
 	string _login;
 	cout << endl << tab << "__________________ [ ÐÅÃÈÑÒÐÀÖÈß ] _________________" << endl;
 	cout << endl << tab << "\t\tÂâåäèòå ëîãèí: ";
@@ -151,6 +158,7 @@ void UI::LoadMenuAnimation() const
 
 	const string load_simb = " - ";
 
+	cout << n;
 	cout << tab << "____________________________________________________\n";
 	cout << endl << "\t\t\t\t\t\t    Çàãðóçêà..." << endl;
 	cout << tab << "____________________________________________________\n";

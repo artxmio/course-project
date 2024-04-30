@@ -24,5 +24,6 @@ public:
 private:
 	map<string, string> _logins;
 
-	string tab = "\t\t\t\t";
+	const string tab = "\t\t\t\t";
+	const string n = "\n\n\n\n\n\n\n\n\n";
 };

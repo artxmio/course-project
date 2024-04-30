@@ -23,7 +23,7 @@ void Restaurant::ShowMenu()
 	if (!fs) return;
 	while (getline(fs, menu))
 	{
-		cout << menu << endl;
+		cout << "\t\t" << menu << endl;
 		Sleep(100);
 	}
 
