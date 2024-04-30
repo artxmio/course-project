@@ -74,8 +74,7 @@ User UI::Autorization() const
 	string _login;
 	string _password;
 start_aut:
-	LoadMenuAnimation();
-	ù
+	
 	cout << endl <<tab << "__________________ [ ÀÂÒÎÐÈÇÀÖÈß ] _________________" << endl;
 
 	cout << endl << tab << "\t\tÂâåäèòå ëîãèí: ";

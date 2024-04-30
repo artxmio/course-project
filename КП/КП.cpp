@@ -56,6 +56,8 @@ int main()
 	case '2':
 		user = userInterface.Registration();
 		break;
+	case '0': 
+		exit(0);
 	default: goto start; break;
 	}
 

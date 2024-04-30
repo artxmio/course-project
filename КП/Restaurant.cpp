@@ -63,7 +63,7 @@ void Restaurant::LoadMenuData()
 	{
 		string _title;
 		float _price;
-		
+
 		in.get();
 		getline(in, _title);
 		in >> _price;
@@ -79,32 +79,35 @@ void Restaurant::DelOrder()
 	cout << tab << "Введите номер заказа: ";
 	cin >> _numorder;
 
-	if (_numorder < 0)
+	if (_numorder < 0 or _numorder >= list.size() - 1)
 	{
-		cout << tab << "Такого заказа не существует.\nПопробуйте в другой раз.";
+		cout << tab << "Такого заказа не существует. Попробуйте в другой раз.";
 		pause();
 		system("cls");
 		return;
 	}
+	else
+	{
+		char change;
+		cout << tab << "Заказ №" << _numorder << " удалён." << endl;
+		cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
+		cout << tab << "      1. Да" << endl;
+		cout << tab << "      0. Нет" << endl;
+		cout << endl << tab << "____________________________________________________\n";
+		change = _getch();
 
-	char change;
-	cout << tab << "Заказ №" << _numorder << " удалён." << endl;
-	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
-	cout << tab << "      1. Да" << endl;
-	cout << tab << "      0. Нет" << endl;
-	cout << endl << tab << "____________________________________________________\n";
-	change = _getch();
+		if (change == '0') return;
 
-	if (change == '0') return;
+		//удаление элемента
 
-	//удаление элемента
+		for (int i = 0; i < _order_index; i++)
+			if (_numorder == list.at(i).order_num)
+				list.erase(list.begin() + i - 1);
 
-	for (int i = 0; i < _order_index; i++)
-		if (_numorder == list.at(i).order_num)
-			list.erase(list.begin() + i - 1);
+		_order_index--;
+		_changed = true;
+	}
 
-	_order_index--;
-	_changed = true;
 }
 
 void Restaurant::ChooseDishes()
