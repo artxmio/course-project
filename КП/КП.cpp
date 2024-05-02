@@ -17,12 +17,14 @@ static void setsettings() noexcept
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 
+	srand(time(NULL));
+
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO structCursorInfo;
 	GetConsoleCursorInfo(hStdOut, &structCursorInfo);
 	structCursorInfo.bVisible = false; // изменяем видимость курсора
 	SetConsoleCursorInfo(hStdOut, &structCursorInfo);
-	SetConsoleTitle(L"Trendy Бульбу by Tёmik");
+	SetConsoleTitle(L"Trendy Бульба by Tёmik");
 }
 
 int main()

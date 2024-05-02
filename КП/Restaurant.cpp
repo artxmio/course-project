@@ -98,11 +98,6 @@ void Restaurant::DelOrder()
 
 	//вывод доступных (имеющихся в списке) заказов на удаление
 
-	//вектор с номерами имеющихся заказов
-	vector<int> _availableOrders{};
-
-	cout << endl << tab << "Доступные заказы:" << endl << tab;
-
 	//если список пуст, дальше нет смысла идти (return)
 	if (list.empty())
 	{
@@ -110,59 +105,24 @@ void Restaurant::DelOrder()
 		pause();
 		return;
 	}
-	else
-		//вывод строчки с номерами заказов
-		for (int i = 0; i < list.size(); i++)
-		{
-			_availableOrders.push_back(list.at(i).order_num);
-			cout << list.at(i).order_num + 1 << " ";
-		}
 
-	//получение номера заказа
-	int _numorder = 0;
-	cout << endl << tab << "Введите номер заказа: ";
-	cin >> _numorder;
+	//подтверждение удаления
+	char _change;
+	cout << tab << "Последний заказ удалён." << endl;
+	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
+	cout << tab << "      1. Да" << endl;
+	cout << tab << "      0. Нет" << endl;
+	cout << endl << tab << "____________________________________________________\n";
+	_change = _getch();
 
-	//проверка на наличие заказа в списке
-	if (!(checkOrder(_availableOrders, _numorder - 1)))
-	{
-		cout << tab << "Такого заказа не существует. Попробуйте в другой раз.";
-		pause();
-		system("cls");
-		return;
-	}
-	else //подтверждение удаления
-	{
-		char _change;
-		cout << tab << "Заказ №" << _numorder << " удалён." << endl;
-		cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
-		cout << tab << "      1. Да" << endl;
-		cout << tab << "      0. Нет" << endl;
-		cout << endl << tab << "____________________________________________________\n";
-		_change = _getch();
+	if (_change == '0') return;
 
-		if (_change == '0') return;
+	//удаление элемента
 
-		//удаление элемента
+	list.erase(list.end()-1);
 
-		if (_numorder == 1)
-		{
-			list.erase(list.begin());
-			_availableOrders.erase(_availableOrders.begin() + _numorder - 1);
-		}
-		else
-			for (int i = 0; i < _order_index; i++)
-				if (_numorder == list.at(i).order_num)
-				{
-					list.erase(list.begin() + i - 1);
-					_availableOrders.erase(_availableOrders.begin() + _numorder - 2);
-				}
-
-
-
-		_order_index--;  //уменьшение индекса
-		_changed = true; //метка о изменении списка
-	}
+	_order_index--;  //уменьшение индекса
+	_changed = true; //метка о изменении списка
 }
 
 //выбор блюд (компонент функции AddOrder())
