@@ -5,12 +5,12 @@ using namespace std;
 class User
 {
 private:
-	bool _is_admin;
-	string _login;
-	string _password;
+	bool _is_admin;   //является ли пользователем администратором
+	string _login;    //логин пользователя
+	string _password; //пароль пользователя
 public: 
-	User();
-	User(bool is_admin, string login, string pass);
+	User(); //конструктор без параметров
+	User(bool is_admin, string login, string pass); //конструктор со всеми параметрами для заполнения полей
 
-	bool is_admin() const noexcept;
+	bool is_admin() const noexcept; //функция для получения значения поля is_admin
 };

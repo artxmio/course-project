@@ -11,18 +11,22 @@
 using namespace std;
 
 void pause();
-string tab = "\t\t\t\t";
+string tab = "\t\t\t\t"; //отступ
 
+//конструктор устанавливает значение номера заказа в списке в 0
 Restaurant::Restaurant() noexcept : _order_index(0)
 {}
 
+//вывод меню из файла menu.txt
 void Restaurant::ShowMenu()
 {
 	system("cls");
+
 	ifstream fs("source\\menu.txt", ios::in | ios::binary);
 	string menu;
 
 	if (!fs) return;
+
 	while (getline(fs, menu))
 	{
 		cout << "\t\t" << menu << endl;
@@ -32,14 +36,16 @@ void Restaurant::ShowMenu()
 	fs.close();
 }
 
+//загрузка заказов из файла orders.txt
 void Restaurant::LoadOrders()
 {
 	ifstream in("source\\orders.txt");
 
 	if (!in) return;
 
-	order buff;
-	while (!in.eof() and in.peek() != EOF)
+	order buff; //буфферная переменная для чтения заказа по одному
+
+	while (!in.eof() and in.peek() != EOF) //проверка на пустой файл
 	{
 		in >> buff.order_num;
 		in >> buff.name_waiter;
@@ -49,12 +55,16 @@ void Restaurant::LoadOrders()
 		getline(in, buff.filling);
 		in >> buff.done;
 		in.get();
-		list.push_back(buff);
-		_order_index++;
+
+		list.push_back(buff); //добавление заказа в список
+
+		_order_index++;		  //увеличение индекса на 1
 	}
+
 	in.close();
 }
 
+//сохранение названий блюд и цен в словарь (ключ:название, значение:цена)
 void Restaurant::LoadMenuData()
 {
 	ifstream in("source\\menu_data.txt", ios::in);
@@ -70,22 +80,30 @@ void Restaurant::LoadMenuData()
 		getline(in, _title);
 		in >> _price;
 
-		menu_list.insert({ _title, _price });
+		menu_list.insert({ _title, _price }); //добавление пары в словарь
 	}
 }
 
-static bool checkOrder(vector<int> orderIndexes, int numOrder) //функция для проверки наличия элемента в списке
+//проверка на наличие заказа в списке по его номеру (order.numorder)
+bool Restaurant::checkOrder(vector<int> _orderIndexes, int _numOrder)
 {
-	return (find(begin(orderIndexes), end(orderIndexes), numOrder) != end(orderIndexes));
+	//возвращается булевое значение: если заказ есть в списке - true, в противном случае - false
+	return (find(begin(_orderIndexes), end(_orderIndexes), _numOrder) != end(_orderIndexes));
 }
 
+//функция удаления заказа
 void Restaurant::DelOrder()
 {
-	int _numorder;
 	cout << endl << tab << "__________________ [ УДАЛЕНИЕ ЗАКАЗА ] ___________________\n" << endl;
 
-	vector<int> availableOrders{};
+	//вывод доступных (имеющихся в списке) заказов на удаление
+
+	//вектор с номерами имеющихся заказов
+	vector<int> _availableOrders{};
+
 	cout << endl << tab << "Доступные заказы:" << endl << tab;
+
+	//если список пуст, дальше нет смысла идти (return)
 	if (list.empty())
 	{
 		cout << "Пока что заказов нет" << endl;
@@ -93,55 +111,76 @@ void Restaurant::DelOrder()
 		return;
 	}
 	else
+		//вывод строчки с номерами заказов
 		for (int i = 0; i < list.size(); i++)
 		{
-			availableOrders.push_back(list.at(i).order_num);
+			_availableOrders.push_back(list.at(i).order_num);
 			cout << list.at(i).order_num + 1 << " ";
 		}
 
+	//получение номера заказа
+	int _numorder = 0;
 	cout << endl << tab << "Введите номер заказа: ";
 	cin >> _numorder;
 
-	if (!(checkOrder(availableOrders, _numorder - 1)))
+	//проверка на наличие заказа в списке
+	if (!(checkOrder(_availableOrders, _numorder - 1)))
 	{
 		cout << tab << "Такого заказа не существует. Попробуйте в другой раз.";
 		pause();
 		system("cls");
 		return;
 	}
-	else
+	else //подтверждение удаления
 	{
-		char change;
+		char _change;
 		cout << tab << "Заказ №" << _numorder << " удалён." << endl;
 		cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
 		cout << tab << "      1. Да" << endl;
 		cout << tab << "      0. Нет" << endl;
 		cout << endl << tab << "____________________________________________________\n";
-		change = _getch();
+		_change = _getch();
 
-		if (change == '0') return;
+		if (_change == '0') return;
 
 		//удаление элемента
 
-		for (int i = 0; i < _order_index; i++)
-			if (_numorder == list.at(i).order_num)
-				list.erase(list.begin() + i - 1);
+		if (_numorder == 1)
+		{
+			list.erase(list.begin());
+			_availableOrders.erase(_availableOrders.begin() + _numorder - 1);
+		}
+		else
+			for (int i = 0; i < _order_index; i++)
+				if (_numorder == list.at(i).order_num)
+				{
+					list.erase(list.begin() + i - 1);
+					_availableOrders.erase(_availableOrders.begin() + _numorder - 2);
+				}
 
-		_order_index--;
-		_changed = true;
+
+
+		_order_index--;  //уменьшение индекса
+		_changed = true; //метка о изменении списка
 	}
 }
 
+//выбор блюд (компонент функции AddOrder())
 vector<string> Restaurant::ChooseDishes()
 {
+	//выбранные блюда
 	vector<string> dishes{};
+
 	bool _continue = true;
 	do
 	{
 		system("cls");
 		cout << endl << tab << "_________________ [ ВЫБОР БЛЮДА ] __________________\n" << endl;
+
+		//вывод меню
 		PrintMenu();
 
+		//блюда выбираются с помощью их кода в списке
 		cout << endl << tab << "Введите код блюда:\n";
 		cout << tab;
 
@@ -149,7 +188,8 @@ vector<string> Restaurant::ChooseDishes()
 
 		cin >> dish;
 
-		if (dish < 0 or dish > 18)
+		//всего блюд в меню 18
+		if (dish <= 0 or dish > 18)
 		{
 			cout << tab << "Нет такого блюда." << endl;
 			cout << tab << "Нажмите любую клавишу для продолжения" << endl;
@@ -174,7 +214,7 @@ vector<string> Restaurant::ChooseDishes()
 
 		dishes.push_back(keyDish);
 		cout << tab << "Это всё? (y/n)" << endl;
-		
+
 		do
 		{
 			const char __continue = _getch();
@@ -190,9 +230,11 @@ vector<string> Restaurant::ChooseDishes()
 
 	} while (_continue);
 
+	//возвращается вектор с блюдами
 	return dishes;
 }
 
+//подсчёт цены заказа по выбранным блюдам
 float Restaurant::CalculatePrice(vector<string> keyDishes)
 {
 	float _price = 0;
@@ -203,28 +245,31 @@ float Restaurant::CalculatePrice(vector<string> keyDishes)
 	return _price;
 }
 
+//вывод меню на экран
 void Restaurant::PrintMenu()
 {
 	int i = 0;
 	for (const auto& dish : menu_list)
 	{
 		i++;
-		cout << setw(34) << i << ". " << setw(35) << dish.first << setw(10) << dish.second << "BYN" << endl;
+		cout << setw(34) << i << ". " << setw(35) << dish.first << setw(10) << dish.second << " BYN" << endl;
 	}
 	cout << tab << "____________________________________________________\n\n";
 }
 
+//вывод всех заказов на экран
 void Restaurant::ShowOrders()
 {
-    cout << endl << tab << "_____________________ [ ЗАКАЗЫ ] ____________________\n" << endl;
+	cout << endl << tab << "_____________________ [ ЗАКАЗЫ ] ____________________\n" << endl;
+	//проверка на отсутсвие элементов в списке
 	if (list.empty())
 	{
-		cout << tab<< "Пока что заказов нет" << endl;
+		cout << tab << "Пока что заказов нет" << endl;
 		cout << tab << "Нажмите любую клавишу для продолжения..." << endl;
 		pause();
 		return;
 	}
-	
+
 	for (int i = 0; i < _order_index; i++)
 	{
 		cout << tab << "\tЗаказ №" << list.at(i).order_num + 1 << endl;
@@ -233,11 +278,12 @@ void Restaurant::ShowOrders()
 
 		//вывод содержимого заказа
 		cout << tab << "\tСодержание заказа:\n" << tab << '\t';
+
 		string filling = list.at(i).filling;
 		for (int i = 0; i < filling.size(); i++)
 			if (filling[i] == ',') cout << endl << tab << '\t';
 			else cout << filling[i];
-		
+
 		cout << endl;
 		cout << tab << "\tСтоимость: " << list.at(i).price << "BYN" << endl;
 		cout << tab << "\tГотовность: " << (list.at(i).done ? "готов" : "не готов") << endl;
@@ -247,10 +293,13 @@ void Restaurant::ShowOrders()
 	pause();
 }
 
+//добавление нового заказа
 void Restaurant::AddOrder()
 {
 	system("cls");
+
 	_changed = true;
+
 	order buff;
 
 	cout << endl << tab << "__________________ [ НОВЫЙ ЗАКАЗ ] _________________" << endl;
@@ -283,9 +332,12 @@ void Restaurant::AddOrder()
 	SaveOrders();
 }
 
+//сохранение данных о заказе в файл
 void Restaurant::SaveOrders()
 {
 	int mode = 0;
+
+	//если список был измененён, то файл полностью перезапишется
 	mode = _changed ? ios::out : ios::app;
 
 	ofstream out("source\\orders.txt", mode);
@@ -306,9 +358,9 @@ void Restaurant::SaveOrders()
 	out.close();
 }
 
+//изменение готовности заказа
 void Restaurant::CheckMark()
 {
-
 	if (list.empty())
 	{
 		cout << tab << "Пока что заказов нет" << endl;
@@ -340,7 +392,7 @@ void Restaurant::CheckMark()
 
 	if (!(checkOrder(availableOrders, _numorder - 1)))
 	{
-		cout << "Такого заказа не существует.\nПопробуйте в другой раз.";
+		cout << tab << "Такого заказа не существует. Попробуйте в другой раз.";
 		pause();
 		system("cls");
 		return;
@@ -358,6 +410,7 @@ void Restaurant::CheckMark()
 	list.at(_numorder - 1).done = true;
 }
 
+//установка времени оформления заказа
 void Restaurant::ltime::SetTime() noexcept
 {
 	SYSTEMTIME time;
@@ -368,6 +421,7 @@ void Restaurant::ltime::SetTime() noexcept
 	hours = time.wHour;
 }
 
+//перевод времени в строку
 string Restaurant::ltime::ToString()
 {
 	return to_string(hours) + ":" + to_string(minutes) + ":" + to_string(seconds);

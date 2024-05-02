@@ -9,10 +9,10 @@ using namespace std;
 
 void pause() noexcept
 {
-	const char c = _getch();
+	_getch();
 }
 
-void setsettings() noexcept
+static void setsettings() noexcept
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
@@ -27,7 +27,10 @@ void setsettings() noexcept
 
 int main()
 {
+	//установка настроек консоли
 	setsettings();
+
+	//основные объекты
 	UI userInterface;
 	Restaurant restaurant;
 	User user;
@@ -39,7 +42,7 @@ int main()
 
 	userInterface.Hello();
 
-
+	//авторизация/регистрация пользователя
 	start:
 	userInterface.StartMenu();
 	const char change_start_menu = _getch();
@@ -59,16 +62,16 @@ int main()
 
 	system("cls");
 
+	//основная часть программы
 	bool _continue = true;
 	while (_continue)
 	{
 		userInterface.MainMenu();
 
-		const char change_main_menu = _getch();
-
-		switch (change_main_menu)
+		switch (_getch())
 		{
-		case '1': //работа с заказами
+		//работа с заказами
+		case '1': 
 		{
 			fflush(stdin);
 			bool __continue = true;
@@ -76,9 +79,7 @@ int main()
 			{
 				userInterface.OrderMenu(&user);
 
-				const char change_order_menu = _getch();
-
-				switch (change_order_menu)
+				switch (_getch())
 				{
 				case '1': //показать все заказы
 
@@ -113,7 +114,7 @@ int main()
 					}
 					break;
 
-				case 27:
+				case 27: //ждё нажатие клавиши 'esc'
 
 					__continue = false;
 					break;
@@ -135,11 +136,13 @@ int main()
 			pause();
 			break;
 
-		case 27:
+		case 27: //также ждёт нажатия 'esk'
+
 			userInterface.ByeBye();
 			restaurant.SaveOrders();
 			_continue = false;
 			break;
+
 		default: break;
 		}
 	}

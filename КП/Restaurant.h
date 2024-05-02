@@ -7,6 +7,7 @@ using namespace std;
 class Restaurant
 {
 private:
+	//время заказа
 	struct ltime 
 	{
 		int seconds;
@@ -16,6 +17,7 @@ private:
 		void SetTime() noexcept;
 		string ToString();
 	};
+	//заказ
 	struct order
 	{
 		int order_num;       //номер заказа
@@ -23,19 +25,20 @@ private:
 		string order_time;   //время получения заказа
 		bool done;           //отметка о выполнении
 		string filling;		 //содержание заказа
-		vector<string> _filling; //содержание заказа для вывода на экран
 		float price;		 //стоимость 
 	};
+
 	ltime _time;
     int _order_index;
 	bool _changed;
 
 	unordered_map<string, float> menu_list; //меню ресторана
-	vector<order> list;		 //список заказов
+	vector<order> list;						//список заказов
 
-	void PrintMenu();        //вывод блюд
-	vector<string> ChooseDishes();     //выбор блюд 
-	float CalculatePrice(vector<string> keyDishes);    //подсчёт стоимости заказа
+	void PrintMenu();											//вывод блюд
+	vector<string> ChooseDishes();								//выбор блюд 
+	float CalculatePrice(vector<string> keyDishes);				//подсчёт стоимости заказа
+	bool checkOrder(vector<int> _orderIndexes, int _numOrder);	//проверка наличия заказа по номеру
 
 public:
 	Restaurant() noexcept;

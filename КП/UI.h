@@ -6,8 +6,8 @@ using namespace std;
 class UI
 {
 public:
-	void Hello() const;
-	void ByeBye() const;
+	void Hello() const;  //экран при запуске программы
+	void ByeBye() const; //экран при закрытии программы
 
 	void StartMenu() const;
 	void MainMenu() const; 
@@ -16,14 +16,15 @@ public:
 	User Autorization() const;
 	void Registration();
 
-	void RestaurantHistory() const;
+	void RestaurantHistory() const; //экран с историей ресторана
 
-	void LoadMenuAnimation() const;
-	void LoadLogins();
-	void SaveLogin(const string* login, const string* pass);
+	void LoadMenuAnimation() const; //анимация загрузки (смысл в уменьшении "скорости перехода между окнами")
+	
+	void LoadLogins(); //загрузка логинов и паролей из файла logins.txt
+	void SaveLogin(const string* login, const string* pass); //сохранение логинов и паролей в файл logins.txt
 private:
-	map<string, string> _logins;
+	map<string, string> _logins; 
 
-	const string tab = "\t\t\t\t";
-	const string n = "\n\n\n\n\n\n\n\n\n";
+	const string tab = "\t\t\t\t";         //отступ по горизонтали
+	const string n = "\n\n\n\n\n\n\n\n\n"; //отступ по вертикали
 };

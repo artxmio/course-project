@@ -5,7 +5,6 @@
 #include <fstream>
 #include <string>
 #include <map>;
-#include <utility>
 #include "User.h"
 using namespace std;
 
@@ -26,9 +25,10 @@ void UI::ByeBye() const
 {
 	system("cls");
 	cout << n;
-	cout << endl << tab << "__________________ [ Прощай ] ___________________\n" << endl;
+	cout << endl << tab << "___________________ [ Прощай ] _____________________\n" << endl;
 	cout << tab << "Спасибо за то, что выбрали наше приложение!:)" << endl;
-	cout << tab << "Данные сохранены в файле orders.txt:)";
+	cout << tab << "Данные сохранены в файле orders.txt:)" << endl;
+	cout << endl << tab << "____________________________________________________\n";
 	pause();
 }
 
@@ -64,6 +64,8 @@ void UI::OrderMenu(const  User* u) const
 
 	cout << tab << "____________________ [ Заказы ] ____________________" << endl;
 	cout << endl << tab << "\t\t1. Показать все заказы" << endl;
+
+	//только админовские опции
 	if (u->is_admin())
 	{
 		cout << tab << "\t\t2. Добавить заказ" << endl;
@@ -79,9 +81,14 @@ User UI::Autorization() const
 {
 	system("cls");
 	LoadMenuAnimation();
+
+	//для хранения текущий логина и пароля
 	string _login;
 	string _password;
+	int _sys_admin_code_ = 123;
+
 start_aut:
+	//получение данных от пользователя
 	cout << n;
 	cout << endl << tab << "__________________ [ АВТОРИЗАЦИЯ ] _________________" << endl;
 
@@ -91,10 +98,17 @@ start_aut:
 	cout << endl << tab << "\t\tВведите пароль: ";
 	cin >> _password;
 
-	cout << endl << tab << "\t\tУ вас есть код администратора? (y/n)\n";
-	int _admin_code = 0;
+	/*
+		Все пользователи по дефолту являются обычными пользователями
+		Чтобы у пользователя был доступ к правам администратора, нужен код администратора
+	*/
 
+	//получение кода администратора
+	cout << endl << tab << "\t\tУ вас есть код администратора? (y/n)\n";
+
+	int _admin_code = 0;
 	bool _continue = true;
+	//если кода нет, то скипаем этот участок и начинаем проверку данных
 	do
 	{
 		switch (_getch())
@@ -113,21 +127,22 @@ start_aut:
 
 	cout << tab << "____________________________________________________\n\n";
 
-	if (_logins.count(_login) > 0 and _logins.at(_login) == _password and _admin_code == 1488)
+	//проверка данных на наличие в базе данных и кода администратора
+	if (_logins.count(_login) > 0 and _logins.at(_login) == _password and _admin_code == _sys_admin_code_)
 	{
 		cout << tab << "Доступ на правах администратора разрешён";
 		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
 		pause();
 		return User(true, _login, _password);
 	}
-	else if (_logins.count(_login) and _logins.at(_login) == _password)
+	else if (_logins.count(_login) and _logins.at(_login) == _password) //нет кода администратора или он неверный
 	{
 		cout << tab << "Доступ на правах пользователя разрешён";
 		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
 		pause();
 		return User(false, _login, _password);
 	}
-	else
+	else //авторизация заново
 	{
 		cout << endl << tab << "Неверный логин или пароль.";
 		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
@@ -145,6 +160,8 @@ void UI::Registration()
 		cout << n;
 		string _login;
 		cout << endl << tab << "__________________ [ РЕГИСТРАЦИЯ ] _________________" << endl;
+
+		//Получение нового логина и пароля
 		cout << endl << tab << "\t\tВведите логин: ";
 		cin >> _login;
 
@@ -154,13 +171,14 @@ void UI::Registration()
 
 		cout << tab << "____________________________________________________\n";
 
-		if(_logins.count(_login)) 
+		//проверка на существование такого логина
+		if (_logins.count(_login))
 		{
 			cout << endl << tab << "Такой логин уже существует.";
 			cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
 			pause();
 		}
-		else
+		else //вывод информации о пользователе
 		{
 			cout << endl << tab << "Вы успешно зарегистрировались." << endl;
 			cout << endl << tab << "Ваш логин: " << _login << endl;
@@ -176,7 +194,6 @@ void UI::Registration()
 			break;
 		}
 	} while (true);
-
 }
 
 void UI::RestaurantHistory() const
@@ -186,12 +203,14 @@ void UI::RestaurantHistory() const
 	string line;
 
 	ifstream in("source\\history.txt");
+
 	if (in.is_open())
 		while (getline(in, line))
 		{
 			cout << line << endl;
 			Sleep(100);
 		}
+
 	in.close();
 	cout << endl << tab << "Нажмите любую клавишу для выхода" << endl;
 }
@@ -222,8 +241,10 @@ void UI::LoadMenuAnimation() const
 void UI::LoadLogins()
 {
 	ifstream in("source\\logins.txt");
+
 	string _login;
 	string _pass;
+
 	while (!in.eof() and in.peek() != EOF)
 	{
 		in >> _login;
