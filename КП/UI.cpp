@@ -78,6 +78,7 @@ void UI::OrderMenu(const  User* u) const
 User UI::Autorization() const
 {
 	system("cls");
+	LoadMenuAnimation();
 	string _login;
 	string _password;
 start_aut:

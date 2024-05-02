@@ -172,7 +172,6 @@ vector<string> Restaurant::ChooseDishes()
 				break;
 			}
 
-
 		dishes.push_back(keyDish);
 		cout << tab << "Это всё? (y/n)" << endl;
 		
@@ -233,8 +232,13 @@ void Restaurant::ShowOrders()
 		cout << tab << "\tВремя принятия заказа: " << list.at(i).order_time << endl;
 
 		//вывод содержимого заказа
-		cout << tab << "\tСодержание заказа:\n" << tab << '\t' << list.at(i).filling << endl;
-
+		cout << tab << "\tСодержание заказа:\n" << tab << '\t';
+		string filling = list.at(i).filling;
+		for (int i = 0; i < filling.size(); i++)
+			if (filling[i] == ',') cout << endl << tab << '\t';
+			else cout << filling[i];
+		
+		cout << endl;
 		cout << tab << "\tСтоимость: " << list.at(i).price << "BYN" << endl;
 		cout << tab << "\tГотовность: " << (list.at(i).done ? "готов" : "не готов") << endl;
 		cout << tab << "____________________________________________________\n\n";
@@ -268,8 +272,6 @@ void Restaurant::AddOrder()
 
 	//стоимость заказа
 	buff.price = CalculatePrice(_dishes);
-
-
 
 	cout << endl << tab << "____________________________________________________\n";
 	cout << endl << tab << "Новый заказ добавлен.";

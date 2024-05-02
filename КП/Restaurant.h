@@ -23,6 +23,7 @@ private:
 		string order_time;   //время получения заказа
 		bool done;           //отметка о выполнении
 		string filling;		 //содержание заказа
+		vector<string> _filling; //содержание заказа для вывода на экран
 		float price;		 //стоимость 
 	};
 	ltime _time;
