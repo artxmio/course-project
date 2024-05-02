@@ -74,14 +74,35 @@ void Restaurant::LoadMenuData()
 	}
 }
 
+static bool checkOrder(vector<int> orderIndexes, int numOrder) //функция для проверки наличия элемента в списке
+{
+	return (find(begin(orderIndexes), end(orderIndexes), numOrder) != end(orderIndexes));
+}
+
 void Restaurant::DelOrder()
 {
 	int _numorder;
 	cout << endl << tab << "__________________ [ УДАЛЕНИЕ ЗАКАЗА ] ___________________\n" << endl;
-	cout << tab << "Введите номер заказа: ";
+
+	vector<int> availableOrders{};
+	cout << endl << tab << "Доступные заказы:" << endl << tab;
+	if (list.empty())
+	{
+		cout << "Пока что заказов нет" << endl;
+		pause();
+		return;
+	}
+	else
+		for (int i = 0; i < list.size(); i++)
+		{
+			availableOrders.push_back(list.at(i).order_num);
+			cout << list.at(i).order_num + 1 << " ";
+		}
+
+	cout << endl << tab << "Введите номер заказа: ";
 	cin >> _numorder;
 
-	if (_numorder < 0 or _numorder >= list.size() - 1)
+	if (!(checkOrder(availableOrders, _numorder - 1)))
 	{
 		cout << tab << "Такого заказа не существует. Попробуйте в другой раз.";
 		pause();
@@ -109,7 +130,6 @@ void Restaurant::DelOrder()
 		_order_index--;
 		_changed = true;
 	}
-
 }
 
 vector<string> Restaurant::ChooseDishes()
@@ -154,18 +174,17 @@ vector<string> Restaurant::ChooseDishes()
 
 
 		dishes.push_back(keyDish);
-
+		cout << tab << "Это всё? (y/n)" << endl;
+		
 		do
 		{
-			cout << tab << "Это всё? (y/n)" << endl;
-
 			const char __continue = _getch();
 			if (__continue == 'y')
 			{
 				_continue = false;
 				break;
 			}
-			else if (__continue == 'n') 
+			else if (__continue == 'n')
 				break;
 
 		} while (true);
@@ -180,7 +199,7 @@ float Restaurant::CalculatePrice(vector<string> keyDishes)
 	float _price = 0;
 	for (int i = 0; i < keyDishes.size(); i++)
 	{
-		_price += menu_list[keyDishes[i]];
+		_price += menu_list[keyDishes.at(i)];
 	}
 	return _price;
 }
@@ -198,14 +217,22 @@ void Restaurant::PrintMenu()
 
 void Restaurant::ShowOrders()
 {
-	cout << endl << tab << "_____________________ [ ЗАКАЗЫ ] ____________________\n" << endl;
+    cout << endl << tab << "_____________________ [ ЗАКАЗЫ ] ____________________\n" << endl;
+	if (list.empty())
+	{
+		cout << tab<< "Пока что заказов нет" << endl;
+		cout << tab << "Нажмите любую клавишу для продолжения..." << endl;
+		pause();
+		return;
+	}
+	
 	for (int i = 0; i < _order_index; i++)
 	{
 		cout << tab << "\tЗаказ №" << list.at(i).order_num + 1 << endl;
 		cout << tab << "\tИмя официанта: " << list.at(i).name_waiter << endl;
 		cout << tab << "\tВремя принятия заказа: " << list.at(i).order_time << endl;
 
-
+		//вывод содержимого заказа
 		cout << tab << "\tСодержание заказа:\n" << tab << '\t' << list.at(i).filling << endl;
 
 		cout << tab << "\tСтоимость: " << list.at(i).price << "BYN" << endl;
@@ -215,6 +242,7 @@ void Restaurant::ShowOrders()
 	cout << tab << "Нажмите любую клавишу для продолжения..." << endl;
 	pause();
 }
+
 void Restaurant::AddOrder()
 {
 	system("cls");
@@ -250,6 +278,7 @@ void Restaurant::AddOrder()
 	list.push_back(buff);
 
 	_order_index++;
+	SaveOrders();
 }
 
 void Restaurant::SaveOrders()
@@ -277,13 +306,20 @@ void Restaurant::SaveOrders()
 
 void Restaurant::CheckMark()
 {
+	if (list.empty())
+	{
+		cout << tab << "Пока что заказов нет" << endl;
+		pause();
+		return;
+	}
+
 	_changed = true;
 	int _numorder = 0;
 	cout << endl << tab << "__________________ [ РЕДАКТОР ЗАКАЗОВ ] ___________________\n" << endl;
 	cout << tab << "Введите номер заказа: ";
 	cin >> _numorder;
 
-	if (_numorder >= list.size() - 1 or _numorder < 0)
+	if (_numorder < 0)
 	{
 		cout << "Такого заказа не существует.\nПопробуйте в другой раз.";
 		pause();

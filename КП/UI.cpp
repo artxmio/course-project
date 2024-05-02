@@ -57,7 +57,7 @@ void UI::MainMenu() const
 	cout << endl << tab << "____________________________________________________\n";
 }
 
-void UI::OrderMenu( const  User* u) const
+void UI::OrderMenu(const  User* u) const
 {
 	LoadMenuAnimation();
 	cout << n;
