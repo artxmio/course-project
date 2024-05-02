@@ -306,6 +306,7 @@ void Restaurant::SaveOrders()
 
 void Restaurant::CheckMark()
 {
+
 	if (list.empty())
 	{
 		cout << tab << "Пока что заказов нет" << endl;
@@ -316,10 +317,26 @@ void Restaurant::CheckMark()
 	_changed = true;
 	int _numorder = 0;
 	cout << endl << tab << "__________________ [ РЕДАКТОР ЗАКАЗОВ ] ___________________\n" << endl;
-	cout << tab << "Введите номер заказа: ";
+
+	vector<int> availableOrders{};
+	cout << endl << tab << "Доступные заказы:" << endl << tab;
+	if (list.empty())
+	{
+		cout << "Пока что заказов нет" << endl;
+		pause();
+		return;
+	}
+	else
+		for (int i = 0; i < list.size(); i++)
+		{
+			availableOrders.push_back(list.at(i).order_num);
+			cout << list.at(i).order_num + 1 << " ";
+		}
+
+	cout << endl << tab << "Введите номер заказа: ";
 	cin >> _numorder;
 
-	if (_numorder < 0)
+	if (!(checkOrder(availableOrders, _numorder - 1)))
 	{
 		cout << "Такого заказа не существует.\nПопробуйте в другой раз.";
 		pause();
