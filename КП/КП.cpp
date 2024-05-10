@@ -25,6 +25,11 @@ static void setsettings() noexcept
 	structCursorInfo.bVisible = false; // изменяем видимость курсора
 	SetConsoleCursorInfo(hStdOut, &structCursorInfo);
 	SetConsoleTitle(L"Trendy Бульба by Tёmik");
+
+	HWND consoleWindow = GetConsoleWindow();
+	SetWindowLongPtr(consoleWindow, GWL_STYLE, GetWindowLongPtr(consoleWindow, GWL_STYLE) & ~WS_THICKFRAME);
+	SetWindowLongPtr(consoleWindow, GWL_STYLE, GetWindowLongPtr(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX);
+	SetWindowPos(consoleWindow, NULL, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
 }
 
 int main()
