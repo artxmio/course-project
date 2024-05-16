@@ -110,12 +110,12 @@ void Restaurant::DelOrder()
 	char _change;
 	cout << tab << "Последний заказ удалён." << endl;
 	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
-	cout << tab << "      1. Да" << endl;
-	cout << tab << "      0. Нет" << endl;
+	cout << tab << "      y. Да" << endl;
+	cout << tab << "      n. Нет" << endl;
 	cout << endl << tab << "____________________________________________________\n";
 	_change = _getch();
 
-	if (_change == '0') return;
+	if (_change == 'n') return;
 
 	//удаление элемента
 
@@ -361,12 +361,12 @@ void Restaurant::CheckMark()
 	char change;
 	cout << tab << "Готовость заказа №" << _numorder << " изменена на 'готов'." << endl;
 	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
-	cout << tab << "      1. Да" << endl;
-	cout << tab << "      0. Нет" << endl;
+	cout << tab << "      y. Да" << endl;
+	cout << tab << "      n. Нет" << endl;
 	cout << endl << tab << "____________________________________________________\n";
 	change = _getch();
 
-	if (change == '0') return;
+	if (change == 'n') return;
 	list.at(_numorder - 1).done = true;
 }
 

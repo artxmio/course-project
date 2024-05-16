@@ -35,6 +35,8 @@ void UI::ByeBye() const
 void UI::StartMenu() const
 {
 	LoadMenuAnimation();
+
+
 	cout << n;
 
 	cout << tab << "_______________ [ ДОБРО ПОЖАЛОВАТЬ ] _______________" << endl << endl;
@@ -53,6 +55,7 @@ void UI::MainMenu() const
 	cout << tab << "\t\t1. Заказы" << endl;
 	cout << tab << "\t\t2. Меню ресторана" << endl;
 	cout << tab << "\t\t3. История ресторана" << endl;
+	cout << tab << "\t\t4. Войти как администратор" << endl;
 	cout << tab << "\t\tesc. Выход" << endl;
 	cout << endl << tab << "____________________________________________________\n";
 }
@@ -85,7 +88,6 @@ User UI::Autorization() const
 	//для хранения текущий логина и пароля
 	string _login;
 	string _password;
-	int _sys_admin_code_ = 123;
 
 start_aut:
 	//получение данных от пользователя
@@ -100,44 +102,13 @@ start_aut:
 
 	/*
 		Все пользователи по дефолту являются обычными пользователями
-		Чтобы у пользователя был доступ к правам администратора, нужен код администратора
 	*/
-
-	//получение кода администратора
-	cout << endl << tab << "\t\tУ вас есть код администратора? (y/n)\n";
-
-	int _admin_code = 0;
-	bool _continue = true;
-	//если кода нет, то скипаем этот участок и начинаем проверку данных
-	do
-	{
-		switch (_getch())
-		{
-		case 'y':
-			cout << endl << tab << "\t\tКод администратора: ";
-			cin >> _admin_code;
-			_continue = false;
-			break;
-		case 'n':
-			_continue = false;
-			break;
-		default: break;
-		}
-	} while (_continue);
-
 	cout << tab << "____________________________________________________\n\n";
 
-	//проверка данных на наличие в базе данных и кода администратора
-	if (_logins.count(_login) > 0 and _logins.at(_login) == _password and _admin_code == _sys_admin_code_)
+	//проверка данных на наличие в базе данных 
+	if (_logins.count(_login) and _logins.at(_login) == _password)
 	{
-		cout << tab << "Доступ на правах администратора разрешён";
-		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
-		pause();
-		return User(true, _login, _password);
-	}
-	else if (_logins.count(_login) and _logins.at(_login) == _password) //нет кода администратора или он неверный
-	{
-		cout << tab << "Доступ на правах пользователя разрешён";
+		cout << tab << "Доступ разрешён";
 		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
 		pause();
 		return User(false, _login, _password);
@@ -194,6 +165,67 @@ void UI::Registration()
 			break;
 		}
 	} while (true);
+}
+
+void UI::SingInAdmin(User* u)
+{
+	system("cls");
+	LoadMenuAnimation();
+
+	//код администратора
+	constexpr int ADMIN = 112233;
+
+	//получаем код от пользователя
+	bool _continue = true;
+	do
+	{
+		system("cls");
+		cout << "\n\n\n\n\n\n\n";
+		cout << endl << tab << "__________________ [ АВТОРИЗАЦИЯ ] _________________" << endl;
+
+		cout << endl << tab << "\tЧтобы получить права администратора,\n"
+			<< tab << "\tнеобходимо ввести код администратора" << endl;
+		cout << tab << "____________________________________________________\n";
+
+		cout << endl << tab << "\tКод: ";
+		int _your_code = 0;
+		cin >> _your_code;
+
+		if (_your_code == ADMIN)
+		{
+			cout << endl << tab << "\tДоступ на правах администратора разрешён\n";
+			u->set_admin(true);
+			return;
+		}
+		else
+		{
+			cout << tab << "____________________________________________________\n";
+			cout << endl << tab << "\tНеверный код\n";
+		}
+
+		//можно попробовать ещё раз ввести код
+		cout << tab << "____________________________________________________\n";
+		cout << tab << "\n\tПопробовать ещё? (y/n)\n";
+
+		do
+		{
+			const char __continue = _getch();
+			if (__continue == 'n')
+			{
+				_continue = false;
+				break;
+			}
+			else if (__continue == 'y')
+				break;
+
+		} while (true);
+	} while (_continue);
+
+
+	cout << tab << "____________________________________________________\n";
+	cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
+	pause();
+	system("cls");
 }
 
 void UI::RestaurantHistory() const

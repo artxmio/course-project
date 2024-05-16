@@ -142,7 +142,11 @@ int main()
 			userInterface.RestaurantHistory();
 			pause();
 			break;
+		case '4': //вход под администратором
 
+			userInterface.SingInAdmin(&user);
+
+			break;
 		case 27: //также ждёт нажатия 'esk'
 
 			userInterface.ByeBye();

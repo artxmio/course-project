@@ -13,4 +13,5 @@ public:
 	User(bool is_admin, string login, string pass); //конструктор со всеми параметрами для заполнения полей
 
 	bool is_admin() const noexcept; //функция для получения значения поля is_admin
+	void set_admin(bool w); //установка поля is_admin
 };

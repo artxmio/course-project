@@ -10,3 +10,8 @@ bool User::is_admin() const noexcept
 {
     return _is_admin;
 }
+
+void User::set_admin(bool w)
+{
+    this->_is_admin = w;
+}
