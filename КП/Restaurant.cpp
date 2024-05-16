@@ -330,7 +330,11 @@ void Restaurant::CheckMark()
 
 	_changed = true;
 	int _numorder = 0;
-	cout << endl << tab << "__________________ [ ĞÅÄÀÊÒÎĞ ÇÀÊÀÇÎÂ ] ___________________\n" << endl;
+	cout << endl << tab << "__________________ [ ĞÅÄÀÊÒÎĞ ÇÀÊÀÇÎÂ ] ___________________\n";
+
+	cout << endl << tab << "	Èçìåíèòü ãîòîâíîñòü çàêàçîâ" << endl;
+	cout << endl << tab << "____________________________________________________\n";
+
 
 	vector<int> availableOrders{};
 	cout << endl << tab << "Äîñòóïíûå çàêàçû:" << endl << tab;

@@ -141,9 +141,16 @@ void UI::Registration()
 	do
 	{
 		system("cls");
-		cout << n;
+		cout << "\n\n";
 		string _login;
 		cout << endl << tab << "__________________ [ РЕГИСТРАЦИЯ ] _________________" << endl;
+
+		//справочная информация
+		cout << endl << tab << "Правила регистрации:" << endl;
+		cout << endl << tab << " 1. Логин(пароль) должен быть не менее 5(8) символов";
+		cout << endl << tab << " 2. Логин не должен содержать симовлы - ";
+		cout << endl << tab << "	!@#$%^&*()-\"\'№;%:?<>/\\" << endl;
+		cout << tab << "____________________________________________________\n";
 
 		//Получение нового логина и пароля
 		cout << endl << tab << "\t\tВведите логин: ";
@@ -164,6 +171,18 @@ void UI::Registration()
 		}
 		else //вывод информации о пользователе
 		{
+			error e = Validation(_login, _password);
+			if (e.is)
+			{
+				cout << endl << tab << e.message << endl;
+
+				cout << tab << "____________________________________________________\n";
+				cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
+				pause();
+				break;
+			}
+
+
 			cout << endl << tab << "Вы успешно зарегистрировались." << endl;
 			cout << endl << tab << "Ваш логин: " << _login << endl;
 			cout << endl << tab << "Ваш пароль: " << _password << endl;
@@ -178,6 +197,40 @@ void UI::Registration()
 			break;
 		}
 	} while (true);
+}
+
+error UI::Validation(string _login, string _password)
+{
+	error e;
+
+	//проверка логина на длину
+	if (_login.size() < 5)
+	{
+		e.is = true;
+		e.message = "Длина логина должна быть больше или равна 5 символам";
+		return e;
+	}
+	//проверка логина на запрещенные символы
+	for (const char item : _login)
+	{
+		size_t pos = e.invalid_symbols.find(item);
+		if (pos != string::npos)
+		{
+			e.is = true;
+			e.message = "Логин не должен содержать запрещенные символы";
+			return e;
+		}
+	}
+
+	//проверка пароля на длину
+	if (_password.size() < 8)
+	{
+		e.is = true;
+		e.message = "Длина пароля должна быть больше или равна 8 символам";
+		return e;
+	}
+
+	return e;
 }
 
 void UI::SingInAdmin(User* u)
