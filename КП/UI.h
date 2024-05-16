@@ -10,8 +10,8 @@ public:
 	void ByeBye() const; //экран при закрытии программы
 
 	void StartMenu() const;
-	void MainMenu() const; 
-	void OrderMenu(const User* u) const;
+	void MainMenu(User* u);
+	void OrderMenu(const User* u);
 
 	User Autorization() const;
 	void Registration();

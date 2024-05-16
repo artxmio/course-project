@@ -73,7 +73,7 @@ int main()
 	bool _continue = true;
 	while (_continue)
 	{
-		userInterface.MainMenu();
+		userInterface.MainMenu(&user);
 
 		switch (_getch())
 		{

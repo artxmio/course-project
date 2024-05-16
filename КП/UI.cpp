@@ -36,7 +36,6 @@ void UI::StartMenu() const
 {
 	LoadMenuAnimation();
 
-
 	cout << n;
 
 	cout << tab << "_______________ [ ÄÎÁĞÎ ÏÎÆÀËÎÂÀÒÜ ] _______________" << endl << endl;
@@ -46,9 +45,13 @@ void UI::StartMenu() const
 	cout << endl << tab << "____________________________________________________\n";
 }
 
-void UI::MainMenu() const
+void UI::MainMenu(User* u)
 {
 	LoadMenuAnimation();
+
+	if (u->is_admin())
+		AdminModeMessage();
+
 	cout << n;
 
 	cout << tab << "_________________ [ ÃËÀÂÍÎÅ ÌÅÍŞ ] _________________" << endl << endl;
@@ -60,9 +63,13 @@ void UI::MainMenu() const
 	cout << endl << tab << "____________________________________________________\n";
 }
 
-void UI::OrderMenu(const  User* u) const
+void UI::OrderMenu(const  User* u)
 {
 	LoadMenuAnimation();
+
+	if (u->is_admin())
+		AdminModeMessage();
+
 	cout << n;
 
 	cout << tab << "____________________ [ Çàêàçû ] ____________________" << endl;
@@ -268,6 +275,11 @@ void UI::LoadMenuAnimation() const
 	cout << endl << tab << "Çàãğóçêà çàâåğøåíà." << endl;
 	Sleep(1000);
 	system("cls");
+}
+
+void UI::AdminModeMessage()
+{
+	cout << "[admin mode]";
 }
 
 void UI::LoadLogins()
