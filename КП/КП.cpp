@@ -144,10 +144,13 @@ int main()
 			break;
 		case '4': //вход под администратором
 
-			userInterface.SingInAdmin(&user);
+			if (!user.is_admin())
+				userInterface.SingInAdmin(&user);
+			else
+				userInterface.ExitAdmin(&user);
 
 			break;
-		case 27: //также ждёт нажатия 'esk'
+		case 27: //также ждёт нажатия 'esc'
 
 			userInterface.ByeBye();
 			restaurant.SaveOrders();

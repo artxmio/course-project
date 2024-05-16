@@ -55,10 +55,16 @@ void UI::MainMenu(User* u)
 	cout << n;
 
 	cout << tab << "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________" << endl << endl;
+
 	cout << tab << "\t\t1. Заказы" << endl;
 	cout << tab << "\t\t2. Меню ресторана" << endl;
 	cout << tab << "\t\t3. История ресторана" << endl;
-	cout << tab << "\t\t4. Войти как администратор" << endl;
+
+	if (!u->is_admin())
+		cout << tab << "\t\t4. Режим администратора" << endl;
+	else
+		cout << tab << "\t\t4. Выйти из режима администратора" << endl;
+
 	cout << tab << "\t\tesc. Выход" << endl;
 	cout << endl << tab << "____________________________________________________\n";
 }
@@ -235,6 +241,37 @@ void UI::SingInAdmin(User* u)
 	system("cls");
 }
 
+void UI::ExitAdmin(User* u)
+{
+	system("cls");
+	cout << n;
+	cout << endl << tab << "___________________ [ ВЫХОД ] __________________" << endl;
+
+	cout << endl << tab << "\tТочно желаете выйти? (y/n)\n";
+
+	bool _continue = true;
+	do
+	{
+		const char __continue = _getch();
+		if (__continue == 'n')
+		{
+			_continue = false;
+			break;
+		}
+		else if (__continue == 'y') //если да, то убираем права админа
+		{
+			_continue = false;
+
+			u->set_admin(false);
+
+			break;
+		}
+
+	} while (_continue);
+
+	cout << tab << "____________________________________________________\n";
+}
+
 void UI::RestaurantHistory() const
 {
 	LoadMenuAnimation();
@@ -268,7 +305,7 @@ void UI::LoadMenuAnimation() const
 	for (int i = 0; i < 10; i++)
 	{
 		cout << load_simb;
-		Sleep(100);
+		Sleep(50);
 	}
 	cout << "]\n";
 	cout << tab << "____________________________________________________\n";
@@ -277,7 +314,7 @@ void UI::LoadMenuAnimation() const
 	system("cls");
 }
 
-void UI::AdminModeMessage()
+void UI::AdminModeMessage() const
 {
 	cout << "[admin mode]";
 }
