@@ -50,7 +50,7 @@ int main()
 	userInterface.Hello();
 
 	//авторизация/регистрация пользователя
-	start:
+start:
 	userInterface.StartMenu();
 	const char change_start_menu = _getch();
 	switch (change_start_menu)
@@ -62,7 +62,7 @@ int main()
 		userInterface.Registration();
 		goto start;
 		break;
-	case '0': 
+	case '0':
 		exit(0);
 	default: goto start; break;
 	}
@@ -77,8 +77,8 @@ int main()
 
 		switch (_getch())
 		{
-		//работа с заказами
-		case '1': 
+			//работа с заказами
+		case '1':
 		{
 			fflush(stdin);
 			bool __continue = true;
@@ -132,16 +132,48 @@ int main()
 			break;
 		}
 		case '2': //меню ресторана
+		{
+			bool __continue = true;
 
-			restaurant.ShowMenu();
-			pause();
+			while (__continue)
+			{
+				userInterface.RMenuMenu(&user);
+
+				switch (_getch())
+				{
+				case '1':
+
+					userInterface.LoadMenuAnimation();
+					restaurant.ShowMenu();
+					pause();
+
+					break;
+				case '2':
+
+					if (user.is_admin())
+					{
+						userInterface.LoadMenuAnimation();
+						restaurant.AddNewMenuItem();
+					}
+
+					break;
+				case 27: //ждё нажатие клавиши 'esc'
+
+					__continue = false;
+					break;
+
+				default:
+					break;
+				}
+			}
 			break;
-
+		}
 		case '3': //история ресторана
 
 			userInterface.RestaurantHistory();
 			pause();
 			break;
+
 		case '4': //вход под администратором
 
 			if (!user.is_admin())
@@ -150,10 +182,12 @@ int main()
 				userInterface.ExitAdmin(&user);
 
 			break;
+
 		case 27: //также ждёт нажатия 'esc'
 
 			userInterface.ByeBye();
 			restaurant.SaveOrders();
+			restaurant.SaveMenuData();
 			_continue = false;
 			break;
 

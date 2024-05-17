@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <iomanip>
 #include <iterator>
+#include <cmath>
 #include "UI.h"
 using namespace std;
 
@@ -22,18 +23,15 @@ void Restaurant::ShowMenu()
 {
 	system("cls");
 
-	ifstream fs("source\\menu.txt", ios::in | ios::binary);
-	string menu;
+	int i = 0;
+	cout << endl << tab << "______________________ [ МЕНЮ ] _____________________" << endl << endl;
 
-	if (!fs) return;
-
-	while (getline(fs, menu))
+	for (const auto& dish : menu_list)
 	{
-		cout << "\t\t" << menu << endl;
-		Sleep(100);
+		i++;
+		cout << setw(34) << i << ". " << setw(35) << dish.first << setw(10) << dish.second << " BYN" << endl;
 	}
-
-	fs.close();
+	cout << tab << "_____________________________________________________\n\n";
 }
 
 //загрузка заказов из файла orders.txt
@@ -69,7 +67,7 @@ void Restaurant::LoadMenuData()
 {
 	ifstream in("source\\menu_data.txt", ios::in);
 
-	if (!in) return;
+	if (!in) throw " ";
 
 	while (!in.eof())
 	{
@@ -138,7 +136,7 @@ vector<string> Restaurant::ChooseDishes()
 		cout << endl << tab << "_________________ [ ВЫБОР БЛЮДА ] __________________\n" << endl;
 
 		//вывод меню
-		PrintMenu();
+		ShowMenu();
 
 		//блюда выбираются с помощью их кода в списке
 		cout << endl << tab << "Введите код блюда:\n";
@@ -203,18 +201,6 @@ float Restaurant::CalculatePrice(vector<string> keyDishes)
 		_price += menu_list[keyDishes.at(i)];
 	}
 	return _price;
-}
-
-//вывод меню на экран
-void Restaurant::PrintMenu()
-{
-	int i = 0;
-	for (const auto& dish : menu_list)
-	{
-		i++;
-		cout << setw(34) << i << ". " << setw(35) << dish.first << setw(10) << dish.second << " BYN" << endl;
-	}
-	cout << tab << "____________________________________________________\n\n";
 }
 
 //вывод всех заказов на экран
@@ -316,13 +302,14 @@ void Restaurant::SaveOrders()
 	out.close();
 }
 
+//сохранение данных о меню
 void Restaurant::SaveMenuData()
 {
 	if (!_changed_menu) return;
 
 	const int mode = ios::out;
 
-	ofstream out("source\\orders.txt", mode);
+	ofstream out("source\\menu_data.txt", mode);
 
 	if (!out) return;
 
@@ -389,6 +376,48 @@ void Restaurant::CheckMark()
 
 	if (change == 'n') return;
 	list.at(_numorder - 1).done = true;
+}
+
+void Restaurant::AddNewMenuItem()
+{
+	system("cls");
+
+	_changed_menu = true;
+
+	cout << endl << tab << "____________________ [ МЕНЮ ] ___________________" << endl;
+
+	//название блюда
+	string dish_title = "";
+	cout << endl << tab << "Название блюда: \n" << dish_title;
+	cout << tab;
+
+	cin.get();
+	getline(cin, dish_title);
+
+	//цена
+	float price = 0.0;
+
+	cout << endl << tab << "Цена блюда (например 14.88): \n" << tab;
+	cin >> price;
+
+	if (price <= 0)
+	{
+		cout << tab << "____________________________________________________\n\n";
+		cout << tab << "Неверное значение" << endl;
+		cout << tab << "Нажмите любую клавишу, чтобы выйти" << endl;
+		pause();
+		system("cls");
+		return;
+	}
+	
+	//округление до 2 знаков после запятой
+	price = round((price*100)) /100.0 ;
+
+	cout << tab << "____________________________________________________\n\n";
+
+	cout << tab << "Новый пункт меню добавлен";
+
+	menu_list.insert({dish_title, price});
 }
 
 //установка времени оформления заказа

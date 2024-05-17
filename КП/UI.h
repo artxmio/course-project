@@ -30,6 +30,7 @@ public:
 	void StartMenu() const;
 	void MainMenu(User* u);
 	void OrderMenu(const User* u);
+	void RMenuMenu(const User* u);
 
 	User Autorization() const;
 	void Registration();

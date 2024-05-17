@@ -27,7 +27,7 @@ void UI::ByeBye() const
 	cout << n;
 	cout << endl << tab << "___________________ [ Прощай ] _____________________\n" << endl;
 	cout << tab << "Спасибо за то, что выбрали наше приложение!:)" << endl;
-	cout << tab << "Данные сохранены в файле orders.txt:)" << endl;
+	cout << tab << "Данные сохранены." << endl;
 	cout << endl << tab << "____________________________________________________\n";
 	pause();
 }
@@ -57,7 +57,7 @@ void UI::MainMenu(User* u)
 	cout << tab << "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________" << endl << endl;
 
 	cout << tab << "\t\t1. Заказы" << endl;
-	cout << tab << "\t\t2. Меню ресторана" << endl;
+	cout << tab << "\t\t2. Меню" << endl;
 	cout << tab << "\t\t3. История ресторана" << endl;
 
 	if (!u->is_admin())
@@ -90,6 +90,29 @@ void UI::OrderMenu(const  User* u)
 	}
 
 	cout << tab << "\t\tesc. Выйти в главное меню" << endl;
+	cout << endl << tab << "____________________________________________________\n";
+}
+
+void UI::RMenuMenu(const User* u)
+{
+	LoadMenuAnimation();
+
+	if (u->is_admin())
+		AdminModeMessage();
+
+	cout << n;
+
+	cout << tab << "_________________ [ МЕНЮ РЕСТОРАНА ] _________________" << endl << endl;
+
+	cout << tab << "\t\t1. Меню ресторана" << endl;
+
+	if (u->is_admin())
+	{
+		cout << tab << "\t\t2. Добавить пункт меню" << endl;
+		cout << tab << "\t\t3. Удалить пункт меню" << endl;
+	}
+
+	cout << tab << "\t\tesc. Выход" << endl;
 	cout << endl << tab << "____________________________________________________\n";
 }
 

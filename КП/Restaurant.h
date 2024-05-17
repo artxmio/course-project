@@ -33,10 +33,10 @@ private:
 	bool _changed;		//флаг изменения списка заказов
 	bool _changed_menu; //флаг изменения меню
 
-	unordered_map<string, float> menu_list; //меню ресторана
+	unordered_map<string, float> menu_list;
+
 	vector<order> list;						//список заказов
 
-	void PrintMenu();											//вывод блюд
 	vector<string> ChooseDishes();								//выбор блюд 
 	float CalculatePrice(vector<string> keyDishes);				//подсчёт стоимости заказа
 	bool checkOrder(vector<int> _orderIndexes, int _numOrder);	//проверка наличия заказа по номеру
