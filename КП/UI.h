@@ -18,6 +18,11 @@ public:
 
 class UI
 {
+private:
+	map<string, string> _logins;
+
+	const string tab = "\t\t\t\t";         //отступ по горизонтали
+	const string n = "\n\n\n\n\n\n\n\n\n"; //отступ по вертикали
 public:
 	void Hello() const;  //экран при запуске программы
 	void ByeBye() const; //экран при закрытии программы
@@ -40,9 +45,4 @@ public:
 
 	void LoadLogins(); //загрузка логинов и паролей из файла logins.txt
 	void SaveLogin(const string* login, const string* pass); //сохранение логинов и паролей в файл logins.txt
-private:
-	map<string, string> _logins;
-
-	const string tab = "\t\t\t\t";         //отступ по горизонтали
-	const string n = "\n\n\n\n\n\n\n\n\n"; //отступ по вертикали
 };

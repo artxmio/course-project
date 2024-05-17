@@ -119,7 +119,7 @@ void Restaurant::DelOrder()
 
 	//удаление элемента
 
-	list.erase(list.end()-1);
+	list.erase(list.end() - 1);
 
 	_order_index--;  //уменьшение индекса
 	_changed = true; //метка о изменении списка
@@ -148,8 +148,8 @@ vector<string> Restaurant::ChooseDishes()
 
 		cin >> dish;
 
-		//всего блюд в меню 18
-		if (dish <= 0 or dish > 18)
+		//не больше, чем в списке меню
+		if (dish <= 0 or dish > menu_list.size())
 		{
 			cout << tab << "Нет такого блюда." << endl;
 			cout << tab << "Нажмите любую клавишу для продолжения" << endl;
@@ -295,25 +295,42 @@ void Restaurant::AddOrder()
 //сохранение данных о заказе в файл
 void Restaurant::SaveOrders()
 {
-	int mode = 0;
+	if (!_changed) return;
 
-	//если список был измененён, то файл полностью перезапишется
-	mode = _changed ? ios::out : ios::app;
+	const int mode = ios::out;
 
 	ofstream out("source\\orders.txt", mode);
 
 	if (!out) return;
 
-	if (_changed)
-		for (int i = 0; i < _order_index; i++)
-		{
-			out << list.at(i).order_num << ' ';
-			out << list.at(i).name_waiter << ' ';
-			out << list.at(i).price << ' ';
-			out << list.at(i).order_time << '\n';
-			out << list.at(i).filling << '\n';
-			out << list.at(i).done << '\n';
-		}
+	for (int i = 0; i < _order_index; i++)
+	{
+		out << list.at(i).order_num << ' ';
+		out << list.at(i).name_waiter << ' ';
+		out << list.at(i).price << ' ';
+		out << list.at(i).order_time << '\n';
+		out << list.at(i).filling << '\n';
+		out << list.at(i).done << '\n';
+	}
+
+	out.close();
+}
+
+void Restaurant::SaveMenuData()
+{
+	if (!_changed_menu) return;
+
+	const int mode = ios::out;
+
+	ofstream out("source\\orders.txt", mode);
+
+	if (!out) return;
+
+	for (auto& item : menu_list)
+	{
+		out << endl << item.first;
+		out << endl << item.second;
+	}
 
 	out.close();
 }
@@ -333,7 +350,7 @@ void Restaurant::CheckMark()
 	cout << endl << tab << "__________________ [ РЕДАКТОР ЗАКАЗОВ ] ___________________\n";
 
 	cout << endl << tab << "	Изменить готовность заказов" << endl;
-	cout << endl << tab << "____________________________________________________\n";
+	cout << endl << tab << "___________________________________________________________\n";
 
 
 	vector<int> availableOrders{};

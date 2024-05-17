@@ -17,7 +17,7 @@ private:
 		void SetTime() noexcept;
 		string ToString();
 	};
-	//заказ
+	//заказ	
 	struct order
 	{
 		int order_num;       //номер заказа
@@ -30,7 +30,8 @@ private:
 
 	ltime _time;
     int _order_index;
-	bool _changed;
+	bool _changed;		//флаг изменения списка заказов
+	bool _changed_menu; //флаг изменения меню
 
 	unordered_map<string, float> menu_list; //меню ресторана
 	vector<order> list;						//список заказов
@@ -50,8 +51,12 @@ public:
 	void ShowMenu();         //вывести меню
 
 	void AddOrder();         //добавить заказ
-	void SaveOrders();       //сохранить заказ в файл
-
 	void DelOrder();         //удалить заказ
 	void CheckMark();        //отметка о выполнении
+
+	void AddNewMenuItem();   //добавить новый пункт в меню
+	void DelMenuItem();      //удалить пункт меню
+
+	void SaveOrders();       //сохранить заказ в файл
+	void SaveMenuData();     //сохранить информацию о меню в файл
 };
