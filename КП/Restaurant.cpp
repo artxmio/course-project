@@ -207,6 +207,7 @@ float Restaurant::CalculatePrice(vector<string> keyDishes)
 void Restaurant::ShowOrders()
 {
 	cout << endl << tab << "_____________________ [ ЗАКАЗЫ ] ____________________\n" << endl;
+
 	//проверка на отсутсвие элементов в списке
 	if (list.empty())
 	{
@@ -218,13 +219,17 @@ void Restaurant::ShowOrders()
 
 	for (int i = 0; i < _order_index; i++)
 	{
+		system("cls");
+		cout << endl << "\n\n\n\n\n" << tab << "_____________________ [ ЗАКАЗЫ ] ____________________\n" << endl;
+
 		cout << tab << "\tЗаказ №" << list.at(i).order_num + 1 << endl;
 		cout << tab << "\tИмя официанта: " << list.at(i).name_waiter << endl;
 		cout << tab << "\tВремя принятия заказа: " << list.at(i).order_time << endl;
 
 		//вывод содержимого заказа
-		cout << tab << "\tСодержание заказа:\n" << tab << '\t';
+		cout << tab << "\tСодержание заказа:\n";
 
+		cout << endl << tab << '\t';
 		string filling = list.at(i).filling;
 		for (int i = 0; i < filling.size(); i++)
 			if (filling[i] == ',') cout << endl << tab << '\t';
@@ -234,8 +239,10 @@ void Restaurant::ShowOrders()
 		cout << tab << "\tСтоимость: " << list.at(i).price << "BYN" << endl;
 		cout << tab << "\tГотовность: " << (list.at(i).done ? "готов" : "не готов") << endl;
 		cout << tab << "____________________________________________________\n\n";
+		cout << tab << "Нажмите любую клавишу, чтобы увидеть следующий заказ\n\n";
+		pause();
 	}
-	cout << tab << "Нажмите любую клавишу для продолжения..." << endl;
+	cout << tab << "Нажмите любую клавишу для выхода..." << endl;
 	pause();
 }
 
@@ -243,7 +250,7 @@ void Restaurant::ShowOrders()
 void Restaurant::AddOrder()
 {
 	system("cls");
-
+	system("mode con cols=115 lines=40");
 	_changed = true;
 
 	order buff;
@@ -276,6 +283,7 @@ void Restaurant::AddOrder()
 
 	_order_index++;
 	SaveOrders();
+	system("mode con cols=115 lines=30");
 }
 
 //сохранение данных о заказе в файл
@@ -378,6 +386,7 @@ void Restaurant::CheckMark()
 	list.at(_numorder - 1).done = true;
 }
 
+//добавить новый пункт меню
 void Restaurant::AddNewMenuItem()
 {
 	system("cls");
@@ -388,7 +397,7 @@ void Restaurant::AddNewMenuItem()
 
 	//название блюда
 	string dish_title = "";
-	cout << endl << tab << "Название блюда: \n" << dish_title;
+	cout << endl << tab << "Название блюда: \n";
 	cout << tab;
 
 	cin.get();
@@ -409,15 +418,67 @@ void Restaurant::AddNewMenuItem()
 		system("cls");
 		return;
 	}
-	
+
 	//округление до 2 знаков после запятой
-	price = round((price*100)) /100.0 ;
+	price = round((price * 100)) / 100.0;
 
 	cout << tab << "____________________________________________________\n\n";
 
 	cout << tab << "Новый пункт меню добавлен";
 
-	menu_list.insert({dish_title, price});
+	menu_list.insert({ dish_title, price });
+}
+
+//удалить пункт меню по названию блюда
+void Restaurant::DelMenuItem()
+{
+	system("mode con cols=115 lines=50");
+
+	cout << endl << tab << "______________________ [ МЕНЮ ] _____________________" << endl;
+
+	if (menu_list.empty())
+	{
+		cout << "Пока что заказов нет" << endl;
+		pause();
+		return;
+	}
+
+	ShowMenu();
+
+	cout << endl << tab << "Для удаления блюда из списка необходимо ввести\n" << tab << "его название";
+	cout << endl << tab << "____________________________________________________\n";
+
+	//название блюда
+	string dish_title = "";
+	cout << endl << tab << "Название блюда: \n";
+	cout << tab;
+
+	cin.get();
+	getline(cin, dish_title);
+
+	if (!menu_list.count(dish_title))
+	{
+		cout << endl << tab << "____________________________________________________\n";
+		cout << tab << "Такого блюда не существует" << endl;
+		pause();
+		return;
+	}
+
+	//подтверждение удаления
+	char _change;
+	cout << tab << dish_title << " удалён" << endl;
+	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
+	cout << tab << "      y. Да" << endl;
+	cout << tab << "      n. Нет" << endl;
+	cout << endl << tab << "____________________________________________________\n";
+	_change = _getch();
+
+	system("mode con cols=115 lines=30");
+
+	if (_change == 'n') return;
+
+	menu_list.erase(dish_title);
+
 }
 
 //установка времени оформления заказа

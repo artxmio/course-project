@@ -18,6 +18,7 @@ static void setsettings() noexcept
 	SetConsoleOutputCP(1251);
 
 	srand(time(NULL));
+	system("mode con cols=115 lines=30");
 
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO structCursorInfo;
@@ -154,6 +155,15 @@ start:
 					{
 						userInterface.LoadMenuAnimation();
 						restaurant.AddNewMenuItem();
+					}
+
+					break;
+				case '3':
+
+					if (user.is_admin())
+					{
+						userInterface.LoadMenuAnimation();
+						restaurant.DelMenuItem();
 					}
 
 					break;
