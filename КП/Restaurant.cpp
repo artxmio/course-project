@@ -111,10 +111,14 @@ void Restaurant::DelOrder()
 	cout << tab << "      y. Да" << endl;
 	cout << tab << "      n. Нет" << endl;
 	cout << endl << tab << "____________________________________________________\n";
-	_change = _getch();
-
-	if (_change == 'n') return;
-
+	
+	for (;;)
+	{
+		_change = _getch();
+		if (_change == 'n') return;
+		else if (_change == 'y') break;
+	}
+	
 	//удаление элемента
 
 	list.erase(list.end() - 1);
@@ -520,7 +524,7 @@ void Restaurant::DelMenuItem()
 	char _change;
 	cout << endl << tab << "_____________________________________________________\n";
 
-	cout << tab << endl << dish_title << " удалён." << endl;
+	cout << endl << tab  << dish_title << " удалён." << endl;
 	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
 	cout << tab << "      y. Да" << endl;
 	cout << tab << "      n. Нет" << endl;
