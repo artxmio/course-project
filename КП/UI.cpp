@@ -435,6 +435,8 @@ void UI::SaveLogin(const string* login, const string* pass)
 {
 	ofstream out("source\\logins.txt", ios::app);
 
+	if (!out) return;
+
 	out << *login << ' ';
 	out << *pass << '\n';
 
