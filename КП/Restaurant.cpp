@@ -141,7 +141,7 @@ vector<string> Restaurant::ChooseDishes()
 		//блюда выбираются с помощью их кода в списке
 		cout << endl << tab << "Введите код блюда:\n";
 		cout << tab;
-		
+
 		string dish;
 		cin >> dish;
 
@@ -410,44 +410,63 @@ void Restaurant::CheckMark()
 //добавить новый пункт меню
 void Restaurant::AddNewMenuItem()
 {
-	system("cls");
-
 	_changed_menu = true;
 
-	cout << endl << tab << "____________________ [ МЕНЮ ] ___________________" << endl;
-
-	//название блюда
-	string dish_title = "";
-	cout << endl << tab << "Название блюда: \n";
-	cout << tab;
-
-	cin.get();
-	getline(cin, dish_title);
-
-	//цена
-	float price = 0.0;
-
-	cout << endl << tab << "Цена блюда (например 14.88): \n" << tab;
-	cin >> price;
-
-	if (price <= 0)
+	bool _continue = true;
+	do
 	{
-		cout << tab << "____________________________________________________\n\n";
-		cout << tab << "Неверное значение" << endl;
-		cout << tab << "Нажмите любую клавишу, чтобы выйти" << endl;
-		pause();
 		system("cls");
-		return;
-	}
+		cout << endl << tab << "____________________ [ МЕНЮ ] ___________________" << endl;
 
-	//округление до 2 знаков после запятой
-	price = round((price * 100)) / 100.0;
+		//название блюда
+		string dish_title = "";
+		cout << endl << tab << "Название блюда: \n";
+		cout << tab;
 
-	cout << tab << "____________________________________________________\n\n";
+		cin.get();
+		getline(cin, dish_title);
 
-	cout << tab << "Новый пункт меню добавлен";
+		//цена
+		string price;
 
-	menu_list.insert({ dish_title, price });
+		cout << endl << tab << "Цена блюда (например 14.88): \n" << tab;
+		cin >> price;
+
+		float _price = 0.0;
+		try
+		{
+			_price = stof(price);
+		}
+		catch (const exception& ex)
+		{
+			cout << tab << "____________________________________________________\n\n";
+			cout << tab << "Неверное значение." << endl;
+			cout << tab << "Нажмите любую клавишу для продолжения" << endl;
+			pause();
+			continue;
+		}
+
+		if (_price <= 0)
+		{
+			cout << tab << "____________________________________________________\n\n";
+			cout << tab << "Неверное значение" << endl;
+			cout << tab << "Нажмите любую клавишу, чтобы выйти" << endl;
+			pause();
+			system("cls");
+			return;
+		}
+
+		//округление до 2 знаков после запятой
+		_price = round((_price * 100)) / 100.0;
+
+		cout << tab << "____________________________________________________\n\n";
+
+		cout << tab << "Новый пункт меню добавлен";
+
+		menu_list.insert({ dish_title, _price });
+		_continue = false;
+	} while (_continue);
+
 }
 
 //удалить пункт меню по названию блюда
@@ -455,7 +474,7 @@ void Restaurant::DelMenuItem()
 {
 	system("mode con cols=115 lines=50");
 
-	cout << endl << tab << "______________________ [ МЕНЮ ] _____________________" << endl;
+	cout << endl << tab << "______________________ [ МЕНЮ ] ______________________" << endl;
 
 	if (menu_list.empty())
 	{
@@ -466,32 +485,46 @@ void Restaurant::DelMenuItem()
 
 	ShowMenu();
 
-	cout << endl << tab << "Для удаления блюда из списка необходимо ввести\n" << tab << "его название";
-	cout << endl << tab << "____________________________________________________\n";
+	cout << tab << "Для удаления блюда из списка необходимо ввести\n" << tab << "его название";
+	cout << endl << tab << "_____________________________________________________\n";
 
 	//название блюда
 	string dish_title = "";
 	cout << endl << tab << "Название блюда: \n";
 	cout << tab;
 
-	cin.get();
+
+	string cing = "";
+	cing = cin.get();
+	
 	getline(cin, dish_title);
+
+	//если cin.get() съест лишний символ
+	if (cing != "\n")
+	{
+		cing += dish_title;
+		dish_title = cing;
+		cing = "";
+	}
 
 	if (!menu_list.count(dish_title))
 	{
-		cout << endl << tab << "____________________________________________________\n";
+		cout << endl << tab << "_____________________________________________________\n";
 		cout << tab << "Такого блюда не существует" << endl;
 		pause();
+		system("mode con cols=115 lines=30");
 		return;
 	}
 
 	//подтверждение удаления
 	char _change;
-	cout << tab << dish_title << " удалён" << endl;
+	cout << endl << tab << "_____________________________________________________\n";
+
+	cout << tab << endl << dish_title << " удалён." << endl;
 	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
 	cout << tab << "      y. Да" << endl;
 	cout << tab << "      n. Нет" << endl;
-	cout << endl << tab << "____________________________________________________\n";
+	cout << endl << tab << "_____________________________________________________\n";
 	_change = _getch();
 
 	system("mode con cols=115 lines=30");
