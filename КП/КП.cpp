@@ -181,7 +181,6 @@ start:
 		case '3': //история ресторана
 
 			userInterface.RestaurantHistory();
-			pause();
 			break;
 
 		case '4': //вход под администратором

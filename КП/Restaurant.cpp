@@ -129,9 +129,14 @@ vector<string> Restaurant::ChooseDishes()
 	//выбранные блюда
 	vector<string> dishes{};
 
+	int dish = -1;
+
 	bool _continue = true;
 	do
 	{
+		cin.clear();
+		fflush(stdin);
+
 		system("cls");
 		cout << endl << tab << "_________________ [ ВЫБОР БЛЮДА ] __________________\n" << endl;
 
@@ -142,17 +147,22 @@ vector<string> Restaurant::ChooseDishes()
 		cout << endl << tab << "Введите код блюда:\n";
 		cout << tab;
 
-		int dish = -1;
-
 		cin >> dish;
 
+		if (!cin)
+		{
+			cout << tab << "Неверное значение." << endl;
+			cout << tab << "Нажмите любую клавишу для продолжения" << endl;
+
+			pause();
+			break;
+		}
 		//не больше, чем в списке меню
-		if (dish <= 0 or dish > menu_list.size() or !cin)
+		if (dish <= 0 or dish > menu_list.size())
 		{
 			cout << tab << "Нет такого блюда." << endl;
 			cout << tab << "Нажмите любую клавишу для продолжения" << endl;
 
-			fflush(stdin);
 			pause();
 			continue;
 		}
@@ -271,6 +281,13 @@ void Restaurant::AddOrder()
 
 	//наполнение заказа
 	vector<string> _dishes = ChooseDishes();
+
+	if (!_dishes.size()) 
+	{
+		system("mode con cols=115 lines=30");
+		return;
+	}
+
 	for (const auto& dish : _dishes)
 		buff.filling += dish + ",";
 

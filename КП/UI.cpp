@@ -366,6 +366,7 @@ void UI::ExitAdmin(User* u)
 void UI::RestaurantHistory() const
 {
 	LoadMenuAnimation();
+	system("mode con cols=115 lines=50");
 
 	string line;
 
@@ -379,7 +380,10 @@ void UI::RestaurantHistory() const
 		}
 
 	in.close();
-	cout << endl << tab << "Нажмите любую клавишу для выхода" << endl;
+	cout << endl << "\t\t\tНажмите любую клавишу для выхода" << endl;
+	pause();
+
+	system("mode con cols=115 lines=30");
 }
 
 void UI::LoadMenuAnimation() const
