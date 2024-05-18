@@ -193,6 +193,12 @@ start:
 
 			break;
 
+		case '5': //история ресторана
+
+			userInterface.About();
+			pause();
+			break;
+
 		case 27: //также ждёт нажатия 'esc'
 
 			userInterface.ByeBye();

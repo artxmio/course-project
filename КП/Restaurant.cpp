@@ -147,10 +147,12 @@ vector<string> Restaurant::ChooseDishes()
 		cin >> dish;
 
 		//не больше, чем в списке меню
-		if (dish <= 0 or dish > menu_list.size())
+		if (dish <= 0 or dish > menu_list.size() or !cin)
 		{
 			cout << tab << "Нет такого блюда." << endl;
 			cout << tab << "Нажмите любую клавишу для продолжения" << endl;
+
+			fflush(stdin);
 			pause();
 			continue;
 		}

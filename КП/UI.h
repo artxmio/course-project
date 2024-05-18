@@ -32,6 +32,8 @@ public:
 	void OrderMenu(const User* u);
 	void RMenuMenu(const User* u);
 
+	void About(); //информация о программе
+
 	User Autorization() const;
 	void Registration();
 	error Validation(string _login, string password);

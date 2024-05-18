@@ -65,6 +65,7 @@ void UI::MainMenu(User* u)
 	else
 		cout << tab << "\t\t4. Выйти из режима администратора" << endl;
 
+	cout << tab << "\t\t5. О программе" << endl;
 	cout << tab << "\t\tesc. Выход" << endl;
 	cout << endl << tab << "____________________________________________________\n";
 }
@@ -114,6 +115,20 @@ void UI::RMenuMenu(const User* u)
 
 	cout << tab << "\t\tesc. Выход" << endl;
 	cout << endl << tab << "____________________________________________________\n";
+}
+
+void UI::About()
+{
+	LoadMenuAnimation();
+
+	ifstream in("source\\about.txt");
+
+	if (!in) return;
+
+	string about;
+
+	while (getline(in, about))
+		cout << about << endl;
 }
 
 User UI::Autorization() const
