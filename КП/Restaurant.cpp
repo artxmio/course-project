@@ -533,7 +533,12 @@ void Restaurant::DelMenuItem()
 
 	system("mode con cols=115 lines=30");
 
-	if (_change == 'n') return;
+	for (;;)
+	{
+		_change = _getch();
+		if (_change == 'n') return;
+		else if (_change == 'y') break;
+	}
 
 	menu_list.erase(dish_title);
 
