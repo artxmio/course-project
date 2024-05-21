@@ -151,7 +151,9 @@ vector<string> Restaurant::ChooseDishes()
 		cout << tab;
 
 		string dish;
-		cin >> dish;
+		_getstring(&dish, 4);
+
+		if (dish.empty()) return vector<string>();
 
 		int _dish = 0;
 
@@ -300,12 +302,18 @@ void Restaurant::AddOrder()
 	buff.done = false;
 
 	cout << endl << tab << "Введите имя официанта: ";
-	cin >> buff.name_waiter;
+	_getstring(&buff.name_waiter, 15);
+
+	if (buff.name_waiter.empty()) 
+	{
+		system("mode con cols=115 lines=30");
+		return;
+	}
 
 	//наполнение заказа
 	vector<string> _dishes = ChooseDishes();
 
-	if (!_dishes.size())
+	if (_dishes.empty()) 
 	{
 		system("mode con cols=115 lines=30");
 		return;

@@ -16,7 +16,10 @@ void _getstring(string* str, int max)
 	{
 		char ch = _getch();
 		if (ch == 27)
+		{
 			*str = "";
+			return;
+		}
 		else if (ch == 8) 
 		{
 			if (!str->empty()) 
