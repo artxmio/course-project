@@ -53,22 +53,20 @@ int main()
 	userInterface.Hello();
 	userInterface.LoadMenuAnimation();
 
+	//авторизация/регистрация пользователя
 	bool _continue = true;
 	do
 	{
-		//авторизация/регистрация пользователя
-
-		userInterface.StartMenu();
-		const char change_start_menu = _getch();
+		const char change_start_menu = userInterface.StartMenu();;
 		switch (change_start_menu)
 		{
-		case '1':
+		case 1:
 			user = userInterface.Autorization();
 
 			if (!user.alive()) break;
 			_continue = false;
 			break;
-		case '2':
+		case 2:
 			userInterface.Registration();
 			break;
 		case 27:

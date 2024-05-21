@@ -72,28 +72,73 @@ void UI::ByeBye() const
 	pause();
 }
 
-void UI::StartMenu() const
+char UI::StartMenu() const
 {
-	system("cls");
-	cout << n;
+	const string options[]
+	{
+		"- Войти                -",
+		"- Зарегистрироваться   -",
+		"- Выйти                -"
+	};
 
-	cout << tab << "_______________ [ ДОБРО ПОЖАЛОВАТЬ ] _______________" << endl << endl;
-	cout << tab << "\t\t1. Войти" << endl;
-	cout << tab << "\t\t2. Зарегистрироваться" << endl;
-	cout << tab << "\t\tesc. Выход" << endl;
-	cout << endl << tab << "____________________________________________________\n";
+	char a_options = 0;
+	while (true)
+	{
+
+		cout << n;
+		cout << tab << "_______________ [ ДОБРО ПОЖАЛОВАТЬ ] _______________" << endl << endl;
+
+		//вывод опций меню
+		for (char i = 0; i < size(options); i++)
+		{
+			//текущая указана стрелочкой
+			if (i == a_options) cout << tab << "\t" << "->\t" << options[i] << endl;
+			else cout << tab << "\t\t" << options[i] << endl;
+		}
+		cout << endl << tab << "____________________________________________________\n";
+
+		//клавиши
+		char c = _getch();
+		if (c == -32) c = _getch();
+		switch (c)
+		{
+		case ESC:
+
+			return 27;
+
+		case UP:
+
+			if (a_options > 0)
+				--a_options;
+			break;
+
+		case DOWN:
+
+			if (a_options < size(options) - 1)
+				++a_options;
+			break;
+
+		case ENTER:
+
+			return (a_options == size(options) - 1) ? 27 : a_options + 1;
+			break;
+
+		default: break;
+		}
+		system("cls");
+	}
 }
 
 char UI::MainMenu(User* u)
 {
 	const string options[]
 	{
-		"- Работа с заказами",
-		"- Работа с меню",
-		"- История ресторана",
-		"- Режим администратора",
-		"- О программе",
-		"- Выход"
+		"- Работа с заказами    -",
+		"- Работа с меню        -",
+		"- История ресторана    -",
+		"- Режим администратора -",
+		"- О программе          -",
+		"- Выйти                -"
 	};
 
 	char a_options = 0;

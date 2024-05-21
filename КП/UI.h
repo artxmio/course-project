@@ -27,7 +27,7 @@ public:
 	void Hello() const;  //экран при запуске программы
 	void ByeBye() const; //экран при закрытии программы
 
-	void StartMenu() const; //начальное мню
+	char StartMenu() const; //начальное мню
 	char MainMenu(User* u); //главное меню
 	void OrderMenu(const User* u); //меню при выборе пункта "Работа с заказами"
 	void RMenuMenu(const User* u); //меню при выборе пункта "Работа с меню"
