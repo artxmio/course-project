@@ -72,7 +72,7 @@ void UI::StartMenu() const
 	cout << tab << "_______________ [ ДОБРО ПОЖАЛОВАТЬ ] _______________" << endl << endl;
 	cout << tab << "\t\t1. Войти" << endl;
 	cout << tab << "\t\t2. Зарегистрироваться" << endl;
-	cout << tab << "\t\t0. Выход" << endl;
+	cout << tab << "\t\tesc. Выход" << endl;
 	cout << endl << tab << "____________________________________________________\n";
 }
 
@@ -87,8 +87,8 @@ void UI::MainMenu(User* u)
 
 	cout << tab << "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________" << endl << endl;
 
-	cout << tab << "\t\t1. Заказы" << endl;
-	cout << tab << "\t\t2. Меню" << endl;
+	cout << tab << "\t\t1. Работа с заказами" << endl;
+	cout << tab << "\t\t2. Работа с меню" << endl;
 	cout << tab << "\t\t3. История ресторана" << endl;
 
 	if (!u->is_admin())
@@ -117,7 +117,7 @@ void UI::OrderMenu(const  User* u)
 	if (u->is_admin())
 	{
 		cout << tab << "\t\t2. Добавить заказ" << endl;
-		cout << tab << "\t\t3. Удалить заказ" << endl;
+		cout << tab << "\t\t3. Удалить последний заказ" << endl;
 		cout << tab << "\t\t4. Изменить готовность заказа" << endl;
 	}
 
@@ -162,7 +162,7 @@ void UI::About()
 		cout << about << endl;
 }
 
-User UI::Autorization() const
+User UI::Autorization()
 {
 	system("cls");
 	LoadMenuAnimation();
@@ -173,19 +173,26 @@ User UI::Autorization() const
 
 start_aut:
 	//получение данных от пользователя
-	cout << n;
+	cout << "\n\n\n\n\n";
 	cout << endl << tab << "__________________ [ АВТОРИЗАЦИЯ ] _________________" << endl;
+	cout << endl << tab << "                     esc. Выход" << endl;
+	cout << tab << "____________________________________________________\n\n";
 
-	cout << endl << tab << "\t\tВведите логин: ";
-	cin >> _login;
 
-	cout << endl << tab << "\t\tВведите пароль: ";
-	cin >> _password;
+	cout << tab << "Введите логин: ";
+	_getstring(&_login, 16);
+
+	if (_login.empty()) return User(false, "", "");
+
+	cout << endl << tab << "Введите пароль: ";
+	_getstring(&_password, 16);
+
+	if (_password.empty()) return User(false, "", "");
 
 	/*
 		Все пользователи по дефолту являются обычными пользователями
 	*/
-	cout << tab << "____________________________________________________\n\n";
+	cout << endl << tab << "____________________________________________________\n\n";
 
 	//проверка данных на наличие в базе данных 
 	if (_logins.count(_login) and _logins.at(_login) == _password)
@@ -193,11 +200,11 @@ start_aut:
 		cout << tab << "Доступ разрешён";
 		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
 		pause();
-		return User(false, _login, _password);
+		return User(false, _login, _password, true);
 	}
 	else //авторизация заново
 	{
-		cout << endl << tab << "Неверный логин или пароль.";
+		cout << tab << "Неверный логин или пароль.";
 		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
 		pause();
 		system("cls");
@@ -211,25 +218,32 @@ void UI::Registration()
 	{
 		system("cls");
 		cout << "\n\n";
-		string _login;
+	
 		cout << endl << tab << "__________________ [ РЕГИСТРАЦИЯ ] _________________" << endl;
 
 		//справочная информация
 		cout << endl << tab << "Правила регистрации:" << endl;
-		cout << endl << tab << " 1. Логин(пароль) должен быть не менее 5(8) символов";
+		cout << endl << tab << " 1. Логин: не менее 5 и не более 16 символов";
+		cout << endl << tab << " 1. Пароль: не менее 8 и не более 20 символов";
 		cout << endl << tab << " 2. Логин не должен содержать симовлы - ";
 		cout << endl << tab << "	!@#$%^&*()-\"\'№;%:?<>/\\" << endl;
+		cout <<         tab << " esc. Выйти" << endl;
 		cout << tab << "____________________________________________________\n";
 
 		//Получение нового логина и пароля
+		string _login;
 		cout << endl << tab << "\t\tВведите логин: ";
-		cin >> _login;
+		_getstring(&_login, 16);
+		
+		if (_login.empty()) return;
 
 		string _password;
 		cout << endl << tab << "\t\tВведите пароль: ";
-		cin >> _password;
+		_getstring(&_password, 16);
 
-		cout << tab << "____________________________________________________\n";
+		if (_password.empty()) return;
+
+		cout << endl << tab << "____________________________________________________\n";
 
 		//проверка на существование такого логина
 		if (_logins.count(_login))
@@ -250,7 +264,6 @@ void UI::Registration()
 				pause();
 				break;
 			}
-
 
 			cout << endl << tab << "Вы успешно зарегистрировались." << endl;
 			cout << endl << tab << "Ваш логин: " << _login << endl;

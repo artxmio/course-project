@@ -34,7 +34,7 @@ public:
 
 	void About(); //информация о программе
 
-	User Autorization() const;
+	User Autorization();
 	void Registration();
 	error Validation(string _login, string password);
 

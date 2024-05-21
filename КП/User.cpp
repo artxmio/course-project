@@ -3,7 +3,8 @@
 User::User()
 {}
 
-User::User(bool is_admin, string login, string pass): _is_admin(is_admin), _login(login), _password(pass)
+
+User::User(bool is_admin, string login, string pass, bool u): _is_admin(is_admin), _login(login), _password(pass), user_alive(u)
 {}
 
 bool User::is_admin() const noexcept
@@ -14,4 +15,9 @@ bool User::is_admin() const noexcept
 void User::set_admin(bool w)
 {
     this->_is_admin = w;
+}
+
+bool User::alive()
+{
+    return user_alive;
 }

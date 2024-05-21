@@ -50,28 +50,35 @@ int main()
 
 	userInterface.Hello();
 
-	//авторизация/регистрация пользователя
-start:
-	userInterface.StartMenu();
-	const char change_start_menu = _getch();
-	switch (change_start_menu)
+	bool _continue = true;
+	do
 	{
-	case '1':
-		user = userInterface.Autorization();
-		break;
-	case '2':
-		userInterface.Registration();
-		goto start;
-		break;
-	case '0':
-		exit(0);
-	default: goto start; break;
-	}
+		//авторизация/регистрация пользователя
+
+		userInterface.StartMenu();
+		const char change_start_menu = _getch();
+		switch (change_start_menu)
+		{
+		case '1':
+			user = userInterface.Autorization();
+			
+			if (!user.alive()) break;
+			_continue = false;
+			break;
+		case '2':
+			userInterface.Registration();
+			break;
+		case 27:
+			exit(0);
+		default: break;
+		}
+	} while (_continue);
+
 
 	system("cls");
 
 	//основная часть программы
-	bool _continue = true;
+	_continue = true;
 	while (_continue)
 	{
 		userInterface.MainMenu(&user);

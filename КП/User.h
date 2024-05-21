@@ -8,10 +8,12 @@ private:
 	bool _is_admin;   //является ли пользователем администратором
 	string _login;    //логин пользователя
 	string _password; //пароль пользователя
+	bool user_alive;  
 public: 
 	User(); //конструктор без параметров
-	User(bool is_admin, string login, string pass); //конструктор со всеми параметрами для заполнения полей
+	User(bool is_admin, string login, string pass, bool u = false); //конструктор со всеми параметрами для заполнения полей
 
 	bool is_admin() const noexcept; //функция для получения значения поля is_admin
 	void set_admin(bool w); //установка поля is_admin
+	bool alive();
 };
