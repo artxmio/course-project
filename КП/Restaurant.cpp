@@ -584,7 +584,6 @@ void Restaurant::DelMenuItem()
 	}
 
 	//подтверждение удаления
-	char _change;
 	cout << endl << tab << "_____________________________________________________\n";
 
 	cout << endl << tab << dish_title << " удалён." << endl;
@@ -592,19 +591,17 @@ void Restaurant::DelMenuItem()
 	cout << tab << "      y. Да" << endl;
 	cout << tab << "      n. Нет" << endl;
 	cout << endl << tab << "_____________________________________________________\n";
-	_change = _getch();
-
-	system("mode con cols=115 lines=30");
 
 	for (;;)
 	{
-		_change = _getch();
+		const char _change = _getch();
 		if (_change == 'n') return;
 		else if (_change == 'y') break;
 	}
 
 	menu_list.erase(dish_title);
 
+    system("mode con cols=115 lines=30");
 }
 
 //установка времени оформления заказа
