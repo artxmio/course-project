@@ -195,7 +195,7 @@ vector<string> Restaurant::ChooseDishes()
 			}
 
 		dishes.push_back(keyDish);
-		cout << tab << "Это всё? (y/n)" << endl;
+		cout << endl  << tab << "Это всё? (y/n)" << endl;
 
 		do
 		{
@@ -304,7 +304,7 @@ void Restaurant::AddOrder()
 	cout << endl << tab << "Введите имя официанта: ";
 	_getstring(&buff.name_waiter, 15);
 
-	if (buff.name_waiter.empty()) 
+	if (buff.name_waiter.empty())
 	{
 		system("mode con cols=115 lines=30");
 		return;
@@ -313,7 +313,7 @@ void Restaurant::AddOrder()
 	//наполнение заказа
 	vector<string> _dishes = ChooseDishes();
 
-	if (_dishes.empty()) 
+	if (_dishes.empty())
 	{
 		system("mode con cols=115 lines=30");
 		return;
@@ -391,49 +391,87 @@ void Restaurant::CheckMark()
 	}
 
 	_changed = true;
-	int _numorder = 0;
-	cout << endl << tab << "__________________ [ РЕДАКТОР ЗАКАЗОВ ] ___________________\n";
 
-	cout << endl << tab << "	Изменить готовность заказов" << endl;
-	cout << endl << tab << "___________________________________________________________\n";
-
-
-	vector<int> availableOrders{};
-	cout << endl << tab << "Доступные заказы:" << endl << tab;
-	if (list.empty())
+	while (true)
 	{
-		cout << "Пока что заказов нет" << endl;
-		pause();
-		return;
-	}
-	else
-		for (int i = 0; i < list.size(); i++)
+		system("cls");
+
+		cout << endl << tab << "__________________ [ РЕДАКТОР ЗАКАЗОВ ] ___________________\n";
+
+		cout << endl << tab << "	Изменить готовность заказов" << endl;
+		cout << endl << tab << "	esc: выход" << endl;
+		cout << endl << tab << "___________________________________________________________\n";
+
+		vector<int> availableOrders{};
+		cout << endl << tab << "Доступные заказы:" << endl << tab;
+		if (list.empty())
 		{
-			availableOrders.push_back(list.at(i).order_num);
-			cout << list.at(i).order_num + 1 << " ";
+			cout << "Пока что заказов нет" << endl;
+			pause();
+			return;
+		}
+		else
+			for (int i = 0; i < list.size(); i++)
+			{
+				if(!list.at(i).done)
+				{
+					availableOrders.push_back(list.at(i).order_num);
+					cout << list.at(i).order_num + 1 << " ";
+				}
+			}
+
+		if (availableOrders.empty())
+		{
+			cout << "Пока что заказов нет или они все готовы" << endl;
+			pause();
+			return;
 		}
 
-	cout << endl << tab << "Введите номер заказа: ";
-	cin >> _numorder;
+		cout << endl << tab << "Введите номер заказа: ";
 
-	if (!(checkOrder(availableOrders, _numorder - 1)))
-	{
-		cout << tab << "Такого заказа не существует. Попробуйте в другой раз.";
-		pause();
-		system("cls");
-		return;
+		string numorder;
+		_getstring(&numorder, 4);
+
+		if (numorder.empty())
+			return;
+
+		int _numorder = 0;
+
+		try
+		{
+			_numorder = stoi(numorder);
+		}
+		catch (const exception& e)
+		{
+			cout << endl << tab << "Неверное значение" << endl;
+			pause();
+			continue;
+		}
+
+		if (!(checkOrder(availableOrders, _numorder - 1)))
+		{
+			cout << endl << tab << "Такого заказа не существует. Попробуйте в другой раз.";
+			pause();
+			system("cls");
+			return;
+		}
+
+		cout << endl << tab << "Готовость заказа №" << _numorder << " изменена на 'готов'." << endl;
+		cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
+		cout << tab << "      y. Да" << endl;
+		cout << tab << "      n. Нет" << endl;
+		cout << endl << tab << "____________________________________________________\n";
+
+		for (;;)
+		{
+			const char _change = _getch();
+			if (_change == 'n') return;
+			else if (_change == 'y') break;
+		}
+
+		list.at(_numorder - 1).done = true;
+		break;
 	}
-
-	char change;
-	cout << tab << "Готовость заказа №" << _numorder << " изменена на 'готов'." << endl;
-	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
-	cout << tab << "      y. Да" << endl;
-	cout << tab << "      n. Нет" << endl;
-	cout << endl << tab << "____________________________________________________\n";
-	change = _getch();
-
-	if (change == 'n') return;
-	list.at(_numorder - 1).done = true;
 }
 
 //добавить новый пункт меню

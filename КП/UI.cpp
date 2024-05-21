@@ -308,7 +308,7 @@ void UI::SingInAdmin(User* u)
 	LoadMenuAnimation();
 
 	//код администратора
-	constexpr int ADMIN = 112233;
+	const string ADMIN = "112233";
 
 	//получаем код от пользователя
 	bool _continue = true;
@@ -323,7 +323,7 @@ void UI::SingInAdmin(User* u)
 		cout << tab << "____________________________________________________\n";
 
 		cout << endl << tab << "\tКод: ";
-		int _your_code = 0;
+		string _your_code = "";
 		cin >> _your_code;
 
 		if (_your_code == ADMIN)
@@ -340,7 +340,7 @@ void UI::SingInAdmin(User* u)
 
 		//можно попробовать ещё раз ввести код
 		cout << tab << "____________________________________________________\n";
-		cout << tab << "\n\tПопробовать ещё? (y/n)\n";
+		cout << endl << tab << "\tПопробовать ещё ? (y / n)\n";
 
 		do
 		{
