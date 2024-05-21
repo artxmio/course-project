@@ -9,9 +9,13 @@
 #include <iterator>
 #include <cmath>
 #include "UI.h"
+
 using namespace std;
 
+void _getstring(string* str, int max);
+
 void pause();
+
 string tab = "\t\t\t\t"; //отступ
 
 //конструктор устанавливает значение номера заказа в списке в 0

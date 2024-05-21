@@ -10,6 +10,34 @@ using namespace std;
 
 void pause();
 
+void _getstring(string* str, int max)
+{
+	while (true) 
+	{
+		char ch = _getch();
+		if (ch == 27)
+			*str = "";
+		else if (ch == 8) 
+		{
+			if (!str->empty()) 
+			{
+				cout << "\b \b"; // Удаление последнего символа из консоли
+				str->pop_back();
+			}
+		}
+		else if (ch == 13) {// Проверка на Enter
+			break;  // Завершение ввода при нажатии клавиши Enter
+		}
+		else {
+			if (size(*str) < max)
+			{
+				*str += ch;  // Добавление символа 
+				cout << ch;  // Вывод символа
+			}
+		}
+	}
+}
+
 void UI::Hello() const
 {
 	cout << n;
