@@ -31,6 +31,8 @@ static void setsettings() noexcept
 	SetWindowLongPtr(consoleWindow, GWL_STYLE, GetWindowLongPtr(consoleWindow, GWL_STYLE) & ~WS_THICKFRAME);
 	SetWindowLongPtr(consoleWindow, GWL_STYLE, GetWindowLongPtr(consoleWindow, GWL_STYLE) & ~WS_MAXIMIZEBOX);
 	SetWindowPos(consoleWindow, NULL, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
+
+	SetConsoleTextAttribute(hStdOut, FOREGROUND_GREEN);
 }
 
 int main()
@@ -82,12 +84,12 @@ int main()
 	userInterface.LoadMenuAnimation();
 	while (_continue)
 	{
-		userInterface.MainMenu(&user);
+		const char _change_main = userInterface.MainMenu(&user);
 
-		switch (_getch())
+		switch (_change_main)
 		{
 			//работа с заказами
-		case '1':
+		case 1:
 		{
 			fflush(stdin);
 			bool __continue = true;
@@ -143,9 +145,10 @@ int main()
 			}
 			break;
 		}
-		case '2': //меню ресторана
+		case 2: //меню ресторана
 		{
 			bool __continue = true;
+			userInterface.LoadMenuAnimation();
 
 			while (__continue)
 			{
@@ -190,12 +193,12 @@ int main()
 			}
 			break;
 		}
-		case '3': //история ресторана
+		case 3: //история ресторана
 
 			userInterface.RestaurantHistory();
 			break;
 
-		case '4': //вход под администратором
+		case 4: //вход под администратором
 
 			if (!user.is_admin())
 				userInterface.SingInAdmin(&user);
@@ -204,7 +207,7 @@ int main()
 
 			break;
 
-		case '5': //история ресторана
+		case 5: //история ресторана
 
 			userInterface.About();
 			pause();

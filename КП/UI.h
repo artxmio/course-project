@@ -28,7 +28,7 @@ public:
 	void ByeBye() const; //экран при закрытии программы
 
 	void StartMenu() const; //начальное мню
-	void MainMenu(User* u); //главное меню
+	char MainMenu(User* u); //главное меню
 	void OrderMenu(const User* u); //меню при выборе пункта "–абота с заказами"
 	void RMenuMenu(const User* u); //меню при выборе пункта "–абота с меню"
 

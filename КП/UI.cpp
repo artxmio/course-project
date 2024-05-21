@@ -6,14 +6,22 @@
 #include <string>
 #include <map>;
 #include "User.h"
+
+#define ESC 27
+#define UP 72
+#define DOWN 80
+#define ENTER 13
+
 using namespace std;
+
+HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void pause();
 
 //улучшенный cin
 void _getstring(string* str, int max)
 {
-	while (true) 
+	while (true)
 	{
 		const char ch = _getch();
 		if (ch == 27)
@@ -21,9 +29,9 @@ void _getstring(string* str, int max)
 			*str = "";
 			return;
 		}
-		else if (ch == 8) 
+		else if (ch == 8)
 		{
-			if (!str->empty()) 
+			if (!str->empty())
 			{
 				cout << "\b \b"; // Удаление последнего символа из консоли
 				str->pop_back();
@@ -76,29 +84,59 @@ void UI::StartMenu() const
 	cout << endl << tab << "____________________________________________________\n";
 }
 
-void UI::MainMenu(User* u)
+char UI::MainMenu(User* u)
 {
+	const string options[]
+	{
+		"- Работа с заказами",
+		"- Работа с меню",
+		"- История ресторана",
+		"- Режим администратора",
+		"- О программе",
+		"- Выход"
+	};
+
+	char a_options = 0;
 	system("cls");
+	while (true)
+	{
+		if (u->is_admin())
+			AdminModeMessage();
 
-	if (u->is_admin())
-		AdminModeMessage();
+		cout << n;
+		cout << tab << "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________" << endl << endl;
 
-	cout << n;
+		//вывод опций меню
+		for (char i = 0; i < size(options); i++)
+		{
+			//текущая указана стрелочкой
+			if (i == a_options) cout << tab << "\t" << "->\t" << options[i] << endl;
+			else cout << tab << "\t\t" << options[i] << endl;
+		}
+		cout << endl << tab << "____________________________________________________\n";
 
-	cout << tab << "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________" << endl << endl;
-
-	cout << tab << "\t\t1. Работа с заказами" << endl;
-	cout << tab << "\t\t2. Работа с меню" << endl;
-	cout << tab << "\t\t3. История ресторана" << endl;
-
-	if (!u->is_admin())
-		cout << tab << "\t\t4. Режим администратора" << endl;
-	else
-		cout << tab << "\t\t4. Выйти из режима администратора" << endl;
-
-	cout << tab << "\t\t5. О программе" << endl;
-	cout << tab << "\t\tesc. Выход" << endl;
-	cout << endl << tab << "____________________________________________________\n";
+		//клавиши
+		char c = _getch();
+		if (c == -32) c = _getch();
+		switch (c)
+		{
+		case ESC:
+			return 27;
+		case UP:
+			if (a_options > 0)
+				--a_options;
+			break;
+		case DOWN:
+			if (a_options < size(options) - 1)
+				++a_options;
+			break;
+		case ENTER:
+			return (a_options == size(options) - 1) ? 27 : a_options + 1;
+			break;
+		default: break;
+		}
+		system("cls");
+	}
 }
 
 void UI::OrderMenu(const  User* u)
@@ -127,8 +165,6 @@ void UI::OrderMenu(const  User* u)
 
 void UI::RMenuMenu(const User* u)
 {
-	LoadMenuAnimation();
-
 	if (u->is_admin())
 		AdminModeMessage();
 
@@ -218,7 +254,7 @@ void UI::Registration()
 	{
 		system("cls");
 		cout << "\n\n";
-	
+
 		cout << endl << tab << "__________________ [ РЕГИСТРАЦИЯ ] _________________" << endl;
 
 		//справочная информация
@@ -227,14 +263,14 @@ void UI::Registration()
 		cout << endl << tab << " 1. Пароль: не менее 8 и не более 20 символов";
 		cout << endl << tab << " 2. Логин не должен содержать симовлы - ";
 		cout << endl << tab << "	!@#$%^&*()-\"\'№;%:?<>/\\" << endl;
-		cout <<         tab << " esc/enter(оставьте пустую строку). Выйти" << endl;
+		cout << tab << " esc/enter(оставьте пустую строку). Выйти" << endl;
 		cout << tab << "____________________________________________________\n";
 
 		//Получение нового логина и пароля
 		string _login;
 		cout << endl << tab << "\t\tВведите логин: ";
 		_getstring(&_login, 16);
-		
+
 		if (_login.empty()) return;
 
 		string _password;
