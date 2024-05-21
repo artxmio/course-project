@@ -75,7 +75,6 @@ int main()
 		}
 	} while (_continue);
 
-
 	system("cls");
 
 	//основная часть программы
@@ -103,6 +102,7 @@ int main()
 
 					userInterface.LoadMenuAnimation();
 					restaurant.ShowOrders();
+
 					break;
 
 				case '2': //добавить заказ

@@ -147,7 +147,7 @@ vector<string> Restaurant::ChooseDishes()
 		ShowMenu();
 
 		//блюда выбираются с помощью их кода в списке
-		cout << endl << tab << "Введите код блюда:\n";
+		cout << tab << "Введите код блюда:\n";
 		cout << tab;
 
 		string dish;
@@ -254,11 +254,13 @@ void Restaurant::ShowOrders()
 		//вывод содержимого заказа
 		cout << tab << "\tСодержание заказа:\n";
 
-		cout << endl << tab << '\t';
+		cout << tab << '\t';
 		string filling = list.at(i).filling;
-		for (int i = 0; i < filling.size(); i++)
-			if (filling[i] == ',') cout << endl << tab << '\t';
-			else cout << filling[i];
+
+		//вывод посимвольно, чтобы в нужный момент поставить запятую
+		for (int j = 0; j < filling.size(); j++)
+			if (filling[j] == ',') cout << endl << tab << "\t   ";
+			else cout << filling[j];
 
 		cout << endl;
 		cout << tab << "\tСтоимость: " << list.at(i).price << "BYN" << endl;
@@ -266,17 +268,19 @@ void Restaurant::ShowOrders()
 		cout << tab << "____________________________________________________\n\n";
 		cout << tab << " Стрелочки влево/вправо: предыдущий/следующий заказ\n";
 		cout << tab << " esc: выйти\n\n";
-		pause();
+		
+		//esc
+		if (_getch() == 27) return;
 
 		const char _code_key = _getch();
 
+		//считывание стрелочек
 		if (_code_key == 75)
 			i--;
 		else if (_code_key == 77)
 			i++;
-		else if (_code_key == 27)
-			return;
 
+		//проверка на выход за границы списка
 		if (i < 0) i = 0;
 		else if (i >= list.size()) i = list.size() - 1;
 	}
@@ -329,6 +333,7 @@ void Restaurant::AddOrder()
 	cout << endl << tab << "Новый заказ добавлен.";
 	cout << endl << tab << "Нажмите любую клавишу для продолжения..." << endl;
 	pause();
+
 	list.push_back(buff);
 
 	_order_index++;

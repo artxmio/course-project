@@ -10,11 +10,12 @@ using namespace std;
 
 void pause();
 
+//улучшенный cin
 void _getstring(string* str, int max)
 {
 	while (true) 
 	{
-		char ch = _getch();
+		const char ch = _getch();
 		if (ch == 27)
 		{
 			*str = "";
@@ -147,7 +148,7 @@ void UI::RMenuMenu(const User* u)
 	cout << endl << tab << "____________________________________________________\n";
 }
 
-void UI::About()
+void UI::About() const
 {
 	LoadMenuAnimation();
 
