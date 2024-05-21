@@ -49,6 +49,7 @@ int main()
 	userInterface.LoadLogins();
 
 	userInterface.Hello();
+	userInterface.LoadMenuAnimation();
 
 	bool _continue = true;
 	do
@@ -61,7 +62,7 @@ int main()
 		{
 		case '1':
 			user = userInterface.Autorization();
-			
+
 			if (!user.alive()) break;
 			_continue = false;
 			break;
@@ -79,6 +80,7 @@ int main()
 
 	//основная часть программы
 	_continue = true;
+	userInterface.LoadMenuAnimation();
 	while (_continue)
 	{
 		userInterface.MainMenu(&user);
@@ -90,6 +92,7 @@ int main()
 		{
 			fflush(stdin);
 			bool __continue = true;
+			userInterface.LoadMenuAnimation();
 			while (__continue)
 			{
 				userInterface.OrderMenu(&user);
@@ -131,10 +134,11 @@ int main()
 
 				case 27: //ждё нажатие клавиши 'esc'
 
+					userInterface.LoadMenuAnimation();
 					__continue = false;
 					break;
 
-				default: break;
+				default:  break;
 				}
 			}
 			break;
@@ -176,6 +180,7 @@ int main()
 					break;
 				case 27: //ждё нажатие клавиши 'esc'
 
+					userInterface.LoadMenuAnimation();
 					__continue = false;
 					break;
 
@@ -207,6 +212,7 @@ int main()
 
 		case 27: //также ждёт нажатия 'esc'
 
+			userInterface.LoadMenuAnimation();
 			userInterface.ByeBye();
 			restaurant.SaveOrders();
 			restaurant.SaveMenuData();

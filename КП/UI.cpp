@@ -65,8 +65,7 @@ void UI::ByeBye() const
 
 void UI::StartMenu() const
 {
-	LoadMenuAnimation();
-
+	system("cls");
 	cout << n;
 
 	cout << tab << "_______________ [ ÄÎÁÐÎ ÏÎÆÀËÎÂÀÒÜ ] _______________" << endl << endl;
@@ -78,7 +77,7 @@ void UI::StartMenu() const
 
 void UI::MainMenu(User* u)
 {
-	LoadMenuAnimation();
+	system("cls");
 
 	if (u->is_admin())
 		AdminModeMessage();
@@ -103,7 +102,7 @@ void UI::MainMenu(User* u)
 
 void UI::OrderMenu(const  User* u)
 {
-	LoadMenuAnimation();
+	system("cls");
 
 	if (u->is_admin())
 		AdminModeMessage();
