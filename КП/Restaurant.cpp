@@ -111,14 +111,14 @@ void Restaurant::DelOrder()
 	cout << tab << "      y. Да" << endl;
 	cout << tab << "      n. Нет" << endl;
 	cout << endl << tab << "____________________________________________________\n";
-	
+
 	for (;;)
 	{
 		_change = _getch();
 		if (_change == 'n') return;
 		else if (_change == 'y') break;
 	}
-	
+
 	//удаление элемента
 
 	list.erase(list.end() - 1);
@@ -224,21 +224,22 @@ float Restaurant::CalculatePrice(vector<string> keyDishes)
 //вывод всех заказов на экран
 void Restaurant::ShowOrders()
 {
-	cout << endl << tab << "_____________________ [ ЗАКАЗЫ ] ____________________\n" << endl;
-
-	//проверка на отсутсвие элементов в списке
+	//прооверка на отсутсвие элементов в списке
 	if (list.empty())
 	{
+		cout << endl << tab << "_____________________ [ ЗАКАЗЫ ] ____________________\n" << endl;
 		cout << tab << "Пока что заказов нет" << endl;
 		cout << tab << "Нажмите любую клавишу для продолжения..." << endl;
 		pause();
 		return;
 	}
 
-	for (int i = 0; i < _order_index; i++)
+	int i = 0;
+
+	for (;;)
 	{
 		system("cls");
-		cout << endl << "\n\n\n\n\n" << tab << "_____________________ [ ЗАКАЗЫ ] ____________________\n" << endl;
+		cout << endl << "\n\n" << tab << "_____________________ [ ЗАКАЗЫ ] ____________________\n" << endl;
 
 		cout << tab << "\tЗаказ №" << list.at(i).order_num + 1 << endl;
 		cout << tab << "\tИмя официанта: " << list.at(i).name_waiter << endl;
@@ -257,11 +258,23 @@ void Restaurant::ShowOrders()
 		cout << tab << "\tСтоимость: " << list.at(i).price << "BYN" << endl;
 		cout << tab << "\tГотовность: " << (list.at(i).done ? "готов" : "не готов") << endl;
 		cout << tab << "____________________________________________________\n\n";
-		cout << tab << "Нажмите любую клавишу, чтобы увидеть следующий заказ\n\n";
+		cout << tab << " Стрелочки влево/вправо: предыдущий/следующий заказ\n";
+		cout << tab << " esc: выйти\n\n";
 		pause();
+
+		const char _code_key = _getch();
+
+		if (_code_key == 75)
+			i--;
+		else if (_code_key == 77)
+			i++;
+		else if (_code_key == 27)
+			return;
+
+		if (i < 0) i = 0;
+		else if (i >= list.size()) i = list.size() - 1;
 	}
-	cout << tab << "Нажмите любую клавишу для выхода..." << endl;
-	pause();
+
 }
 
 //добавление нового заказа
@@ -500,7 +513,7 @@ void Restaurant::DelMenuItem()
 
 	string cing = "";
 	cing = cin.get();
-	
+
 	getline(cin, dish_title);
 
 	//если cin.get() съест лишний символ
@@ -524,7 +537,7 @@ void Restaurant::DelMenuItem()
 	char _change;
 	cout << endl << tab << "_____________________________________________________\n";
 
-	cout << endl << tab  << dish_title << " удалён." << endl;
+	cout << endl << tab << dish_title << " удалён." << endl;
 	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
 	cout << tab << "      y. Да" << endl;
 	cout << tab << "      n. Нет" << endl;
