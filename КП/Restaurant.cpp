@@ -258,6 +258,7 @@ void Restaurant::ShowOrders()
 		string filling = list.at(i).filling;
 
 		//вывод посимвольно, чтобы в нужный момент поставить зап€тую
+		cout << "\n" << tab << "\t   ";
 		for (int j = 0; j < filling.size(); j++)
 			if (filling[j] == ',') cout << endl << tab << "\t   ";
 			else cout << filling[j];
@@ -305,7 +306,7 @@ void Restaurant::AddOrder()
 
 	buff.done = false;
 
-	cout << endl << tab << "¬ведите им€ официанта: ";
+	cout << endl << tab << "¬ведите ваше им€: ";
 	_getstring(&buff.name_waiter, 15);
 
 	if (buff.name_waiter.empty())

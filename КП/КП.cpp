@@ -109,16 +109,8 @@ int main()
 
 				case 2: //добавить заказ
 
-					if (user.is_admin())
-					{
-						userInterface.LoadMenuAnimation();
-						restaurant.AddOrder();
-					}
-					else
-					{
-						cout << "\t\t\t\t" << e.message;
-						pause();
-					}
+					userInterface.LoadMenuAnimation();
+					restaurant.AddOrder();
 
 					break;
 
@@ -144,7 +136,7 @@ int main()
 						userInterface.LoadMenuAnimation();
 						restaurant.CheckMark();
 					}
-					else 
+					else
 					{
 						cout << "\t\t\t\t" << e.message;
 						pause();

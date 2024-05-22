@@ -88,7 +88,6 @@ char UI::change_options(const string* opt, int size, string title, bool admin = 
 		}
 		system("cls");
 	}
-
 }
 
 void UI::Hello() const
@@ -176,11 +175,8 @@ char UI::RMenuMenu(const User* u)
 
 	system("cls");
 
-	for (;;)
-	{
+	return change_options(options, size(options), "________________ [ ÌÅÍÞ ÐÅÑÒÎÐÀÍÀ ] ________________", u->is_admin());
 
-		return change_options(options, size(options), "________________ [ ÌÅÍÞ ÐÅÑÒÎÐÀÍÀ ] ________________", u->is_admin());
-	}
 }
 
 void UI::About() const
