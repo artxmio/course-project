@@ -23,6 +23,8 @@ private:
 
 	const string tab = "\t\t\t\t";         //отступ по горизонтали
 	const string n = "\n\n\n\n\n\n\n\n\n"; //отступ по вертикали
+
+	char change_options(const string* opt, int size, string title);
 public:
 	void Hello() const;  //экран при запуске программы
 	void ByeBye() const; //экран при закрытии программы

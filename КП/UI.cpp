@@ -50,6 +50,45 @@ void _getstring(string* str, int max)
 	}
 }
 
+char UI::change_options(const string* opt, int size, string title)
+{
+	int active = 0;
+	for (;;)
+	{
+		cout << n;
+		cout << tab << title << endl << endl;
+		for (char i = 0; i < size; i++)
+		{
+			//текущая указана стрелочкой
+			if (i == active) cout << tab << "\t" << "->\t" << opt[i] << endl;
+			else cout << tab << "\t\t" << opt[i] << endl;
+		}
+		cout << endl << tab << "____________________________________________________\n";
+
+		char c = _getch();
+		if (c == -32) c = _getch();
+		switch (c)
+		{
+		case ESC:
+			return 27;
+		case UP:
+			if (active > 0)
+				--(active);
+			break;
+		case DOWN:
+			if (active < size - 1)
+				++(active);
+			break;
+		case ENTER:
+			return (active == size - 1) ? 27 : active + 1;
+			break;
+		default: break;
+		}
+		system("cls");
+	}
+
+}
+
 void UI::Hello() const
 {
 	cout << n;
@@ -141,46 +180,13 @@ char UI::MainMenu(User* u)
 		"- Выйти                -"
 	};
 
-	char a_options = 0;
 	system("cls");
-	while (true)
+	for (;;)
 	{
 		if (u->is_admin())
 			AdminModeMessage();
 
-		cout << n;
-		cout << tab << "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________" << endl << endl;
-
-		//вывод опций меню
-		for (char i = 0; i < size(options); i++)
-		{
-			//текущая указана стрелочкой
-			if (i == a_options) cout << tab << "\t" << "->\t" << options[i] << endl;
-			else cout << tab << "\t\t" << options[i] << endl;
-		}
-		cout << endl << tab << "____________________________________________________\n";
-
-		//клавиши
-		char c = _getch();
-		if (c == -32) c = _getch();
-		switch (c)
-		{
-		case ESC:
-			return 27;
-		case UP:
-			if (a_options > 0)
-				--a_options;
-			break;
-		case DOWN:
-			if (a_options < size(options) - 1)
-				++a_options;
-			break;
-		case ENTER:
-			return (a_options == size(options) - 1) ? 27 : a_options + 1;
-			break;
-		default: break;
-		}
-		system("cls");
+		return change_options(options, size(options), "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________");
 	}
 }
 
