@@ -12,7 +12,9 @@ public:
 	string message;
 	bool is;
 
-	error() noexcept : message("success"), is(false)
+	error() noexcept : message(""), is(false)
+	{}
+	error(string message) : message(message), is(true)
 	{}
 };
 
@@ -24,15 +26,15 @@ private:
 	const string tab = "\t\t\t\t";         //отступ по горизонтали
 	const string n = "\n\n\n\n\n\n\n\n\n"; //отступ по вертикали
 
-	char change_options(const string* opt, int size, string title);
+	char change_options(const string* opt, int size, string title, bool admin);
 public:
 	void Hello() const;  //экран при запуске программы
 	void ByeBye() const; //экран при закрытии программы
 
-	char StartMenu() const; //начальное мню
+	char StartMenu(); //начальное мню
 	char MainMenu(User* u); //главное меню
-	void OrderMenu(const User* u); //меню при выборе пункта "Работа с заказами"
-	void RMenuMenu(const User* u); //меню при выборе пункта "Работа с меню"
+	char OrderMenu(const User* u); //меню при выборе пункта "Работа с заказами"
+	char RMenuMenu(const User* u); //меню при выборе пункта "Работа с меню"
 
 	void About() const; //информация о программе
 

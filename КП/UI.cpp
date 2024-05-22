@@ -50,11 +50,13 @@ void _getstring(string* str, int max)
 	}
 }
 
-char UI::change_options(const string* opt, int size, string title)
+char UI::change_options(const string* opt, int size, string title, bool admin = false)
 {
 	int active = 0;
 	for (;;)
 	{
+		if (admin)
+			AdminModeMessage();
 		cout << n;
 		cout << tab << title << endl << endl;
 		for (char i = 0; i < size; i++)
@@ -111,7 +113,7 @@ void UI::ByeBye() const
 	pause();
 }
 
-char UI::StartMenu() const
+char UI::StartMenu()
 {
 	const string options[]
 	{
@@ -120,52 +122,10 @@ char UI::StartMenu() const
 		"- Выйти                -"
 	};
 
-	char a_options = 0;
-	while (true)
-	{
+	system("cls");
 
-		cout << n;
-		cout << tab << "_______________ [ ДОБРО ПОЖАЛОВАТЬ ] _______________" << endl << endl;
-
-		//вывод опций меню
-		for (char i = 0; i < size(options); i++)
-		{
-			//текущая указана стрелочкой
-			if (i == a_options) cout << tab << "\t" << "->\t" << options[i] << endl;
-			else cout << tab << "\t\t" << options[i] << endl;
-		}
-		cout << endl << tab << "____________________________________________________\n";
-
-		//клавиши
-		char c = _getch();
-		if (c == -32) c = _getch();
-		switch (c)
-		{
-		case ESC:
-
-			return 27;
-
-		case UP:
-
-			if (a_options > 0)
-				--a_options;
-			break;
-
-		case DOWN:
-
-			if (a_options < size(options) - 1)
-				++a_options;
-			break;
-
-		case ENTER:
-
-			return (a_options == size(options) - 1) ? 27 : a_options + 1;
-			break;
-
-		default: break;
-		}
-		system("cls");
-	}
+	for (;;)
+		return change_options(options, size(options), "_______________ [ ДОБРО ПОЖАЛОВАТЬ ] _______________");
 }
 
 char UI::MainMenu(User* u)
@@ -181,58 +141,46 @@ char UI::MainMenu(User* u)
 	};
 
 	system("cls");
-	for (;;)
-	{
-		if (u->is_admin())
-			AdminModeMessage();
 
-		return change_options(options, size(options), "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________");
-	}
+	return change_options(options, size(options), "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________", u->is_admin());
+
 }
 
-void UI::OrderMenu(const  User* u)
+char UI::OrderMenu(const  User* u)
 {
+	const string options[]
+	{
+		"- Показать все заказы        -",
+		"- Добавить заказ             -",
+		"- Удалить последний заказ    -",
+		"- Изменить готовность заказа -",
+		"- Выйти                      -"
+	};
+
 	system("cls");
 
-	if (u->is_admin())
-		AdminModeMessage();
+	return change_options(options, size(options), "____________________ [ ЗАКАЗЫ ] ____________________", u->is_admin());
 
-	cout << n;
-
-	cout << tab << "____________________ [ Заказы ] ____________________" << endl;
-	cout << endl << tab << "\t\t1. Показать все заказы" << endl;
-
-	//только админовские опции
-	if (u->is_admin())
-	{
-		cout << tab << "\t\t2. Добавить заказ" << endl;
-		cout << tab << "\t\t3. Удалить последний заказ" << endl;
-		cout << tab << "\t\t4. Изменить готовность заказа" << endl;
-	}
-
-	cout << tab << "\t\tesc. Выйти в главное меню" << endl;
-	cout << endl << tab << "____________________________________________________\n";
 }
 
-void UI::RMenuMenu(const User* u)
+char UI::RMenuMenu(const User* u)
 {
-	if (u->is_admin())
-		AdminModeMessage();
 
-	cout << n;
-
-	cout << tab << "________________ [ МЕНЮ РЕСТОРАНА ] ________________" << endl << endl;
-
-	cout << tab << "\t\t1. Меню ресторана" << endl;
-
-	if (u->is_admin())
+	const string options[]
 	{
-		cout << tab << "\t\t2. Добавить пункт меню" << endl;
-		cout << tab << "\t\t3. Удалить пункт меню" << endl;
-	}
+		"- Меню ресторана      -",
+		"- Добавить пункт меню -",
+		"- Удалить пункт меню  -",
+		"- Выйти               -"
+	};
 
-	cout << tab << "\t\tesc. Выход" << endl;
-	cout << endl << tab << "____________________________________________________\n";
+	system("cls");
+
+	for (;;)
+	{
+
+		return change_options(options, size(options), "________________ [ МЕНЮ РЕСТОРАНА ] ________________", u->is_admin());
+	}
 }
 
 void UI::About() const

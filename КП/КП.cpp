@@ -44,6 +44,7 @@ int main()
 	UI userInterface;
 	Restaurant restaurant;
 	User user;
+	error e("У вас нет прав администратора.\n\t\t\t\tВойдите и попробуйте снова");
 
 	//загрузка информации
 	restaurant.LoadOrders();
@@ -67,6 +68,7 @@ int main()
 			_continue = false;
 			break;
 		case 2:
+			userInterface.LoadMenuAnimation();
 			userInterface.Registration();
 			break;
 		case 27:
@@ -94,42 +96,60 @@ int main()
 			userInterface.LoadMenuAnimation();
 			while (__continue)
 			{
-				userInterface.OrderMenu(&user);
+				const char _change_orders = userInterface.OrderMenu(&user);
 
-				switch (_getch())
+				switch (_change_orders)
 				{
-				case '1': //показать все заказы
+				case 1: //показать все заказы
 
 					userInterface.LoadMenuAnimation();
 					restaurant.ShowOrders();
 
 					break;
 
-				case '2': //добавить заказ
+				case 2: //добавить заказ
 
 					if (user.is_admin())
 					{
 						userInterface.LoadMenuAnimation();
 						restaurant.AddOrder();
 					}
+					else
+					{
+						cout << "\t\t\t\t" << e.message;
+						pause();
+					}
+
 					break;
 
-				case '3': //удалить заказ
+				case 3: //удалить заказ
 
 					if (user.is_admin())
 					{
 						userInterface.LoadMenuAnimation();
 						restaurant.DelOrder();
 					}
+					else
+					{
+						cout << "\t\t\t\t" << e.message;
+						pause();
+					}
+
 					break;
 
-				case '4': //тут что-то про отметку о готовности заказа
+				case 4: //тут что-то про отметку о готовности заказа
 
 					if (user.is_admin())
 					{
 						userInterface.LoadMenuAnimation();
 						restaurant.CheckMark();
 					}
+					else 
+					{
+						cout << "\t\t\t\t" << e.message;
+						pause();
+					}
+
 					break;
 
 				case 27: //ждё нажатие клавиши 'esc'
@@ -150,32 +170,42 @@ int main()
 
 			while (__continue)
 			{
-				userInterface.RMenuMenu(&user);
+				const char _change_menu = userInterface.RMenuMenu(&user);
 
-				switch (_getch())
+				switch (_change_menu)
 				{
-				case '1':
+				case 1:
 
 					userInterface.LoadMenuAnimation();
 					restaurant.ShowMenu();
 					pause();
 
 					break;
-				case '2':
+				case 2:
 
 					if (user.is_admin())
 					{
 						userInterface.LoadMenuAnimation();
 						restaurant.AddNewMenuItem();
 					}
+					else
+					{
+						cout << "\t\t\t\t" << e.message;
+						pause();
+					}
 
 					break;
-				case '3':
+				case 3:
 
 					if (user.is_admin())
 					{
 						userInterface.LoadMenuAnimation();
 						restaurant.DelMenuItem();
+					}
+					else
+					{
+						cout << "\t\t\t\t" << e.message;
+						pause();
 					}
 
 					break;
