@@ -264,10 +264,17 @@ int main()
 					//личная информация
 				case 1:
 
+					userInterface.LoadMenuAnimation();
+					user.PrintInfo();
+					pause();
+
 					break;
 
 					//мои заказы
 				case 2:
+
+					userInterface.LoadMenuAnimation();
+					user.ShowMyOrders();
 
 					break;
 

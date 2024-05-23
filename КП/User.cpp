@@ -21,3 +21,20 @@ bool User::alive()
 {
     return user_alive;
 }
+
+void User::PrintInfo() const
+{
+    cout << "\n\n\n\n\n\n";
+    cout << "\t\t\t\t" << "_________________ [ ËÈ×ÍÛÉ ÊÀÁÈÍÅÒ ] _________________" << endl;
+
+    cout << endl << "\t\t\t\t\t\t" << " Ëîãèí: " << _login << endl;
+    cout << "\t\t\t\t\t\t" << "Ïàðîëü: " << _password << endl;
+    cout << "\t\t\t\t\t\t" << "   Èìÿ: " << _name << endl;
+    cout << endl << "\t\t\t\t" << "____________________________________________________\n";
+
+    cout << endl << "\t\t\t\t" << "Íàæìèòå ëþáóþ êëàâèøó, ÷òîáû âûéòè";
+}
+
+void User::ShowMyOrders()
+{
+}

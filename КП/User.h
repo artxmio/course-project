@@ -14,6 +14,7 @@ private:
 
 	bool _is_admin;   //является ли пользователем администратором
 	bool user_alive;  //флаг успешной авторизации
+
 public: 
 	User();															//конструктор без параметров
 	User(bool is_admin, string login, string pass, string name, bool u = false); //конструктор со всеми параметрами для заполнения полей
@@ -21,4 +22,7 @@ public:
 	bool is_admin() const noexcept; //получение значения поля is_admin
 	void set_admin(bool w);			//установка поля is_admin
 	bool alive();					//получение значения поля user_alive
+
+	void PrintInfo() const;    //информация о пользователе
+	void ShowMyOrders(); //информация о заказх
 };
