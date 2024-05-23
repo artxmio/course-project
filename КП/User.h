@@ -21,6 +21,4 @@ public:
 	bool is_admin() const noexcept; //получение значения поля is_admin
 	void set_admin(bool w);			//установка поля is_admin
 	bool alive();					//получение значения поля user_alive
-
-
 };

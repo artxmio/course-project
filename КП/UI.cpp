@@ -126,7 +126,7 @@ char UI::MainMenu(User* u)
 	{
 		"- Работа с заказами    -",
 		"- Работа с меню        -",
-		"- История ресторана    -",
+		"- Личный кабинет       -",
 		"- Режим администратора -",
 		"- О программе          -",
 		"- Выйти                -"
@@ -135,7 +135,6 @@ char UI::MainMenu(User* u)
 	system("cls");
 
 	return change_options(options, size(options), "_________________ [ ГЛАВНОЕ МЕНЮ ] _________________", u->is_admin());
-
 }
 
 char UI::OrderMenu(const  User* u)
@@ -443,6 +442,20 @@ void UI::ExitAdmin(User* u)
 	} while (_continue);
 
 	cout << tab << "____________________________________________________\n";
+}
+
+char UI::UserProfile(const User* u)
+{
+	const string options[]
+	{
+		"- Личная информация    -",
+		"- Мои заказы           -",
+		"- Назад                -"
+	};
+
+	system("cls");
+
+	return change_options(options, size(options), "_________________ [ ЛИЧНЫЙ КАБИНЕТ ] _________________", u->is_admin());
 }
 
 void UI::LoadMenuAnimation() const

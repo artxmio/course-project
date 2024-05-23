@@ -109,12 +109,12 @@ int main()
 
 		switch (_change_main)
 		{
-			//работа с заказами ресторана
+		//работа с заказами ресторана
 		case 1:
 		{
 			//очистка буфера консоли
 			fflush(stdin);
-			
+
 			//работа с заказами до нажатия кнопки выхода
 			bool __continue = true;
 			userInterface.LoadMenuAnimation();
@@ -125,14 +125,14 @@ int main()
 				switch (_change_orders)
 				{
 					//показать все заказы
-				case 1: 
+				case 1:
 
 					userInterface.LoadMenuAnimation();
 					restaurant.ShowOrders();
 
 					break;
 					//добавить заказ
-				case 2: 
+				case 2:
 
 					userInterface.LoadMenuAnimation();
 					restaurant.AddOrder();
@@ -140,7 +140,7 @@ int main()
 					break;
 
 					//удалить заказ
-				case 3: 
+				case 3:
 
 					if (user.is_admin())
 					{
@@ -156,7 +156,7 @@ int main()
 					break;
 
 					//тут что-то про отметку о готовности заказа
-				case 4: 
+				case 4:
 
 					if (user.is_admin())
 					{
@@ -219,7 +219,7 @@ int main()
 					}
 
 					break;
-					
+
 					//удаление пункта меню по названию
 				case 3:
 
@@ -237,7 +237,7 @@ int main()
 					break;
 
 					//выход на прошлое меню при нажатии esc
-				case 27: 
+				case 27:
 
 					userInterface.LoadMenuAnimation();
 					__continue = false;
@@ -251,11 +251,40 @@ int main()
 		}
 		//мой профиль
 		case 3:
+		{
+			bool __continue = true;
+			userInterface.LoadMenuAnimation();
 
-			
+			while (__continue)
+			{
+				const char _change_user = userInterface.UserProfile(&user);
+
+				switch (_change_user)
+				{
+					//личная информация
+				case 1:
+
+					break;
+
+					//мои заказы
+				case 2:
+
+					break;
+
+					//выход на главное меню
+				case 27:
+
+					__continue = false;
+					break;
+
+				default:
+					break;
+				}
+			}
 			break;
+		}
 
-			//вход под администратором
+		//вход под администратором
 		case 4:
 
 			if (!user.is_admin())

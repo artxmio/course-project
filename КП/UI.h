@@ -47,7 +47,7 @@ public:
 	void SingInAdmin(User* u);			//вход как админ
 	void ExitAdmin(User* u);			//выход из admin mode
 
-	void RestaurantHistory() const;		//экран с историей ресторана
+	char UserProfile(const User* u);	//профиль пользователя
 
 	void LoadMenuAnimation() const;		//анимация загрузки (смысл в уменьшении "скорости перехода между окнами")
 	void AdminModeMessage() const;		//сообщение о том, что сейчас вы находитесь под учётной записью администратора
