@@ -1,10 +1,8 @@
-﻿#include <iostream>
-#include <fstream>
-#include <conio.h>
-#include <Windows.h>
-#include "Restaurant.h"
-#include "UI.h"
-#include "User.h"
+﻿#include "includes_file.h"
+#ifndef _INCLUDES_FILE_H
+#define _INCLUDES_FILE_H
+#endif
+
 using namespace std;
 
 void pause() noexcept

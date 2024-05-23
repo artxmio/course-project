@@ -1,7 +1,8 @@
 #pragma once
-#include "User.h"
-#include <map>;
+#include "includes_file.h"
 using namespace std;
+
+class User;
 
 class error
 {

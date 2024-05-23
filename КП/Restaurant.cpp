@@ -1,15 +1,4 @@
 #include "Restaurant.h"
-#include <iostream>
-#include <fstream>
-#include <Windows.h>
-#include <conio.h>
-#include <vector>
-#include <unordered_map>
-#include <iomanip>
-#include <iterator>
-#include <cmath>
-#include "UI.h"
-
 using namespace std;
 
 void _getstring(string* str, int max);
@@ -248,7 +237,7 @@ void Restaurant::ShowOrders()
 		cout << endl << "\n\n" << tab << "_____________________ [ ЗАКАЗЫ ] ____________________\n" << endl;
 
 		cout << tab << "\tЗаказ №" << list.at(i).order_num + 1 << endl;
-		cout << tab << "\tИмя официанта: " << list.at(i).name_waiter << endl;
+		cout << tab << "\tИмя: " << list.at(i).name_waiter << endl;
 		cout << tab << "\tВремя принятия заказа: " << list.at(i).order_time << endl;
 
 		//вывод содержимого заказа

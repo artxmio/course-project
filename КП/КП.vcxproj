@@ -133,6 +133,7 @@
     <ClCompile Include="КП.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="includes_file.h" />
     <ClInclude Include="Restaurant.h" />
     <ClInclude Include="UI.h" />
     <ClInclude Include="User.h" />

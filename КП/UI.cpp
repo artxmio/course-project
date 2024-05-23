@@ -1,11 +1,4 @@
 #include "UI.h"
-#include <iostream>
-#include <conio.h>
-#include <Windows.h>
-#include <fstream>
-#include <string>
-#include <map>;
-#include "User.h"
 
 #define ESC 27
 #define UP 72

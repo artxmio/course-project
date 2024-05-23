@@ -1,7 +1,5 @@
 #pragma once
-#include <string>
-#include <vector>
-#include <unordered_map>
+#include "includes_file.h"
 using namespace std;
 
 class Restaurant
