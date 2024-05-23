@@ -4,7 +4,7 @@ User::User()
 {}
 
 
-User::User(bool is_admin, string login, string pass, bool u): _is_admin(is_admin), _login(login), _password(pass), user_alive(u)
+User::User(bool is_admin, string login, string pass, string name, bool u): _is_admin(is_admin), _login(login), _password(pass), _name(name), user_alive(u)
 {}
 
 bool User::is_admin() const noexcept

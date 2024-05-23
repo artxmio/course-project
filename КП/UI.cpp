@@ -55,8 +55,8 @@ char UI::change_options(const string* opt, int size, string title, bool admin = 
 		for (char i = 0; i < size; i++)
 		{
 			//текущая указана стрелочкой
-			if (i == active) cout << tab << "\t" << "->\t" << opt[i] << endl;
-			else cout << tab << "\t\t" << opt[i] << endl;
+			if (i == active) cout << tab << "->\t     " << opt[i] << endl;
+			else cout << tab << "\t     " << opt[i] << endl;
 		}
 		cout << endl << tab << "____________________________________________________\n";
 
@@ -146,7 +146,7 @@ char UI::OrderMenu(const  User* u)
 		"- Добавить заказ             -",
 		"- Удалить последний заказ    -",
 		"- Изменить готовность заказа -",
-		"- Выйти                      -"
+		"- Назад                      -"
 	};
 
 	system("cls");
@@ -163,7 +163,7 @@ char UI::RMenuMenu(const User* u)
 		"- Меню ресторана      -",
 		"- Добавить пункт меню -",
 		"- Удалить пункт меню  -",
-		"- Выйти               -"
+		"- Назад               -"
 	};
 
 	system("cls");
@@ -194,6 +194,7 @@ User UI::Autorization()
 	//для хранения текущий логина и пароля
 	string _login;
 	string _password;
+	string _name;
 
 start_aut:
 	//получение данных от пользователя
@@ -202,20 +203,32 @@ start_aut:
 	cout << endl << tab << "                     esc. Выход" << endl;
 	cout << tab << "____________________________________________________\n\n";
 
+	/*
+		Ввод осуществляется до момента нажатия клавиш esc или enter.
+
+		При нажатии esc - возвращается пустой пользователь и выход на 
+		прошлое меню
+
+		При нажатии enter - данные пользователя проверяются и 
+		относительно этого либо возвращается авторизованный пользователь,
+		либо авторизация начинается заново
+	*/
 
 	cout << tab << "Введите логин: ";
 	_getstring(&_login, 16);
 
-	if (_login.empty()) return User(false, "", "");
+	if (_login.empty()) return User(false, "", "", "");
 
 	cout << endl << tab << "Введите пароль: ";
-	_getstring(&_password, 16);
+	_getstring(&_password, 20);
 
-	if (_password.empty()) return User(false, "", "");
+	if (_password.empty()) return User(false, "", "", "");
 
-	/*
-		Все пользователи по дефолту являются обычными пользователями
-	*/
+	cout << endl << tab << "Введите ваше имя: ";
+	_getstring(&_name, 20);
+
+	if (_password.empty()) return User(false, "", "", "");
+
 	cout << endl << tab << "____________________________________________________\n\n";
 
 	//проверка данных на наличие в базе данных 
@@ -224,7 +237,7 @@ start_aut:
 		cout << tab << "Доступ разрешён";
 		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
 		pause();
-		return User(false, _login, _password, true);
+		return User(false, _login, _password, _name, true);
 	}
 	else //авторизация заново
 	{
@@ -316,6 +329,7 @@ error UI::Validation(string _login, string _password)
 		e.message = "Длина логина должна быть больше или равна 5 символам";
 		return e;
 	}
+
 	//проверка логина на запрещенные символы
 	for (const char item : _login)
 	{
@@ -429,29 +443,6 @@ void UI::ExitAdmin(User* u)
 	} while (_continue);
 
 	cout << tab << "____________________________________________________\n";
-}
-
-void UI::RestaurantHistory() const
-{
-	LoadMenuAnimation();
-	system("mode con cols=115 lines=50");
-
-	string line;
-
-	ifstream in("source\\history.txt");
-
-	if (in.is_open())
-		while (getline(in, line))
-		{
-			cout << line << endl;
-			Sleep(100);
-		}
-
-	in.close();
-	cout << endl << "\t\t\tНажмите любую клавишу для выхода" << endl;
-	pause();
-
-	system("mode con cols=115 lines=30");
 }
 
 void UI::LoadMenuAnimation() const

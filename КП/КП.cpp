@@ -10,6 +10,7 @@ void pause() noexcept
 	_getch();
 }
 
+//установка настроек консоли
 static void setsettings() noexcept
 {
 	SetConsoleCP(1251);
@@ -39,57 +40,82 @@ int main()
 	setsettings();
 
 	//основные объекты
-	UI userInterface;
-	Restaurant restaurant;
-	User user;
+	UI userInterface;       //интерфейс программы
+	Restaurant restaurant;  //объект с функциями программы
+	User user;				//пользователь программы
+
+	//ошибка доступа к функциям
 	error e("У вас нет прав администратора.\n\t\t\t\tВойдите и попробуйте снова");
 
 	//загрузка информации
-	restaurant.LoadOrders();
-	restaurant.LoadMenuData();
-	userInterface.LoadLogins();
+	restaurant.LoadOrders();    //загрузка информации о заказах
+	restaurant.LoadMenuData();  //загрузка блюд из меню
+	userInterface.LoadLogins(); //загрузка информации о пользователях
 
-	userInterface.Hello();
+	userInterface.Hello();      //приветственное меню
 	userInterface.LoadMenuAnimation();
 
-	//авторизация/регистрация пользователя
+	//этап входа пользователя
 	bool _continue = true;
 	do
 	{
+		/*
+			Во все функции вывода меню приложения вшит
+			возврат значения нажатой клавиши
+		*/
 		const char change_start_menu = userInterface.StartMenu();;
+
 		switch (change_start_menu)
 		{
+			//авторизация
 		case 1:
-			user = userInterface.Autorization();
 
+			user = userInterface.Autorization();
+			/*
+				Если авторизация будет отменена клавишей esc, то в
+				пользователе установится свойство user_alive = false;
+			*/
 			if (!user.alive()) break;
+
+			//при успешной авторизации этап завершается
 			_continue = false;
+
 			break;
+
+			//регистрация
 		case 2:
 			userInterface.LoadMenuAnimation();
 			userInterface.Registration();
 			break;
+
+			//выход
 		case 27:
 			exit(0);
+
 		default: break;
 		}
 	} while (_continue);
 
 	system("cls");
 
-	//основная часть программы
+	//основной этап программы
 	_continue = true;
+
 	userInterface.LoadMenuAnimation();
+
 	while (_continue)
 	{
 		const char _change_main = userInterface.MainMenu(&user);
 
 		switch (_change_main)
 		{
-			//работа с заказами
+			//работа с заказами ресторана
 		case 1:
 		{
+			//очистка буфера консоли
 			fflush(stdin);
+			
+			//работа с заказами до нажатия кнопки выхода
 			bool __continue = true;
 			userInterface.LoadMenuAnimation();
 			while (__continue)
@@ -98,21 +124,23 @@ int main()
 
 				switch (_change_orders)
 				{
-				case 1: //показать все заказы
+					//показать все заказы
+				case 1: 
 
 					userInterface.LoadMenuAnimation();
 					restaurant.ShowOrders();
 
 					break;
-
-				case 2: //добавить заказ
+					//добавить заказ
+				case 2: 
 
 					userInterface.LoadMenuAnimation();
 					restaurant.AddOrder();
 
 					break;
 
-				case 3: //удалить заказ
+					//удалить заказ
+				case 3: 
 
 					if (user.is_admin())
 					{
@@ -127,7 +155,8 @@ int main()
 
 					break;
 
-				case 4: //тут что-то про отметку о готовности заказа
+					//тут что-то про отметку о готовности заказа
+				case 4: 
 
 					if (user.is_admin())
 					{
@@ -142,7 +171,8 @@ int main()
 
 					break;
 
-				case 27: //ждё нажатие клавиши 'esc'
+					//выход на клавишу esc
+				case 27:
 
 					userInterface.LoadMenuAnimation();
 					__continue = false;
@@ -153,7 +183,8 @@ int main()
 			}
 			break;
 		}
-		case 2: //меню ресторана
+		//работа с меню ресторана
+		case 2:
 		{
 			bool __continue = true;
 			userInterface.LoadMenuAnimation();
@@ -164,6 +195,7 @@ int main()
 
 				switch (_change_menu)
 				{
+					//вывод меню ресторана
 				case 1:
 
 					userInterface.LoadMenuAnimation();
@@ -171,6 +203,8 @@ int main()
 					pause();
 
 					break;
+
+					//добавление нового пункта меню
 				case 2:
 
 					if (user.is_admin())
@@ -185,6 +219,8 @@ int main()
 					}
 
 					break;
+					
+					//удаление пункта меню по названию
 				case 3:
 
 					if (user.is_admin())
@@ -199,7 +235,9 @@ int main()
 					}
 
 					break;
-				case 27: //ждё нажатие клавиши 'esc'
+
+					//выход на прошлое меню при нажатии esc
+				case 27: 
 
 					userInterface.LoadMenuAnimation();
 					__continue = false;
@@ -211,12 +249,14 @@ int main()
 			}
 			break;
 		}
-		case 3: //история ресторана
+		//мой профиль
+		case 3:
 
-			userInterface.RestaurantHistory();
+			
 			break;
 
-		case 4: //вход под администратором
+			//вход под администратором
+		case 4:
 
 			if (!user.is_admin())
 				userInterface.SingInAdmin(&user);
@@ -225,13 +265,15 @@ int main()
 
 			break;
 
-		case 5: //история ресторана
+			//информация о разработчике
+		case 5:
 
 			userInterface.About();
 			pause();
 			break;
 
-		case 27: //также ждёт нажатия 'esc'
+			//выход на клавишу esc
+		case 27:
 
 			userInterface.LoadMenuAnimation();
 			userInterface.ByeBye();
