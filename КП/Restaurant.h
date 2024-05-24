@@ -6,7 +6,12 @@ using namespace std;
 class User;
 
 //заказ
-struct order
+
+
+class Restaurant
+{
+public:
+	struct order
 	{
 		int order_num;       //номер заказа
 		string name_waiter;  //имя официанта
@@ -16,8 +21,25 @@ struct order
 		float price;		 //стоимость 
 	};
 
-class Restaurant
-{
+	Restaurant() noexcept;
+
+	vector<order> get_list();
+
+	void LoadOrders();		 //загрузить информацию о заказах из файла
+	void LoadMenuData();     //загрузить данные о меню ресторана
+
+	void ShowOrders();       //вывести список заказов
+	void ShowMenu();         //вывести меню
+
+	void AddOrder(User* u);         //добавить заказ
+	void DelOrder();         //удалить заказ
+	void CheckMark();        //отметка о выполнении
+
+	void AddNewMenuItem();   //добавить новый пункт в меню
+	void DelMenuItem();      //удалить пункт меню
+
+	void SaveOrders();       //сохранить заказ в файл
+	void SaveMenuData();     //сохранить информацию о меню в файл
 private:
 	//время заказа
 	struct ltime 
@@ -42,25 +64,4 @@ private:
 	vector<string> ChooseDishes();								//выбор блюд 
 	float CalculatePrice(vector<string> keyDishes);				//подсчёт стоимости заказа
 	bool checkOrder(vector<int> _orderIndexes, int _numOrder);	//проверка наличия заказа по номеру
-
-public:
-	Restaurant() noexcept;
-
-	vector<order> get_list();
-
-	void LoadOrders();		 //загрузить информацию о заказах из файла
-	void LoadMenuData();     //загрузить данные о меню ресторана
-
-	void ShowOrders();       //вывести список заказов
-	void ShowMenu();         //вывести меню
-
-	void AddOrder(User* u);         //добавить заказ
-	void DelOrder();         //удалить заказ
-	void CheckMark();        //отметка о выполнении
-
-	void AddNewMenuItem();   //добавить новый пункт в меню
-	void DelMenuItem();      //удалить пункт меню
-
-	void SaveOrders();       //сохранить заказ в файл
-	void SaveMenuData();     //сохранить информацию о меню в файл
 };

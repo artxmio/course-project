@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="FullSignature">
+  <Class Name="error">
+    <Position X="6" Y="10.25" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAEAAAAAAAAAAAQAAAAAAAACA=</HashCode>
+      <FileName>UI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Restaurant">
+    <Position X="1" Y="1.25" Width="4.5" />
+    <Compartments>
+      <Compartment Name="Nested Types" Collapsed="false" />
+    </Compartments>
+    <NestedTypes>
+      <Struct Name="Restaurant::ltime">
+        <TypeIdentifier>
+          <NewMemberFileName>Restaurant.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+      <Struct Name="Restaurant::order">
+        <TypeIdentifier>
+          <NewMemberFileName>Restaurant.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>IAAhAgAgQABgAAAAAyAChAAAAAAAABIAAAAAANABAAE=</HashCode>
+      <FileName>Restaurant.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UI">
+    <Position X="6" Y="1.25" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AEAQQCAAABAAAAEBgCAAACQQEAQSAAAREAAAAAAEAAE=</HashCode>
+      <FileName>UI.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="User">
+    <Position X="11.5" Y="1.25" Width="5" />
+    <TypeIdentifier>
+      <HashCode>AAQBIAAAEAAAAAAAAEAAAAAAJAAACAAAAAAAIBAAAAA=</HashCode>
+      <FileName>User.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

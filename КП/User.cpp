@@ -41,7 +41,7 @@ void User::PrintInfo() const
 
 void User::ShowMyOrders(Restaurant* restaurant)
 {
-	vector<order> list = restaurant->get_list();
+	vector<Restaurant::order> list = restaurant->get_list();
 
 	system("mode con cols=158 lines=50");
 

@@ -11,7 +11,7 @@ string tab = "\t\t\t\t"; //отступ
 Restaurant::Restaurant() noexcept : _order_index(0)
 {}
 
-vector<order> Restaurant::get_list()
+vector<Restaurant::order> Restaurant::get_list()
 {
 	return this->list;
 }
