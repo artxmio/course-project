@@ -1,6 +1,18 @@
 #pragma once
 #include "includes_file.h"
+
 using namespace std;
+
+//заказ
+struct order
+	{
+		int order_num;       //номер заказа
+		string name_waiter;  //им€ официанта
+		string order_time;   //врем€ получени€ заказа
+		bool done;           //отметка о выполнении
+		string filling;		 //содержание заказа
+		float price;		 //стоимость 
+	};
 
 class Restaurant
 {
@@ -15,17 +27,7 @@ private:
 		void SetTime() noexcept;
 		string ToString();
 	};
-	//заказ	
-	struct order
-	{
-		int order_num;       //номер заказа
-		string name_waiter;  //им€ официанта
-		string order_time;   //врем€ получени€ заказа
-		bool done;           //отметка о выполнении
-		string filling;		 //содержание заказа
-		float price;		 //стоимость 
-	};
-
+		
 	ltime _time;
     int _order_index;
 	bool _changed;		//флаг изменени€ списка заказов
@@ -41,6 +43,8 @@ private:
 
 public:
 	Restaurant() noexcept;
+
+	vector<order> get_list();
 
 	void LoadOrders();		 //загрузить информацию о заказах из файла
 	void LoadMenuData();     //загрузить данные о меню ресторана

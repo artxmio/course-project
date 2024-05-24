@@ -1,6 +1,10 @@
 #pragma once
+
 #include "includes_file.h"
+
 using namespace std;
+
+class Restaurant;
 
 class User
 {
@@ -24,5 +28,5 @@ public:
 	bool alive();					//получение значения поля user_alive
 
 	void PrintInfo() const;    //информация о пользователе
-	void ShowMyOrders(); //информация о заказх
+	void ShowMyOrders(Restaurant* restaurant); //информация о заказх
 };

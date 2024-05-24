@@ -11,6 +11,11 @@ string tab = "\t\t\t\t"; //отступ
 Restaurant::Restaurant() noexcept : _order_index(0)
 {}
 
+vector<order> Restaurant::get_list()
+{
+	return this->list;
+}
+
 //вывод меню из файла menu.txt
 void Restaurant::ShowMenu()
 {
@@ -485,14 +490,18 @@ void Restaurant::AddNewMenuItem()
 		cout << endl << tab << "Название блюда: \n";
 		cout << tab;
 
-		cin.get();
-		getline(cin, dish_title);
+		_getstring(&dish_title, 30);
+
+		if (dish_title.empty()) return;
 
 		//цена
 		string price;
 
 		cout << endl << tab << "Цена блюда (например 14.88): \n" << tab;
-		cin >> price;
+
+		_getstring(&price, 30);
+
+		if (price.empty()) return;
 
 		float _price = 0.0;
 		try

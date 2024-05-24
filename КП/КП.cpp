@@ -274,7 +274,7 @@ int main()
 				case 2:
 
 					userInterface.LoadMenuAnimation();
-					user.ShowMyOrders();
+					user.ShowMyOrders(&restaurant);
 
 					break;
 
