@@ -283,7 +283,7 @@ void Restaurant::ShowOrders()
 }
 
 //добавление нового заказа
-void Restaurant::AddOrder()
+void Restaurant::AddOrder(User* u)
 {
 	system("cls");
 	system("mode con cols=115 lines=40");
@@ -300,8 +300,7 @@ void Restaurant::AddOrder()
 
 	buff.done = false;
 
-	cout << endl << tab << "Введите ваше имя: ";
-	_getstring(&buff.name_waiter, 15);
+	buff.name_waiter = u->_name;
 
 	if (buff.name_waiter.empty())
 	{

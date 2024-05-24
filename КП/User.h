@@ -8,6 +8,8 @@ class Restaurant;
 
 class User
 {
+
+	friend class Restaurant;
 private:
 
 	//инфомация о пользователе

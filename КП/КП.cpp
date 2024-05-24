@@ -135,7 +135,7 @@ int main()
 				case 2:
 
 					userInterface.LoadMenuAnimation();
-					restaurant.AddOrder();
+					restaurant.AddOrder(&user);
 
 					break;
 

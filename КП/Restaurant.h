@@ -3,6 +3,8 @@
 
 using namespace std;
 
+class User;
+
 //заказ
 struct order
 	{
@@ -52,7 +54,7 @@ public:
 	void ShowOrders();       //вывести список заказов
 	void ShowMenu();         //вывести меню
 
-	void AddOrder();         //добавить заказ
+	void AddOrder(User* u);         //добавить заказ
 	void DelOrder();         //удалить заказ
 	void CheckMark();        //отметка о выполнении
 
