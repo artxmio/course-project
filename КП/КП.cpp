@@ -20,10 +20,7 @@ static void setsettings() noexcept
 	system("mode con cols=115 lines=30");
 
 	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	CONSOLE_CURSOR_INFO structCursorInfo;
-	GetConsoleCursorInfo(hStdOut, &structCursorInfo);
-	structCursorInfo.bVisible = false; // изменяем видимость курсора
-	SetConsoleCursorInfo(hStdOut, &structCursorInfo);
+
 	SetConsoleTitle(L"Trendy Бульба by Tёmik");
 
 	HWND consoleWindow = GetConsoleWindow();
@@ -34,10 +31,20 @@ static void setsettings() noexcept
 	SetConsoleTextAttribute(hStdOut, FOREGROUND_GREEN);
 }
 
+void CursorVisible(bool v)
+{
+	HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+	CONSOLE_CURSOR_INFO structCursorInfo;
+	GetConsoleCursorInfo(hStdOut, &structCursorInfo);
+	structCursorInfo.bVisible = v; // изменяем видимость курсора
+	SetConsoleCursorInfo(hStdOut, &structCursorInfo);
+}
+
 int main()
 {
 	//установка настроек консоли
 	setsettings();
+	CursorVisible(false);
 
 	//основные объекты
 	UI userInterface;       //интерфейс программы
@@ -59,6 +66,7 @@ int main()
 	bool _continue = true;
 	do
 	{
+		CursorVisible(false);
 		/*
 			Во все функции вывода меню приложения вшит
 			возврат значения нажатой клавиши
@@ -79,22 +87,27 @@ int main()
 
 			//при успешной авторизации этап завершается
 			_continue = false;
-
+			CursorVisible(false);
 			break;
 
 			//регистрация
 		case 2:
+
 			userInterface.LoadMenuAnimation();
 			userInterface.Registration();
+			CursorVisible(false);
 			break;
 
 			//выход
 		case 27:
+			CursorVisible(false);
 			exit(0);
 
 		default: break;
 		}
 	} while (_continue);
+
+	CursorVisible(false);
 
 	system("cls");
 

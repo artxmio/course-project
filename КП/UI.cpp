@@ -10,6 +10,7 @@ using namespace std;
 HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 
 void pause();
+void CursorVisible(bool v);
 
 //улучшенный cin
 void _getstring(string* str, int max)
@@ -188,14 +189,15 @@ void UI::About() const
 User UI::Autorization()
 {
 	system("cls");
+	
 	LoadMenuAnimation();
 
-	//для хранения текущий логина и пароля
+	
+start_aut:
+	CursorVisible(true);
 	string _login;
 	string _password;
 	string _name;
-
-start_aut:
 	//получение данных от пользователя
 	cout << "\n\n\n\n\n";
 	cout << endl << tab << "__________________ [ АВТОРИЗАЦИЯ ] _________________" << endl;
@@ -235,6 +237,7 @@ start_aut:
 	{
 		cout << tab << "Доступ разрешён";
 		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
+		CursorVisible(false);
 		pause();
 		return User(false, _login, _password, _name, true);
 	}
@@ -242,6 +245,7 @@ start_aut:
 	{
 		cout << tab << "Неверный логин или пароль.";
 		cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
+		CursorVisible(false);
 		pause();
 		system("cls");
 		goto start_aut;
@@ -252,6 +256,7 @@ void UI::Registration()
 {
 	do
 	{
+		CursorVisible(true);
 		system("cls");
 		cout << "\n\n";
 
@@ -297,6 +302,7 @@ void UI::Registration()
 
 				cout << tab << "____________________________________________________\n";
 				cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
+				CursorVisible(false);
 				pause();
 				break;
 			}
@@ -308,6 +314,7 @@ void UI::Registration()
 			cout << tab << "____________________________________________________\n";
 
 			cout << endl << tab << "Нажмите любую клавишу для продолжения" << endl;
+			CursorVisible(false);
 			pause();
 
 			_logins.insert({ _login, _password });
@@ -455,7 +462,7 @@ char UI::UserProfile(const User* u)
 
 	system("cls");
 
-	return change_options(options, size(options), "_________________ [ ЛИЧНЫЙ КАБИНЕТ ] _________________", u->is_admin());
+	return change_options(options, size(options), "________________ [ ЛИЧНЫЙ КАБИНЕТ ] ________________", u->is_admin());
 }
 
 void UI::LoadMenuAnimation() const
