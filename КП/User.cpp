@@ -4,6 +4,25 @@ using namespace std;
 
 void pause();
 
+static HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
+
+
+void User::PrintVertucalLine(int x, int y)
+{
+	COORD c;
+	c.X = x;
+	y++;
+
+	for (int i = y; i > 2; i--)
+	{	
+		c.Y = y--;
+
+		SetConsoleCursorPosition(h, c);
+		
+		cout << "|";
+	}
+}
+
 User::User()
 {}
 
@@ -49,61 +68,70 @@ void User::ShowMyOrders(Restaurant* restaurant)
 	system("cls");
 
 	cout << "\n\n" << '\t' << "____________________________________________________________ [ МОИ ЗАКАЗЫ ] _________________________________________________________________" << endl;
-	cout << endl << '\t' << "|  №  | " << "      Время      | " << "                   Содержание заказа                    | " << "      Cтоимость       |" << "           Готовность           | " << endl;
+	cout << endl << '\t' << "|  №  | " << "      Время      | " << "                   Содержание заказа                    | " << "      Cтоимость       |" << "           Готовность           | " << endl << endl;
 
 	COORD c;
-	int y = 5;
-	int x = 36;
+	const int y = 6;
+	const int x = 36;
 
 
 	int yy = y;
 	for (const auto& item : list)
-	{
 		if(_name == item.name_waiter)
 		{
-			cout << '\t' << "|" << setw(4) << item.order_num + 1 << " |" << setw(17) << item.order_time << " |" << endl;
-
+			cout << '\t' << "|" << setw(3) << item.order_num + 1  << setw(14) << item.order_time << endl;
 
 			c.X = x;
 			c.Y = yy;
 
-			HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
-
 			SetConsoleCursorPosition(h, c);
 
 			string filling = item.filling;
-
+			COORD cc;
 
 			//вывод посимвольно, чтобы в нужный момент поставить запятую
 			for (int j = 0; j < filling.size(); j++)
+			{
 				if (filling[j] == ',')
 				{
 					++c.Y;
 					yy++;
 					SetConsoleCursorPosition(h, c);
 				}
-				else cout << filling[j];
+				else 
+					cout << filling[j];
+			}
 
-			COORD cc;
-			cc.X = 94;
+			cc.X = 91;
 			cc.Y = yy - 1;
 
 			SetConsoleCursorPosition(h, cc);
-			cout << item.price;
+			cout << "          " <<  item.price;
 
-			cc.X = 117;
+			cc.X = 115;
 			SetConsoleCursorPosition(h, cc);
-			cout << (item.done ? "готов" : "не готов");
+			cout << "             " << (item.done ? "готов" : "не готов");
+			
 
 			cc.X = 0;
 			cc.Y = ++yy;
 
 			SetConsoleCursorPosition(h, cc);
 		}
-	}
 	cout << "\n\n" << '\t' << "_____________________________________________________________________________________________________________________________________________" << endl;
 
-	cout << "\t Нажмите любую клавишу, чтобы выйти...";
+	
+	PrintVertucalLine(8, yy);
+	PrintVertucalLine(14, yy);
+	PrintVertucalLine(33, yy);
+	PrintVertucalLine(91, yy);
+	PrintVertucalLine(115, yy);
+	PrintVertucalLine(148, yy);
+
+	c.X = 10;
+	c.Y = yy + 1;
+	SetConsoleCursorPosition(h, c);
+	cout << "Нажмите любую клавишу, чтобы выйти...";
 	pause();
 
 	system("mode con cols=115 lines=30");

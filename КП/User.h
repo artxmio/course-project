@@ -21,6 +21,7 @@ private:
 	bool _is_admin;   //является ли пользователем администратором
 	bool user_alive;  //флаг успешной авторизации
 
+	void PrintVertucalLine(int x, int y);
 public: 
 	User();															//конструктор без параметров
 	User(bool is_admin, string login, string pass, string name, bool u = false); //конструктор со всеми параметрами для заполнения полей
