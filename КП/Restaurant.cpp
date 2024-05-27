@@ -300,7 +300,7 @@ void Restaurant::AddOrder(User* u)
 
 	buff.done = false;
 
-	buff.name_waiter = u->_name;
+	buff.name_waiter = u->_login;
 
 	if (buff.name_waiter.empty())
 	{

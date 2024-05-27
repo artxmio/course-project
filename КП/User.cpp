@@ -77,7 +77,7 @@ void User::ShowMyOrders(Restaurant* restaurant)
 
 	int yy = y;
 	for (const auto& item : list)
-		if(_name == item.name_waiter)
+		if(_login == item.name_waiter)
 		{
 			cout << '\t' << "|" << setw(3) << item.order_num + 1  << setw(14) << item.order_time << endl;
 
