@@ -381,7 +381,9 @@ void UI::SingInAdmin(User* u)
 
 		cout << endl << tab << "\tКод: ";
 		string _your_code = "";
-		cin >> _your_code;
+		_getstring(&_your_code, 6);
+
+		if (_your_code.empty()) return;
 
 		if (_your_code == ADMIN)
 		{
@@ -391,7 +393,7 @@ void UI::SingInAdmin(User* u)
 		}
 		else
 		{
-			cout << tab << "____________________________________________________\n";
+			cout << endl << tab << "____________________________________________________\n";
 			cout << endl << tab << "\tНеверный код\n";
 		}
 
