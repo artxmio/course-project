@@ -54,9 +54,10 @@ void Restaurant::LoadOrders()
 
 		list.push_back(buff); //добавление заказа в список
 
-		_order_index++;		  //увеличение индекса на 1
+		
 	}
-
+	if (list.empty()) _order_index = 0;
+	else _order_index = ((list.end() - 1)->order_num) + 1;		  //увеличение индекса на 1
 	in.close();
 }
 
@@ -90,39 +91,89 @@ bool Restaurant::checkOrder(vector<int> _orderIndexes, int _numOrder)
 //функция удаления заказа
 void Restaurant::DelOrder()
 {
-	cout << endl << tab << "__________________ [ УДАЛЕНИЕ ЗАКАЗА ] ____________________\n" << endl;
-	
-	//вывод доступных (имеющихся в списке) заказов на удаление
-
-	//если список пуст, дальше нет смысла идти (return)
-	if (list.empty())
+	while (true)
 	{
-		cout << "Пока что заказов нет" << endl;
-		pause();
+		cout << endl << tab << "__________________ [ УДАЛЕНИЕ ЗАКАЗА ] ____________________\n" << endl;
+
+		//вывод доступных (имеющихся в списке) заказов на удаление
+
+		//если список пуст, дальше нет смысла идти (return)
+		vector<int> availableOrders{};
+		cout << endl << tab << "Доступные заказы:" << endl << tab;
+		if (list.empty())
+		{
+			cout << "Пока что заказов нет" << endl;
+			pause();
+			return;
+		}
+		else
+			for (int i = 0; i < list.size(); i++)
+			{
+				availableOrders.push_back(list.at(i).order_num);
+				cout << list.at(i).order_num + 1 << " ";
+			}
+
+		cout << endl << tab << "Введите номер заказа: ";
+
+		string numorder;
+		_getstring(&numorder, 4);
+
+		if (numorder.empty())
+			return;
+
+		int _numorder = 0;
+
+		try
+		{
+			_numorder = stoi(numorder);
+		}
+		catch (const exception& e)
+		{
+			cout << endl << tab << "Неверное значение" << endl;
+			pause();
+			return;
+		}
+
+		if (!(checkOrder(availableOrders, _numorder - 1)))
+		{
+			cout << endl << tab << "Такого заказа не существует. Попробуйте в другой раз.";
+			pause();
+			system("cls");
+			return;
+		}
+		//подтверждение удаления
+		char _change;
+		cout << endl << tab << "Заказ удалён." << endl;
+		cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
+		cout << tab << "      y. Да" << endl;
+		cout << tab << "      n. Нет" << endl;
+		cout << endl << tab << "___________________________________________________________\n";
+
+		for (;;)
+		{
+			_change = _getch();
+			if (_change == 'n') return;
+			else if (_change == 'y') break;
+		}
+
+		//удаление элемента
+
+
+		for (int i = 0; i < list.size(); i++)
+		{
+			if (list.at(i).order_num == (_numorder - 1))
+			{
+				list.erase(list.begin() + i);
+				break;
+			}
+		}
+
+		_changed = true; //метка о изменении списка
+
+		system("cls");
+		SaveOrders();
 		return;
 	}
-
-	//подтверждение удаления
-	char _change;
-	cout << tab << "Последний заказ удалён." << endl;
-	cout << tab << "Сохранить изменения? (это действие нельзя будет отменить)" << endl;
-	cout << tab << "      y. Да" << endl;
-	cout << tab << "      n. Нет" << endl;
-	cout << endl << tab << "___________________________________________________________\n";
-
-	for (;;)
-	{
-		_change = _getch();
-		if (_change == 'n') return;
-		else if (_change == 'y') break;
-	}
-
-	//удаление элемента
-
-	list.erase(list.end() - 1);
-
-	_order_index--;  //уменьшение индекса
-	_changed = true; //метка о изменении списка
 }
 
 //выбор блюд (компонент функции AddOrder())
@@ -346,14 +397,14 @@ void Restaurant::SaveOrders()
 
 	if (!out) return;
 
-	for (int i = 0; i < _order_index; i++)
+	for (const auto& item: list)
 	{
-		out << list.at(i).order_num << ' ';
-		out << list.at(i).name_waiter << ' ';
-		out << list.at(i).price << ' ';
-		out << list.at(i).order_time << '\n';
-		out << list.at(i).filling << '\n';
-		out << list.at(i).done << '\n';
+		out << item.order_num << ' ';
+		out << item.name_waiter << ' ';
+		out << item.price << ' ';
+		out << item.order_time << '\n';
+		out << item.filling << '\n';
+		out << item.done << '\n';
 	}
 
 	out.close();
@@ -468,9 +519,17 @@ void Restaurant::CheckMark()
 			else if (_change == 'y') break;
 		}
 
-		list.at(_numorder - 1).done = true;
+		for (auto& item : list)
+		{
+			if (item.order_num == (_numorder - 1))
+			{
+				item.done = true;
+				break;
+			}
+		}
 		break;
 	}
+	SaveOrders();
 }
 
 //добавить новый пункт меню
