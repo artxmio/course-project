@@ -18,6 +18,7 @@ void _getstring(string* str, int max)
 	while (true)
 	{
 		const char ch = _getch();
+		if (ch == '\t') continue;
 		if (ch == 27)
 		{
 			*str = "";
