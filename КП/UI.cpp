@@ -229,7 +229,7 @@ start_aut:
 	cout << endl << tab << "¬ведите ваше им€: ";
 	_getstring(&_name, 20);
 
-	if (_password.empty()) return User(false, "", "", "");
+	if (_name.empty()) return User(false, "", "", "");
 
 	cout << endl << tab << "____________________________________________________\n\n";
 
