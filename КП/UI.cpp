@@ -498,10 +498,12 @@ void UI::AdminModeMessage() const
 
 void UI::LoadLogins()
 {
-	ifstream in("source\\logins.txt");
+	ifstream in("source\\data\\logins.txt");
 
 	string _login;
 	string _pass;
+
+	if (!in) throw;
 
 	while (!in.eof() and in.peek() != EOF)
 	{
@@ -515,9 +517,9 @@ void UI::LoadLogins()
 
 void UI::SaveLogin(const string* login, const string* pass)
 {
-	ofstream out("source\\logins.txt", ios::app);
+	ofstream out("source\\data\\logins.txt", ios::app);
 
-	if (!out) return;
+	if (!out) throw;
 
 	out << *login << ' ';
 	out << *pass << '\n';

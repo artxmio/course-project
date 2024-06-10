@@ -35,9 +35,9 @@ void Restaurant::ShowMenu()
 //загрузка заказов из файла orders.txt
 void Restaurant::LoadOrders()
 {
-	ifstream in("source\\orders.txt");
+	ifstream in("source\\data\\orders.txt");
 
-	if (!in) return;
+	if (!in) throw;
 
 	order buff; //буфферная переменная для чтения заказа по одному
 
@@ -64,9 +64,9 @@ void Restaurant::LoadOrders()
 //сохранение названий блюд и цен в словарь (ключ:название, значение:цена)
 void Restaurant::LoadMenuData()
 {
-	ifstream in("source\\menu_data.txt", ios::in);
+	ifstream in("source\\data\\menu_data.txt", ios::in);
 
-	if (!in) throw " ";
+	if (!in) throw;
 
 	while (!in.eof())
 	{
@@ -393,7 +393,7 @@ void Restaurant::SaveOrders()
 
 	const int mode = ios::out;
 
-	ofstream out("source\\orders.txt", mode);
+	ofstream out("source\\data\\orders.txt", mode);
 
 	if (!out) return;
 
@@ -417,7 +417,7 @@ void Restaurant::SaveMenuData()
 
 	const int mode = ios::out;
 
-	ofstream out("source\\menu_data.txt", mode);
+	ofstream out("source\\data\\menu_data.txt", mode);
 
 	if (!out) return;
 
