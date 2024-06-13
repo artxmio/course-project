@@ -177,7 +177,7 @@ void UI::About() const
 {
 	LoadMenuAnimation();
 
-	ifstream in("source\\about.txt");
+	ifstream in("source\\data\\about.txt");
 
 	if (!in) return;
 
