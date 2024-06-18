@@ -568,7 +568,7 @@ void Restaurant::AddNewMenuItem()
 		}
 		catch (const exception& ex)
 		{
-			cout << tab << "____________________________________________________\n\n";
+			cout << endl << tab << "____________________________________________________\n\n";
 			cout << tab << "Неверное значение." << endl;
 			cout << tab << "Нажмите любую клавишу для продолжения" << endl;
 			pause();
@@ -577,22 +577,23 @@ void Restaurant::AddNewMenuItem()
 
 		if (_price <= 0)
 		{
-			cout << tab << "____________________________________________________\n\n";
+			cout << endl << tab << "____________________________________________________\n\n";
 			cout << tab << "Неверное значение" << endl;
-			cout << tab << "Нажмите любую клавишу, чтобы выйти" << endl;
 			pause();
 			system("cls");
-			return;
+			continue;
 		}
 
 		//округление до 2 знаков после запятой
 		_price = round((_price * 100)) / 100.0;
 
-		cout << tab << "____________________________________________________\n\n";
+		cout << endl << tab << "____________________________________________________\n\n";
 
-		cout << tab << "Новый пункт меню добавлен";
+		cout << tab << "Новый пункт меню добавлен" << endl;
 
 		menu_list.insert({ dish_title, _price });
+		cout << tab << "Нажмите любую клавишу, чтобы выйти" << endl;
+		pause();
 		_continue = false;
 	} while (_continue);
 
@@ -623,18 +624,9 @@ void Restaurant::DelMenuItem()
 	cout << tab;
 
 
-	string cing = "";
-	cing = cin.get();
+	_getstring(&dish_title, 25);
 
-	getline(cin, dish_title);
-
-	//если cin.get() съест лишний символ
-	if (cing != "\n")
-	{
-		cing += dish_title;
-		dish_title = cing;
-		cing = "";
-	}
+	if (dish_title.empty()) return;
 
 	if (!menu_list.count(dish_title))
 	{
